@@ -1,0 +1,1265 @@
+/* Component Styles */
+html,
+body,
+.container,
+.page1,
+.footer-social,
+.nav-menu {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+}
+
+/* Main Layout Structure - Single Page, Non-Scrollable */
+.main-content-container {
+  position: relative;
+  z-index: 10;
+  width: 100vw;
+  height: calc(100dvh - 60px); /* Subtract footer height from viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 让内容靠顶部 */
+  align-items: center;
+  padding: 0;
+  padding-top: var(--nav-height); /* Account for fixed nav bar */
+  padding-bottom: 0; /* Remove bottom padding since we're using calc() */
+  overflow: hidden; /* Prevent scrolling */
+  box-sizing: border-box;
+  gap: 1rem; /* Reduced gap since character section is at top */
+}
+
+.hero-section {
+  position: relative;
+  z-index: 8;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 800px; /* Fixed height instead of flex: 1 */
+  min-height: 0; /* Allow shrinking */
+  padding: 0.5rem 0; /* Reduced padding */
+  order: 2; /* Move hero section to bottom */
+}
+
+.character-section {
+  position: absolute;
+  top: 3.5rem;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 0.5rem 1rem 0.5rem; /* 紧贴顶部 */
+  flex-shrink: 0; /* Don't shrink */
+  max-height: none; /* Remove height restriction since it's at top */
+  overflow: visible; /* Changed to visible to prevent clipping */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  order: 1; /* Keep character section at top */
+}
+
+.background-elements {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Navigation Styles */
+.modern-nav-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 12000 !important; /* 更高层级，确保在3D场景之上 */
+  pointer-events: auto !important; /* 保证可交互 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  height: var(--nav-height);
+  background: transparent;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.nav-right-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 100%;
+}
+
+.account-btn {
+  width: 45px;
+  height: 45px;
+  padding: 0;
+  background: rgba(26, 26, 46, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.account-btn:hover {
+  background: rgba(26, 26, 46, 0.95);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  color: white;
+}
+
+.page1 {
+  position: relative;
+  height: 100vh; /* Exact viewport height */
+  width: 100vw; /* Exact viewport width */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+.hero-content {
+  text-align: center;
+  /* max-width: 800px; */
+  margin: 0 auto;
+  padding: 1rem; /* Reduced padding */
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center align all content */
+  justify-content: center; /* Center vertically within hero section */
+  width: 100%; /* Take full width for proper centering */
+}
+
+.hero-title,
+.hero-description {
+  pointer-events: auto;
+}
+
+.hero-title {
+  font-family: "Orbitron", sans-serif;
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.3),
+    -2px -2px 4px rgba(255, 255, 255, 0.1);
+}
+
+.hero-ribbon {
+  width: 250px; /* Smaller ribbon */
+  height: 10px;
+  margin: 0 auto 8px auto; /* Maintain centering on mobile */
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    #bfc5c9 0%,
+    #bfc5c9 18%,
+    #f48b9b 18%,
+    #f48b9b 32%,
+    #f7b38a 32%,
+    #f7b38a 44%,
+    #f9d28a 44%,
+    #f9d28a 58%,
+    #8be3a0 58%,
+    #8be3a0 68%,
+    #a3e6f7 68%,
+    #a3e6f7 76%,
+    #8bb7f7 76%,
+    #8bb7f7 84%,
+    #a18bf7 84%,
+    #a18bf7 92%,
+    #d18bf7 92%,
+    #d18bf7 100%
+  );
+  box-shadow: 0 0 16px 4px rgba(67, 233, 123, 0.1),
+    0 2px 8px rgba(127, 156, 245, 0.1);
+  position: relative;
+  animation: ribbon-wave 2.5s infinite linear alternate;
+  align-self: center; /* Ensure centered within flex container */
+}
+
+@keyframes ribbon-wave {
+  0% {
+    transform: scaleY(1) skewX(0deg);
+  }
+  50% {
+    transform: scaleY(1.2) skewX(-6deg);
+  }
+  100% {
+    transform: scaleY(1) skewX(0deg);
+  }
+}
+
+.hero-description {
+  font-size: 1.2rem;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 2px 2px 4px rgba(0, 0, 0, 0.3),
+    -2px -2px 4px rgba(255, 255, 255, 0.1);
+}
+
+/* Character Preview Styles */
+.character-preview-container {
+  position: relative;
+  z-index: 10000 !important; /* Ensure character preview and its buttons are above everything */
+  background: transparent;
+  border-radius: 0;
+  padding: 2rem;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+}
+
+.character-bubble {
+  position: fixed;
+  left: 50%;
+  bottom: 140px;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  background: rgba(44, 54, 70, 0.85);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 32px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+  z-index: 1104;
+  pointer-events: auto;
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #222;
+  font-family: "Noto Sans SC", "Noto Sans JP", "Noto Sans KR", "Rajdhani",
+    "Arial", sans-serif;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.character-bubble:hover {
+  transform: translateX(-50%) scale(1.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.bubble-actions {
+  z-index: 9999999 !important;
+  position: fixed !important;
+  left: 0;
+  width: 100vw;
+  height: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bubble-actions.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bubble-panel {
+  position: absolute;
+  top: 50%;
+  width: min(300px, 25vw);
+  height: min(700px, 80vh);
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-sizing: border-box;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 2001 !important;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.bubble-panel.left {
+  z-index: 10000 !important;
+  position: relative;
+  left: calc(22vw - 100px);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.logo-image {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  display: flex;
+  align-items: center;
+}
+
+.dna-logo {
+  animation: rotate 8s linear infinite;
+  transform-origin: center;
+}
+
+.dna-path {
+  animation: colorShift 4s linear infinite;
+}
+
+.logo-text {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #fff;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes colorShift {
+  0% {
+    stroke: #ff6b6b;
+  }
+  25% {
+    stroke: #ffd93d;
+  }
+  50% {
+    stroke: #6c5ce7;
+  }
+  75% {
+    stroke: #00cec9;
+  }
+  100% {
+    stroke: #ff6b6b;
+  }
+}
+
+/* Chat Styles */
+.chat-container {
+  position: fixed;
+  left: 50%;
+  top: 120px;
+  bottom: 180px;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 1200px;
+  height: calc(100vh - 300px);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  overflow: hidden;
+  display: none;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.chat-container.show {
+  display: block;
+}
+
+.chat-messages {
+  padding: 20px;
+  overflow-y: auto;
+  height: 100%;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 15%,
+    black 85%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 15%,
+    black 85%,
+    transparent 100%
+  );
+}
+
+.prompt-input {
+  width: 90%;
+  height: min(120px, 15vh);
+  padding: min(12px, 1.5vh);
+  margin: min(10px, 1vh) 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: min(14px, 1vw);
+  resize: none;
+}
+
+.prompt-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: min(8px, 0.8vw);
+  margin: min(10px, 1vh) 0;
+  padding: 0 min(10px, 1vw);
+}
+
+.prompt-tag {
+  padding: min(6px, 0.6vh) min(12px, 1.2vw);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  color: #fff;
+  font-size: min(12px, 0.9vw);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.voice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: min(8px, 0.8vh);
+  padding: 0 min(10px, 1vw);
+  width: 100%;
+}
+
+.voice-option {
+  padding: min(8px, 0.8vh) min(12px, 1.2vw);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  font-size: min(12px, 0.9vw);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: min(6px, 0.6vw);
+  transition: all 0.2s;
+}
+
+.model-select {
+  width: 90%;
+  padding: min(8px, 0.8vh);
+  margin: min(10px, 1vh) 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: min(14px, 1vw);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  /* Update main content height calculation for smaller nav and footer */
+  .main-content-container {
+    height: 100dvh; /* Subtract smaller footer height */
+    padding-top: var(--nav-height); /* Account for fixed nav bar */
+    padding-bottom: 0;
+    gap: 0.5rem; /* Minimal gap for mobile */
+  }
+
+  /* Character section at top - mobile adjustments */
+  .character-section {
+    padding: 0.5rem; /* Reduced padding for mobile */
+    max-height: none; /* No height restriction */
+  }
+
+  /* Hero section takes remaining space */
+  .hero-section {
+    flex: 1; /* Take remaining space */
+    padding: 0.25rem 0; /* Minimal padding */
+  }
+
+  /* Footer adjustments for mobile */
+  .footer-social {
+    height: 50px; /* Smaller footer height on mobile */
+    padding: 0.5rem 0.75rem; /* Even more compact padding */
+  }
+
+  .footer-social-links {
+    gap: 1rem; /* Smaller gap on mobile */
+  }
+
+  .social-btn {
+    padding: 0.4rem 0.8rem; /* More compact padding */
+    font-size: 0.8rem; /* Smaller font on mobile */
+    min-height: 32px; /* Smaller touch target */
+  }
+
+  .social-btn span {
+    display: none; /* Hide text labels on mobile, show only icons */
+  }
+
+  .hero-title {
+    font-size: 2rem; /* Further reduced for mobile */
+  }
+
+  .hero-ribbon {
+    width: 200px; /* Very compact ribbon */
+    height: 8px;
+    margin: 0 auto 6px auto; /* Maintain centering on small screens */
+  }
+
+  .hero-description {
+    font-size: 0.9rem; /* Smaller description */
+  }
+
+  .modern-nav-menu {
+    padding: 0.5rem 1rem;
+  }
+
+  .nav-right-content {
+    gap: 0.5rem;
+  }
+
+  .account-btn {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Even more compact layout for smallest screens */
+  .main-content-container {
+    height: 100dvh; /* Subtract even smaller footer height */
+    padding-top: var(--nav-height); /* Account for fixed nav bar */
+    padding-bottom: 0;
+    gap: 0.25rem; /* Minimal gap for smallest screens */
+  }
+
+  /* Character section - compact for small screens */
+  .character-section {
+    padding: 0.25rem; /* Minimal padding */
+  }
+
+  /* Ultra-compact footer for small screens */
+  .footer-social {
+    height: 45px; /* Even smaller footer */
+    padding: 0.4rem 0.5rem;
+  }
+
+  .footer-social-links {
+    gap: 0.75rem; /* Minimal gap */
+  }
+
+  .social-btn {
+    padding: 0.3rem 0.6rem; /* Ultra-compact padding */
+    font-size: 0.75rem;
+    min-height: 30px;
+    gap: 0.25rem; /* Minimal gap between icon and text */
+  }
+
+  .hero-title {
+    font-size: 1.5rem; /* Even smaller for small screens */
+  }
+
+  .hero-ribbon {
+    width: 200px; /* Very compact ribbon */
+    height: 8px;
+  }
+}
+
+/* Babylon Viewer Styles */
+.fullscreen-babylon-viewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  pointer-events: auto; /* Allow canvas to capture mouse events for 3D interaction */
+}
+
+.fullscreen-babylon-viewer canvas {
+  border: none !important;
+  border-radius: 0 !important;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 15, 20, 1) 0%,
+    rgba(25, 25, 35, 1) 50%,
+    rgba(15, 15, 20, 1) 100%
+  ) !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: auto; /* Allow canvas to receive 3D interaction events */
+  cursor: grab; /* Show grab cursor to indicate draggable */
+}
+
+.fullscreen-babylon-viewer canvas:active {
+  cursor: grabbing; /* Show grabbing cursor when dragging */
+}
+
+.main-babylon-viewer {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 32px rgba(255, 255, 255, 0.1);
+  background: rgba(44, 54, 70, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.main-babylon-viewer:hover {
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 0 48px rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-4px);
+}
+
+.babylon-viewer canvas {
+  border: none !important;
+  border-radius: 14px !important;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 30, 30, 0.9) 0%,
+    rgba(45, 45, 60, 0.9) 50%,
+    rgba(30, 30, 30, 0.9) 100%
+  );
+}
+
+/* Footer Styles - Adjusted for Single Page Layout */
+.footer-social {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000 !important; /* Footer below character preview but above background */
+  background: transparent;
+  padding: 0.75rem 1rem; /* Reduced padding to save space */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px; /* Fixed height to ensure it fits */
+  box-sizing: border-box;
+}
+
+.footer-social-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem; /* Slightly reduced gap */
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem; /* Reduced gap */
+  padding: 0.5rem 1rem; /* Reduced padding */
+  background: rgba(255, 255, 255, 0.15); /* Increased background opacity */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Increased border visibility */
+  border-radius: 6px; /* Slightly smaller border radius */
+  color: white;
+  text-decoration: none;
+  font-size: 0.85rem; /* Slightly smaller font */
+  font-weight: 500; /* Added font weight */
+  transition: all 0.3s ease;
+  min-height: 36px; /* Reduced minimum touch target for compactness */
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.social-btn:hover {
+  background: rgba(255, 255, 255, 0.25); /* Increased hover background */
+  border-color: rgba(255, 255, 255, 0.5); /* Increased hover border */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Added shadow on hover */
+}
+
+/* Social icon specific styles */
+.social-btn svg {
+  flex-shrink: 0; /* Prevent icon shrinking */
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.social-btn:hover svg {
+  opacity: 1;
+}
+
+/* Individual social platform colors on hover */
+.social-btn.youtube:hover {
+  background: rgba(255, 0, 0, 0.2);
+  border-color: rgba(255, 0, 0, 0.5);
+}
+
+.social-btn.instagram:hover {
+  background: rgba(225, 48, 108, 0.2);
+  border-color: rgba(225, 48, 108, 0.5);
+}
+
+.social-btn.twitter:hover {
+  background: rgba(29, 161, 242, 0.2);
+  border-color: rgba(29, 161, 242, 0.5);
+}
+
+.social-btn.peper:hover {
+  background: rgba(36, 41, 46, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Xiaohongshu hover */
+.social-btn.xiaohongshu:hover {
+  background: rgba(215, 50, 51, 0.2);
+  border-color: rgba(215, 50, 51, 0.5);
+}
+
+/* Logo Container Positioning */
+.logo-container {
+  display: flex;
+  align-items: center;
+  height: auto;
+  pointer-events: auto;
+}
+
+.logo-container .logo {
+  pointer-events: auto;
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* DNA Background Elements */
+.logo-dna-left,
+.logo-dna-left-bottom,
+.logo-dna-right-bottom {
+  position: fixed;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.logo-dna-left {
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 120px;
+  background: url("/img/Upper left corner UI DNA.png") no-repeat left top;
+}
+
+.logo-dna-left-bottom {
+  left: 0;
+  bottom: 0;
+  width: 400px;
+  height: 120px;
+  background: url("/img/Lower left corner UI DNA.png") no-repeat left bottom;
+}
+
+.logo-dna-right-bottom {
+  right: 0;
+  bottom: 0;
+  width: 400px;
+  height: 120px;
+  background: url("/img/Lower right corner UI DNA.png") no-repeat right bottom;
+}
+
+/* Ensure all other components are above the fullscreen viewer but allow mouse events to pass through */
+.container,
+.page1,
+.logo-container,
+.modern-nav-menu,
+.hero-content,
+.character-preview-container,
+.footer-social,
+.modal,
+.account-panel {
+  position: relative;
+  z-index: 10;
+  pointer-events: none; /* Allow mouse events to pass through to the background */
+}
+
+/* Override specific z-index for key components */
+.fullscreen-babylon-viewer {
+  z-index: 0 !important;
+}
+
+.background-elements {
+  z-index: 5 !important;
+}
+
+.main-content-container {
+  z-index: 10 !important;
+  pointer-events: none; /* Allow mouse events to pass through to background */
+}
+
+.main-content-container.fade-out {
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.modern-nav-menu,
+.navigation {
+  z-index: 11000 !important;
+  position: relative;
+}
+
+.footer-social {
+  z-index: 1000 !important; /* Footer below character preview but above background */
+  pointer-events: auto; /* Re-enable mouse events for footer */
+}
+
+.modal {
+  z-index: 10000 !important; /* Only modals should be above navigation */
+  pointer-events: auto; /* Re-enable mouse events for modals */
+}
+
+.account-panel {
+  z-index: 10000 !important; /* Only panels should be above navigation */
+  pointer-events: auto; /* Re-enable mouse events for panels */
+}
+
+/* Re-enable mouse events for interactive elements within main-content-container */
+.character-preview-container,
+.hero-content,
+.character-bubble,
+.bubble-actions,
+.bubble-panel,
+.mode-switch-btn,
+.character-select-btn,
+.scene-select-btn {
+  pointer-events: auto !important;
+}
+
+.mode-switch-btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  outline: none;
+  margin: 0 0.2rem;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mode-switch-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: #fff;
+  color: #fff;
+}
+.mode-switch-btn.active {
+  background: linear-gradient(
+    135deg,
+    #ffd700 0%,
+    #ffa500 30%,
+    #ff6b6b 70%,
+    #c44bc4 100%
+  );
+  color: #222;
+  border-color: #ffd700;
+  box-shadow: 0 4px 16px 0 rgba(255, 107, 107, 0.1);
+}
+
+/* Screenshot Overlay Styles */
+.screenshot-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.screenshot-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.screenshot-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #fff;
+}
+
+.screenshot-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* 开始按钮样式 */
+.screenshot-start-button-container {
+  position: absolute;
+  bottom: 240px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10002;
+  pointer-events: auto;
+}
+
+.screenshot-start-button {
+  padding: 16px 48px;
+  border: none;
+  border-radius: 40px;
+  background: linear-gradient(
+    135deg,
+    #ffd700 0%,
+    #ffa500 30%,
+    #ff6b6b 70%,
+    #c44bc4 100%
+  );
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  backdrop-filter: blur(10px);
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.screenshot-start-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  background: linear-gradient(
+    135deg,
+    #ffe55c 0%,
+    #ffb347 30%,
+    #ff8a80 70%,
+    #da70d6 100%
+  );
+}
+
+.screenshot-start-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
+}
+
+.screenshot-overlay-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  padding: 40px;
+}
+
+.screenshot-title h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 2px;
+}
+
+.screenshot-title p {
+  font-size: 1.2rem;
+  margin: 0;
+  opacity: 0.9;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.screenshot-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.screenshot-close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.screenshot-loading-text {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 10001;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px 40px;
+  border-radius: 16px;
+}
+
+.screenshot-spinner {
+  margin: 24px auto 0 auto;
+  width: 48px;
+  height: 48px;
+  border: 5px solid rgba(255, 255, 255, 0.15);
+  border-top: 5px solid #6c5ce7;
+  border-right: 5px solid #00cec9;
+  border-radius: 50%;
+  animation: screenshot-spin 1s linear infinite;
+  box-shadow: 0 0 16px #6c5ce7, 0 0 32px #00cec9;
+}
+
+@keyframes screenshot-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.screenshot-loading-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.screenshot-loading-text2 {
+  color: #fff;
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-bottom: 32px;
+  letter-spacing: 0.08em;
+  text-shadow: 0 2px 8px #000a, 0 0 16px #00d4ff55, 0 1px 0 #fff2;
+  transition: all 0.3s ease;
+}
+
+.screenshot-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    #ff6b6b,
+    #ffd93d,
+    #6c5ce7,
+    #00cec9,
+    #ff6b6b
+  );
+  background-size: 200% 100%;
+  border-radius: 12px;
+  box-shadow: 0 0 32px 12px #fff, 0 0 16px 4px #fff, 0 0 8px 2px #fff;
+  filter: brightness(1.3) blur(0.5px);
+  transition: width 0.8s ease;
+}
+
+.screenshot-progress-bar {
+  width: 340px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 24px 6px #fff, 0 1px 0 #fff2;
+  position: relative;
+}
+
+/* Responsive design for screenshot overlay */
+@media (max-width: 768px) {
+  .screenshot-overlay-content {
+    padding: 20px;
+  }
+
+  .screenshot-title h2 {
+    font-size: 1.8rem;
+  }
+
+  .screenshot-title p {
+    font-size: 1rem;
+  }
+
+  .screenshot-close-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  /* 移动端调整 */
+  .screenshot-loading-text {
+    padding: 15px 30px;
+    font-size: 1.8rem;
+  }
+
+  /* 移动端开始按钮调整 */
+  .screenshot-start-button-container {
+    bottom: 200px;
+  }
+
+  .screenshot-start-button {
+    padding: 14px 40px;
+    font-size: 16px;
+  }
+}
+
+/* 更小屏幕的调整 */
+@media (max-width: 480px) {
+  .screenshot-loading-text {
+    padding: 12px 24px;
+    font-size: 1.5rem;
+  }
+
+  /* 更小屏幕开始按钮调整 */
+  .screenshot-start-button-container {
+    bottom: 200px;
+  }
+
+  .screenshot-start-button {
+    padding: 12px 36px;
+    font-size: 14px;
+  }
+
+  /* 移动端文本调整 */
+  .screenshot-loading-text2 {
+    font-size: 1.6rem;
+  }
+}
+
+footer.fade-out,
+.Footer.fade-out {
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+/* Character/Scene Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 11500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.loading-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.loading-overlay-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.loading-overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loading-overlay-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid #6c5ce7;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-overlay-text {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

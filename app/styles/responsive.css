@@ -1,0 +1,187 @@
+/* Responsive Design - Single Page, Non-Scrollable */
+@media (max-width: 1200px) {
+  .character-selection-nav {
+    gap: 6px;
+  }
+
+  .character-nav-btn {
+    width: 45px;
+    height: 45px;
+  }
+
+  /* Ensure main content fits */
+  .main-content-container {
+    height: 100dvh;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Navigation */
+  .modern-nav-menu {
+    padding: 0 1rem;
+    height: 60px; /* Reduced height for mobile */
+  }
+
+  /* Update padding to account for smaller nav */
+  .main-content-container {
+    padding-top: 60px;
+    padding-bottom: 60px; /* Reduced footer space */
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .nav-center-icons {
+    gap: 0.25rem;
+  }
+
+  .nav-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .character-selection-nav {
+    gap: 4px;
+    padding: 0 0.5rem;
+  }
+
+  .character-nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-right-content {
+    gap: 0.5rem;
+  }
+
+  /* Hero Layout - Compact for mobile */
+  .hero-main-layout {
+    padding: 0 1rem;
+    flex-direction: column;
+  }
+
+  .hero-section {
+    padding: 0.5rem 0; /* Reduced padding */
+  }
+
+  .hero-character-cards {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    justify-content: center;
+    margin-top: 1rem; /* Reduced margin */
+  }
+
+  /* Character section - Further constrained */
+  .character-section {
+    padding: 0.5rem;
+    max-height: 25vh; /* Even more constrained on mobile */
+  }
+
+  /* Footer */
+  .input-group {
+    flex-direction: column;
+    gap: 0.5rem; /* Reduced gap */
+  }
+
+  .input-group input {
+    max-width: none;
+    width: 100%;
+  }
+
+  .footer-social-links {
+    flex-wrap: wrap;
+    gap: 0.5rem; /* Reduced gap */
+  }
+
+  /* Loading */
+  .loading-title {
+    font-size: 2rem;
+  }
+
+  /* Character Preview - Compact */
+  .character-preview-container {
+    padding: 5px; /* Reduced padding */
+  }
+
+  .selection-container {
+    flex-direction: column;
+    padding: 10px; /* Reduced padding */
+    gap: 10px; /* Reduced gap */
+    border-radius: 25px;
+  }
+
+  .character-selection {
+    border-right: none;
+    border-bottom: 4px solid rgba(255, 255, 255, 0.2);
+    padding-right: 0;
+    padding-bottom: 10px; /* Reduced padding */
+  }
+
+  .scene-selection {
+    padding-left: 0;
+  }
+
+  .character-select-btn {
+    width: 50px; /* Smaller buttons */
+    height: 50px;
+  }
+
+  .character-stage {
+    width: 300px; /* Smaller stage */
+    height: 300px;
+  }
+
+  .title-text {
+    font-size: 1.5rem; /* Smaller font */
+  }
+
+  .progress-bar {
+    width: 250px; /* Smaller progress bar */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Navigation - Even more compact */
+  .modern-nav-menu {
+    padding: 0 0.5rem;
+    height: 50px; /* Even smaller nav */
+  }
+
+  /* Update padding for smallest screens */
+  .main-content-container {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .nav-center {
+    gap: 1rem;
+  }
+
+  .character-selection-nav {
+    display: none;
+  }
+
+  /* Character section - Most constrained */
+  .character-section {
+    padding: 0.25rem;
+    max-height: 20vh; /* Very limited space */
+  }
+
+  .character-stage {
+    width: 250px; /* Even smaller */
+    height: 250px;
+  }
+
+  /* Footer - Compact */
+  .footer-social {
+    padding: 0.5rem; /* Reduced padding */
+  }
+
+  /* Loading */
+  .loading-title {
+    font-size: 1.2rem; /* Smaller title */
+  }
+}

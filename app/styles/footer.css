@@ -1,0 +1,176 @@
+/* Footer Styles - Updated for Single Page Layout */
+.footer-social {
+  position: fixed !important; /* Force fixed positioning */
+  bottom: 0 !important; /* Force bottom positioning */
+  left: 0;
+  right: 0;
+  padding: 0.75rem 1rem; /* Reduced padding to match components.css */
+  background: transparent !important;
+  z-index: 1000 !important; /* Ensure it's above other content */
+  height: 60px !important; /* Fixed height */
+  box-sizing: border-box;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-experience-btn {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #6c5ce7, #00cec9);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1rem;
+}
+
+.start-experience-btn:hover {
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 8px 32px rgba(108, 92, 231, 0.4);
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.input-btn-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.record-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #ff4757;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  text-decoration: none;
+}
+
+.record-btn:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.record-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 71, 87, 0.5);
+}
+
+.bubble-toggle-group {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+}
+
+.toggle-character-bubble-btn, .toggle-user-bubble-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.toggle-character-bubble-btn:hover, .toggle-user-bubble-btn:hover {
+  background: rgba(108, 92, 231, 0.3);
+  border-color: #6c5ce7;
+}
+
+.input-group input {
+  flex: 1;
+  max-width: 400px;
+  padding: 12px 16px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #6c5ce7;
+  box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.start-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6c5ce7, #00cec9);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.start-btn:before {
+  content: '▶';
+  color: #fff;
+  font-size: 1.2rem;
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+}
+
+.start-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(108, 92, 231, 0.5);
+}
+
+.footer-social-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.social-btn {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.social-btn:hover {
+  background: rgba(108, 92, 231, 0.3);
+  transform: translateY(-2px);
+} 

@@ -1,0 +1,110 @@
+/* 场景卡片容器 */
+/* .hero-scene-cards {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 950px;
+    width: 100vw;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 0 24px 0;
+    background: none;
+    z-index: 1002;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+} */
+
+.hero-scene-cards.collapsed {
+    /* transform: translateY(150px); */
+}
+
+/* 场景卡片基础样式 */
+.hero-scene-card {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    background: rgba(40, 50, 70, 0.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    border: 2px solid rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hero-scene-card:hover {
+    /* transform: translateY(-4px); */
+    /* box-shadow: 0 8px 32px rgba(0,0,0,0.2); */
+    /* border-color: rgba(255,255,255,0.4); */
+    /* z-index: 1003; */
+}
+
+.hero-scene-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.hero-scene-card:hover img {
+    /* transform: scale(1.1); */
+}
+
+/* 选中状态样式 */
+.hero-scene-card.selected {
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-scene-card.selected::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    border: 8px solid #fff;
+    box-sizing: border-box;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+    transition: border-width 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+.hero-scene-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    border: 0px solid #fff;
+    box-sizing: border-box;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+    transition: border-width 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+    /* .hero-scene-cards {
+        bottom: 900px;
+        gap: 16px;
+    } */
+    .hero-scene-card {
+        width: 56px;
+        height: 56px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* .hero-scene-cards {
+        bottom: 800px;
+        gap: 12px;
+    } */
+    .hero-scene-card {
+        width: 48px;
+        height: 48px;
+    }
+} 
