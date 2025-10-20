@@ -1,0 +1,24 @@
+.left-sidebar-drawer {
+  position: fixed;
+  left: 0;
+  padding-left: 130px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 450px;
+  background-color: #1b1d2b;
+  border-radius: 0 20px 20px 0;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    height: 200px;
+    top: 50%;
+    transform: translateY(-100%);
+    padding: 0;
+    width: 400px;
+    -webkit-transform: translateY(-100%);
+    -moz-transform: translateY(-100%);
+    -ms-transform: translateY(-100%);
+    -o-transform: translateY(-100%);
+}
+}

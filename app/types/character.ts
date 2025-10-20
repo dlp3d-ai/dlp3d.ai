@@ -1,0 +1,34 @@
+export interface CharacterConfig {
+  user_id: string
+  character_id: string
+  character_name: string
+  create_datatime: string
+  read_only: boolean
+  scene_name: string
+  tts_adapter: string
+  voice: string
+  voice_speed: number
+  avatar: string
+  asr_adapter: string
+  classification_adapter: string
+  classification_model_override: string
+  conversation_adapter: string
+  conversation_model_override: string
+  prompt: string
+  reaction_adapter: string
+  reaction_model_override: string
+  memory_adapter: string
+  memory_model_override: string
+  acquaintance_threshold: number
+  friend_threshold: number
+  situationship_threshold: number
+  lover_threshold: number
+  neutral_threshold: number
+  happiness_threshold: number
+  sadness_threshold: number
+  fear_threshold: number
+  anger_threshold: number
+  disgust_threshold: number
+  surprise_threshold: number
+  shyness_threshold: number
+}

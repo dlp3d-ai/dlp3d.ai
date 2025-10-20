@@ -1,0 +1,249 @@
+/* Import all component styles */
+@import '@/styles/variables.css';
+@import '@/styles/navigation.css';
+@import '@/styles/PromptingBubble.css';
+@import '@/styles/footer.css';
+
+@import '@/styles/loading.css';
+
+@import '@/styles/responsive.css';
+@import '@/styles/auth.css';
+
+/* 用户菜单整体风格统一为深色、圆角、发光、白色/灰色文字 */
+.user-menu {
+  background: rgba(26, 26, 46, 0.98) !important;
+  color: #888ea8 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 0 0 1.5px rgba(0, 212, 255, 0.08);
+  padding: 0.5rem 0 !important;
+  min-width: 220px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(8px);
+}
+
+/* 用户菜单整体字体风格与登录界面一致 */
+.user-menu,
+.user-menu * {
+  font-family: 'Orbitron', 'Arial', sans-serif !important;
+  letter-spacing: 0.04em !important;
+  font-size: 1rem !important;
+}
+
+/* 用户名高亮白色加粗 */
+.user-menu-item strong {
+  color: #fff !important;
+  font-weight: 700 !important;
+  margin-top: 0.25rem;
+  display: block;
+  letter-spacing: 0.04em !important;
+  font-family: 'Orbitron', 'Arial', sans-serif !important;
+}
+
+/* 菜单项文字灰色，用户名高亮白色 */
+.user-menu-item {
+  color: #888ea8 !important;
+  background: none !important;
+  border: none !important;
+  font-size: 1rem !important;
+  padding: 0.75rem 1.2rem !important;
+  font-family: 'Orbitron', 'Arial', sans-serif;
+}
+
+/* Sign Out 按钮红色高亮，悬停时更亮 */
+.user-menu-action {
+  color: #ff6b6b !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  cursor: pointer !important;
+  transition: background 0.2s, color 0.2s;
+}
+.user-menu-action:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: #fff !important;
+}
+
+/* Error Toast 样式 */
+.error-toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999999999 !important;
+  pointer-events: auto;
+  max-width: 600px;
+  min-width: 320px;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  animation: slideDown 0.25s ease-out;
+}
+
+.error-toast-error {
+  background: rgba(255, 107, 107, 0.95);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  color: #fff;
+}
+
+.error-toast-warning {
+  background: rgba(255, 217, 61, 0.95);
+  border: 1px solid rgba(255, 217, 61, 0.3);
+  color: #333;
+}
+
+.error-toast-info {
+  background: rgba(0, 206, 201, 0.95);
+  border: 1px solid rgba(0, 206, 201, 0.3);
+  color: #fff;
+}
+
+.error-toast-neutral {
+  background: rgba(60, 60, 70, 0.95);
+  border: 1px solid rgba(120, 120, 130, 0.5);
+  color: #fff;
+}
+
+.error-toast-content {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+}
+
+.error-toast-message {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.error-toast-action {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.error-toast-action:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.error-toast-close {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  opacity: 0.7;
+}
+
+.error-toast-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 1;
+}
+
+/* Bottom-left messages */
+.side-messages-container {
+  position: fixed;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column-reverse; /* 保持最新消息在底部 */
+  gap: 8px;
+  z-index: 2147483647; /* 顶层 */
+  pointer-events: none;
+}
+
+.side-message-item {
+  background: transparent;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  font-size: 28px; /* 标题默认字号，具体行内再区分 */
+  font-weight: 700;
+  font-family: 'Rajdhani', 'Noto Sans SC', 'Noto Sans JP', 'Noto Sans KR', sans-serif;
+  line-height: 1.4;
+  box-shadow: none;
+  backdrop-filter: none;
+  animation: blmsg-fade-in 150ms ease-out;
+  transition: opacity 200ms ease, transform 200ms ease;
+  pointer-events: auto;
+}
+
+.side-message-text {
+  white-space: pre-wrap;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.side-message-title {
+  white-space: pre-wrap;
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.side-message-lines {
+  display: flex;
+  flex-direction: column;
+}
+
+.side-message-item.exiting {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+/* 新消息进入：自下而上的淡入 */
+@keyframes blmsg-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 有新消息时，旧消息有一个轻微上推动画，避免“闪上去” */
+.side-message-item.bump {
+  transform: translateY(-4px);
+}
+
+@keyframes blmsg-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-track {
+  background-color: #222439;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #333652;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #44476a;
+  border-radius: 3px;
+}

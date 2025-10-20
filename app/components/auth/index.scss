@@ -1,0 +1,286 @@
+/* AuthModal Styles */
+.auth-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999999 !important;
+  backdrop-filter: blur(4px);
+  padding: clamp(0.5rem, 2vw, 1rem);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.auth-modal-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.auth-particles {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.auth-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: auth-float var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+  left: var(--x);
+  top: var(--y);
+  opacity: 0;
+}
+
+@keyframes auth-float {
+  0% {
+    transform: translateY(0) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) scale(1);
+    opacity: 0;
+  }
+}
+
+.auth-modal-content {
+  background: rgba(26, 26, 46, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  width: min(90vw, 400px);
+  max-height: min(90vh, 600px);
+  overflow-y: auto;
+  padding: clamp(1rem, 4vw, 2.5rem);
+  box-sizing: border-box;
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+/* Unified scrollbar styles */
+.auth-modal-content::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
+}
+
+.auth-modal-content::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 8px;
+  border: none;
+  transition: background 0.3s;
+}
+
+.auth-modal-content:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.1);
+}
+
+.auth-modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Firefox */
+.auth-modal-content {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.auth-modal-content:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+.auth-modal-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.auth-title-main {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Orbitron', monospace;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.12em;
+  line-height: 1.1;
+  text-shadow: 0 0 16px #00d4ff44, 0 2px 8px #000a;
+}
+
+.auth-title-sub {
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-align: center;
+  line-height: 1.3;
+  text-shadow: 0 0 8px #00d4ff22;
+  background: linear-gradient(
+    90deg,
+    #ff6b6b,
+    #ffd93d,
+    #6c5ce7,
+    #00cec9,
+    #ff6b6b
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  animation: auth-rainbow-move 3s linear infinite;
+}
+
+@keyframes auth-rainbow-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.auth-modal-close {
+  position: absolute;
+  top: clamp(0.75rem, 2vw, 1rem);
+  right: clamp(0.75rem, 2vw, 1rem);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  cursor: pointer;
+  color: #fff;
+  z-index: 10;
+  width: clamp(1.5rem, 4vw, 2rem);
+  height: clamp(1.5rem, 4vw, 2rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+  backdrop-filter: blur(5px);
+}
+
+.auth-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #00d4ff;
+  border-color: rgba(0, 212, 255, 0.5);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.auth-success {
+  text-align: center;
+  padding: 2rem;
+  color: #00d4ff;
+}
+
+.auth-success h3 {
+  margin: 0 0 1rem 0;
+  color: #fff;
+  font-family: 'Orbitron', monospace;
+  text-shadow: 0 0 10px #00d4ff;
+}
+
+.auth-success p {
+  margin: 0;
+  font-weight: 500;
+  background: linear-gradient(
+    90deg,
+    #ff6b6b,
+    #ffd93d,
+    #6c5ce7,
+    #00cec9,
+    #ff6b6b
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  animation: auth-rainbow-move 3s linear infinite;
+}
+
+/* Mobile optimization (≤480px) */
+@media (max-width: 480px) {
+  .auth-modal-overlay {
+    padding: 0.5rem;
+  }
+
+  .auth-modal-content {
+    width: min(95vw, 100%);
+    padding: 1rem;
+    border-radius: 8px;
+    max-height: 95vh;
+  }
+
+  .auth-modal-close {
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .auth-title-main {
+    font-size: 1.2rem;
+  }
+
+  .auth-title-sub {
+    font-size: 0.9rem;
+  }
+}
+
+/* Tablet optimization (481px-768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .auth-modal-content {
+    width: min(80vw, 500px);
+    padding: 2rem 2.5rem;
+  }
+}
+
+/* Desktop optimization (769px-1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .auth-modal-content {
+    width: min(70vw, 550px);
+    padding: 2.5rem 3rem;
+  }
+}
+
+/* Large desktop optimization (≥1025px) */
+@media (min-width: 1025px) {
+  .auth-modal-content {
+    width: min(60vw, 600px);
+    padding: 3rem 3.5rem;
+  }
+
+  .auth-modal-close {
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+  }
+}

@@ -1,0 +1,293 @@
+.chat-list-drawer-toggle {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .chat-list-drawer-toggle-content {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #26283a;
+    border-radius: 0px 0px 20px 20px;
+    &-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      padding: 5px 30px;
+    }
+    &-icon {
+      font-size: 1rem;
+      color: #fff;
+      /* Place the icon at the far right, unaffected by flex constraints */
+      margin-left: auto;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+  }
+}
+
+/* drawer */
+.chat-list-drawer-desktop {
+  width: 80vw;
+  height: 90vh;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  background: #23253c;
+  border-radius: 0px 0px 20px 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+
+  .chat-list-drawer-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    &-icon {
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+
+  .chat-list-drawer-content {
+    width: 100%;
+    height: calc(100% - 140px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: top;
+    padding: 20px;
+
+    &-title {
+      width: 100%;
+      height: 20px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+
+      &-line {
+        margin: 0 40px;
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, #23253c, #fff, #23253c);
+      }
+    }
+    &-list {
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      justify-content: start;
+      gap: 20px;
+   
+      padding: 20px 0;
+      &-item {
+        width: 235px;
+        height: 270px;
+        max-height: 270px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        &-image {
+          width: 235px;
+          height: 235px;
+          border-radius: 20px;
+          overflow: hidden;
+          border: 1px solid #fff;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        &-title {
+          width: 100%;
+          margin-top: 5px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 15px;
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: #fff;
+          background: #1b1d2b;
+          border-radius: 20px;
+          text-align: center;
+
+          span {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          ModeEditOutlineIcon {
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.chat-list-drawer-mobile {
+  width: 100vw;
+  // height: 120px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background: #23253c;
+  border-radius: 0px 0px 20px 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease-in-out;
+
+  .chat-list-drawer-header {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    height: 40px;
+
+    &-title {
+      font-size: 1rem;
+      margin-left: 10px;
+      color: #fff;
+    }
+
+    &-icon {
+      font-size: 1.5rem;
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+
+  .chat-list-drawer-content {
+    width: calc(100% - 40px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    &-title {
+      width: 100%;
+      height: 20px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 600;
+
+      &-line {
+        margin: 0 20px;
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, #23253c, #fff, #23253c);
+      }
+    }
+    &-list {
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: repeat(4, 23%);
+      gap: 10px;
+      flex: 1;
+      padding: 20px 0;
+      &-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        &-image {
+          width: 90%;
+          height: 90%;
+          border-radius: 10px;
+          -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+          -ms-border-radius: 10px;
+          -o-border-radius: 10px;
+          overflow: hidden;
+          border: 1px solid #fff;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        &-title {
+          width: 100%;
+          margin-top: 5px;
+          height: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 15px;
+          font-size: 1rem;
+          font-weight: 600;
+          color: #fff;
+          background: #1b1d2b;
+          border-radius: 20px;
+
+          span {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .chat-list-drawer-toggle-content-icon {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
