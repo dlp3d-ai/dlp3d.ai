@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package orchestrator_v4;
+
+message OrchestratorV4Request {
+  // AudioChatCompleteStartRequestV4
+  string class_name = 1;
+  // for asr
+  string asr_adapter = 2;
+  int32 n_channels = 3;
+  int32 sample_width = 4;
+  int32 frame_rate = 5;
+  // for classification
+  string classification_adapter = 6;
+  // for conversation
+  string conversation_adapter = 7;
+  string agent_name = 8;
+  // for reaction
+  string reaction_adapter = 9;
+  // for text2speech
+  string tts_adapter = 10;
+  string voice_name = 11;
+  float voice_speed = 12;
+  // for audio2face
+  string face_model = 13;
+  // for motion
+  string avatar = 14;
+  string user_id = 15;
+  float max_front_extension_duration = 16;
+  float max_rear_extension_duration = 17;
+  // for both reaction and motion
+  bool first_body_fast_response = 18;
+  // input text
+  string speech_text = 19;
+  // pcm audio
+  bytes data = 20;
+  // app_name
+  string app_name = 21;
+  string language = 22;
+  // for dynamodb
+  string character_id = 23;
+}
+
+
+message OrchestratorV4Response {
+  string class_name = 1;
+  string request_id = 2;
+  string dtype = 3;
+  string message = 4;
+  repeated string motion_joint_names = 5;
+  string motion_restpose_name = 6;
+  oneof motion_timeline_start_idx {
+    int32 motion_timeline_start_idx_value = 7;
+    bool motion_timeline_start_idx_is_none = 8;
+  }
+  repeated string face_blendshape_names = 9;
+  int32 audio_n_channels = 10;
+  int32 audio_sample_width = 11;
+  int32 audio_frame_rate = 12;
+  bytes data = 13;
+  oneof face_timeline_start_idx {
+    int32 face_timeline_start_idx_value = 14;
+    bool face_timeline_start_idx_is_none = 15;
+  }
+}

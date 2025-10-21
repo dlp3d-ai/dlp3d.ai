@@ -1,0 +1,134 @@
+services:
+  speech2motion:
+    image: dockersenseyang/dlp3d_speech2motion:latest
+    container_name: speech2motion
+    restart: unless-stopped
+    volumes:
+      - ./motion_data:/workspace/speech2motion/data
+    networks:
+      - mongodb_network
+
+  audio2face:
+    image: dockersenseyang/dlp3d_audio2face:latest
+    container_name: audio2face
+    restart: unless-stopped
+    volumes:
+      - ./weights:/workspace/audio2face/weights
+    networks:
+      - mongodb_network
+
+  mongodb:
+    image: mongodb/mongodb-community-server:7.0-ubi8
+    container_name: mongodb
+    restart: unless-stopped
+    environment:
+      MONGODB_INITDB_ROOT_USERNAME: admin
+      MONGODB_INITDB_ROOT_PASSWORD: admin_password
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - mongodb_network
+
+  web_backend:
+    image: dockersenseyang/dlp3d_web_backend:dev
+    container_name: web_backend
+    restart: unless-stopped
+    ports:
+      - "18080:18080"
+    environment:
+      MONGODB_HOST: mongodb
+      MONGODB_PORT: 27017
+      MONGODB_USERNAME: web_user
+      MONGODB_PASSWORD: web_password
+      MONGODB_DATABASE: web_database
+      MONGODB_AUTH_DATABASE: web_database
+      MONGODB_ADMIN_USERNAME: admin
+      MONGODB_ADMIN_PASSWORD: admin_password
+    volumes:
+      - ./motion_data:/workspace/web-backend/data
+    depends_on:
+      - mongodb
+    networks:
+      - mongodb_network
+
+  orchestrator:
+    image: dockersenseyang/dlp3d_orchestrator:dev
+    container_name: orchestrator
+    restart: unless-stopped
+    ports:
+      - "18081:18081"
+    environment:
+      MONGODB_HOST: mongodb
+      MONGODB_PORT: 27017
+      MONGODB_MEMORY_DB: memory_database
+      MONGODB_MEMORY_USER: memory_user
+      MONGODB_MEMORY_PASSWORD: memory_password
+      MONGODB_WEB_DB: web_database
+      MONGODB_WEB_USER: web_user
+      MONGODB_WEB_PASSWORD: web_password
+      MONGODB_ADMIN_USERNAME: admin
+      MONGODB_ADMIN_PASSWORD: admin_password
+      A2F_WS_URL: ws://audio2face:18083/api/v1/streaming_audio2face/ws
+      S2M_WS_URL: ws://speech2motion:18084/api/v3/streaming_speech2motion/ws
+      BACKEND_URL: http://web_backend:18080/api/v1/motion_keywords
+    depends_on:
+      - mongodb
+      - audio2face
+      - speech2motion
+      - web_backend
+    networks:
+      - mongodb_network
+
+  web_frontend:
+    image:  dockersenseyang/dlp3d_web:dev
+    container_name: web_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_APP_NAME: "dlp3d"
+      NEXT_PUBLIC_ORCHESTRATOR_HOST: "10.151.196.33"
+      NEXT_PUBLIC_ORCHESTRATOR_PORT: 18002
+      NEXT_PUBLIC_ORCHESTRATOR_PATH_PREFIX: "/api/v4"
+      NEXT_PUBLIC_ORCHESTRATOR_TIMEOUT: 10
+      NEXT_PUBLIC_BACKEND_HOST: "10.151.196.33"
+      NEXT_PUBLIC_BACKEND_PORT: 18000
+      NEXT_PUBLIC_BACKEND_PATH_PREFIX: "/api/v1"
+      NEXT_PUBLIC_MOTION_FILE_TIMEOUT: 600
+      NEXT_PUBLIC_MAX_FRONT_EXTENSION_DURATION: 1.0
+      NEXT_PUBLIC_MAX_REAR_EXTENSION_DURATION: 10.0
+      NEXT_PUBLIC_LANGUAGE: "zh"
+    depends_on:
+      - web_backend
+      - orchestrator
+    networks:
+      - mongodb_network
+
+  nginx:
+    image: dockersenseyang/dlp3d_nginx:dev
+    container_name: nginx_proxy
+    restart: unless-stopped
+    ports:
+      - "18000:18000"
+      - "18001:18001"
+      - "18002:18002"
+    networks:
+      - mongodb_network
+    volumes:
+      - ./configs/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - web_frontend
+      - orchestrator
+      - web_backend
+      - speech2motion
+      - audio2face
+      - mongodb
+
+volumes:
+  mongodb_data:
+
+networks:
+  mongodb_network:
+    driver: bridge

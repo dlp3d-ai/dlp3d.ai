@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package motion_file_v1;
+
+message MotionFileV1Request {
+  string class_name = 1;
+  string avatar = 2;
+  string app_name = 3;
+}
+
+message MotionFileV1Response {
+  string class_name = 1;
+  string version = 2;
+  // MotionClip和Restpose共享的属性
+  string restpose_name = 3;
+  repeated string joint_names = 4;
+  // MotionClip的属性
+  int32 motion_record_id = 5;
+  bool is_idle_long = 6;
+  repeated string states = 7;
+  repeated CutoffFrame cutoff_frames = 8;
+  repeated CutoffRange cutoff_ranges = 9;
+  NumpyArray joint_rotmat = 10;
+  NumpyArray root_world_position = 11;
+  int32 loop_start_frame = 12;
+  int32 loop_end_frame = 13;
+  // Restpose的属性
+  NumpyArray local_matrices = 14;
+  NumpyArray matrix_world = 15;
+  repeated int32 parent_indices = 16;
+  // Mesh的属性
+  bytes data = 17;
+}
+
+// 嵌套的属性类型
+message CutoffFrame {
+  int32 frame_idx = 1;
+  int32 left_priority = 2;
+  int32 right_priority = 3;
+}
+message CutoffRange {
+  int32 start_frame_idx = 1;
+  int32 end_frame_idx = 2;
+  int32 left_priority = 3;
+  int32 right_priority = 4;
+}
+message NumpyArray {
+  string dtype = 1;  // numpy数组的dtype
+  repeated int32 shape = 2;  // numpy数组的shape
+  bytes data = 3;  // numpy数组的二进制数据
+} 
