@@ -20,6 +20,13 @@ export default function EmailCodeModal({
   isSubmitting = false,
   errorMessage,
 }: EmailCodeModalProps) {
+  /*
+    Handle verification code form submission.
+
+    @param e React.FormEvent - The form submit event.
+
+    @returns Promise<void> Resolves when the submit completes.
+  */
   const [code, setCode] = useState('')
 
   useEffect(() => {

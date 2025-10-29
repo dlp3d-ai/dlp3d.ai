@@ -1,7 +1,8 @@
-/**
- * 获取浏览器的时区
- * @returns 返回时区字符串，例如 'Asia/Shanghai'
- */
+/*
+  Get the browser's IANA time zone string.
+
+  @returns string The time zone identifier (e.g., 'Asia/Shanghai').
+*/
 export function getBrowserTimeZone(): string {
   try {
     return Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -11,10 +12,11 @@ export function getBrowserTimeZone(): string {
   }
 }
 
-/**
- * 获取时区偏移量（分钟）
- * @returns 相对于 UTC 的分钟数
- */
+/*
+  Get the current timezone offset in minutes relative to UTC.
+
+  @returns number The offset in minutes (UTC-8 => 480, etc.).
+*/
 export function getTimezoneOffset(): number {
   return new Date().getTimezoneOffset()
 }

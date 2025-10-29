@@ -28,12 +28,16 @@ interface AuthenticatorProps {
   onAuthSuccess: () => void
 }
 
-/**
- * Authenticator Component
- *
- * A React component that provides user authentication functionality with email and password input fields.
- * Handles login verification, form submission, and authentication state management.
- */
+/*
+  Authenticator Component
+
+  A React component that provides user authentication with email and password input, including
+  registration, verification code flow, and login.
+
+  @param onAuthSuccess () => void - Callback invoked on successful authentication.
+
+  @returns JSX.Element The authenticator UI.
+*/
 export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -48,13 +52,14 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   const { showSuccessNotification } = useSuccessNotification()
   const { showErrorNotification } = useErrorNotification()
   const [codeErrorMessage, setCodeErrorMessage] = useState('')
-  /**
-   * Verifies user login credentials and handles authentication.
-   *
-   * @param email The user's email address for authentication.
-   * @param password The user's password for authentication.
-   * @returns Promise<boolean> Returns true if login is successful, false otherwise.
-   */
+  /*
+    Verify user credentials and handle registration or login.
+
+    @param email string - The user's email address.
+    @param password string - The user's password.
+
+    @returns Promise<void> Resolves when the flow completes.
+  */
   const loginVerify = async (email: string, password: string) => {
     setIsLoading(true)
     setShowError(false)
@@ -122,12 +127,13 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
     }
   }
 
-  /**
-   * Handles form submission for user authentication.
-   *
-   * @param e The form event object.
-   * @returns Promise<void>
-   */
+  /*
+    Handle form submission for user authentication.
+
+    @param e React.FormEvent - The form submit event.
+
+    @returns Promise<void> Resolves after submit handling is complete.
+  */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setShowError(false)
@@ -149,12 +155,27 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
     }
   }
 
+  /*
+    Switch between login and register tabs.
+
+    @param event React.SyntheticEvent - The tab change event.
+    @param value 'login' | 'register' - The target tab value.
+
+    @returns void
+  */
   const handleTabChange = (
     event: React.SyntheticEvent,
     value: 'login' | 'register',
   ) => {
     setActiveTab(value)
   }
+  /*
+    Submit the verification code in register flow.
+
+    @param inputCode string - The 6-digit verification code.
+
+    @returns Promise<void> Resolves when the action completes.
+  */
   const handleCodeSubmit = async (inputCode: string) => {
     setCodeErrorMessage('')
     setIsLoading(true)
@@ -222,20 +243,20 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
           width: '100%',
           marginBottom: '10px',
           '& .MuiTab-root': {
-            color: 'rgba(255, 255, 255, 0.5)', // 未选中状态
+            color: 'rgba(255, 255, 255, 0.5)', // unselected state
             minWidth: 'auto',
             padding: '6px 16px',
             fontSize: '14px',
             width: '50%',
           },
           '& .Mui-selected': {
-            color: '#fff !important', // 选中状态
+            color: '#fff !important', // selected state
           },
           '& .MuiTabs-indicator': {
-            backgroundColor: '#fff', // 下划线颜色
+            backgroundColor: '#fff', // underline color
           },
           '& .MuiTab-root.Mui-disabled': {
-            color: 'rgba(255, 255, 255, 0.1)', // 未选中状态
+            color: 'rgba(255, 255, 255, 0.1)', // unselected state
           },
           '& .MuiTabs-scrollButtons': {
             color: '#fff',

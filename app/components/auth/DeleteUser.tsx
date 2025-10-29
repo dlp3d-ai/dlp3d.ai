@@ -19,6 +19,13 @@ export default function DeleteUser({
   errorMessage,
   defaultEmail = '',
 }: DeleteUserProps) {
+  /*
+    Submit handler for deleting the user account.
+
+    @param e React.FormEvent - The form submit event.
+
+    @returns Promise<void> Resolves when submission completes.
+  */
   const [email, setEmail] = useState(defaultEmail)
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)

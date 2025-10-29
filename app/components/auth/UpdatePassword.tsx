@@ -24,6 +24,13 @@ export default function UpdatePassword({
   errorMessage,
   defaultEmail = '',
 }: UpdatePasswordProps) {
+  /*
+    Submit handler for updating the user's password.
+
+    @param e React.FormEvent - The form submit event.
+
+    @returns Promise<void> Resolves when submission completes.
+  */
   const [email, setEmail] = useState(defaultEmail)
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')

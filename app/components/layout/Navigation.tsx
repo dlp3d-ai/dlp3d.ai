@@ -26,6 +26,11 @@ import {
 } from '@/hooks/useGlobalNotification'
 import './Navigation.scss'
 
+/*
+  Top navigation component for the application.
+
+  @returns JSX.Element The navigation bar UI.
+*/
 export default function Navigation() {
   const dispatch = useDispatch()
   const [showAuthModal, setShowAuthModal] = useState(false)
@@ -57,6 +62,11 @@ export default function Navigation() {
     }
   }, [showUserMenu])
 
+  /*
+    Handle clicks on the account button to toggle the user menu or open auth modal.
+
+    @returns void
+  */
   const handleAccountClick = () => {
     if (isAuthenticated) {
       setShowUserMenu(!showUserMenu)
@@ -65,6 +75,11 @@ export default function Navigation() {
     }
   }
 
+  /*
+    Clear auth state and sign out the current user.
+
+    @returns Promise<void> Resolves when sign-out completes.
+  */
   const handleSignOut = async () => {
     try {
       clearAuthStateFromStorage()
@@ -77,18 +92,40 @@ export default function Navigation() {
     }
   }
 
+  /*
+    Close auth modal and reload the page after successful authentication.
+
+    @returns void
+  */
   const handleAuthSuccess = () => {
     setShowAuthModal(false)
     // Force page reload to update auth state
     window.location.reload()
   }
 
+  /*
+    Open the delete account confirmation dialog.
+
+    @returns void
+  */
   const handleDeleteAccount = () => {
     setShowDeleteAccountDialog(true)
   }
+  /*
+    Open the change password dialog.
+
+    @returns void
+  */
   const handleChangePassword = () => {
     setShowChangePasswordDialog(true)
   }
+  /*
+    Submit handler for changing password from the user menu.
+
+    @param param { email: string; oldPassword: string; newPassword: string } - The password change payload.
+
+    @returns Promise<void> Resolves when the flow completes.
+  */
   const handleChangePasswordSubmit = async (param: {
     email: string
     oldPassword: string
@@ -104,6 +141,13 @@ export default function Navigation() {
       console.error('Error changing password:', error)
     }
   }
+  /*
+    Confirm and process account deletion.
+
+    @param param { email: string; password: string } - The deletion payload.
+
+    @returns Promise<void> Resolves when deletion completes.
+  */
   const handleConfirmDeleteAccount = async (param: {
     email: string
     password: string
@@ -125,6 +169,11 @@ export default function Navigation() {
       console.error('Error deleting account:', error)
     }
   }
+  /*
+    Navigate to the home page when the logo is clicked.
+
+    @returns void
+  */
   const handleLogoClick = () => {
     window.location.href = '/'
   }
