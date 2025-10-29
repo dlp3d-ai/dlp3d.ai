@@ -1,4 +1,48 @@
-# Overview
+---
+sd_hide_title: true
+---
+
+# 🔎 Overview
+
+::::{grid}
+:reverse:
+:gutter: 3 4 4 4
+:margin: 1 2 1 2
+
+:::{grid-item}
+:columns: 12 4 4 4
+
+:::
+
+:::{grid-item}
+:columns: 12 8 8 8
+:child-align: justify
+:class: sd-fs-5
+
+```{rubric} Digital Life Project
+```
+Embodying Large Language Models on the Web
+
+````{div} sd-d-flex-row
+```{button-ref} getting_started/quick_start
+:ref-type: doc
+:color: primary
+:class: sd-rounded-pill sd-mr-3
+
+Quick Start
+```
+
+```{button-link} https://dlp3d.ai
+:color: secondary
+:class: sd-rounded-pill
+
+Live Demo
+```
+````
+
+::::
+
+---
 
 dlp3d\.ai is a web platform that embodies Large Language Models in interactive 3D avatars. Users converse by voice, while avatars respond with speech, expressions, and gestures that adapt to context, mood, and relationship. Characters are fully customizable, including 3D models, LLMs, prompts, and voices.
 
@@ -19,3 +63,24 @@ To further enhance real-time performance, we design a custom data structure with
 On the frontend, we design a streaming animation pipeline distinct from traditional game engines. Instead of relying solely on local assets, our system streams animations in real time, blending streamed and local data for low-latency playback. We also implement adaptive buffering to match users' bandwidth and seamless recovery during connection loss.
 
 This work offers both a practical system for virtually embodied AI and a blueprint for fusing multi-modal intelligence with real-time graphics.
+
+```{toctree}
+:hidden:
+:maxdepth: 2
+getting_started/quick_start.md
+```
+
+```{toctree}
+:hidden:
+:caption: Web App
+:maxdepth: 2
+
+web_app/overview.md
+web_app/build_from_source.md
+web_app/runtime_pipeline.md
+web_app/stream_data.md
+web_app/fsm.md
+```
+
+```{include} _subrepos_index.md
+```
