@@ -165,7 +165,12 @@ export async function createUser(userId: string) {
  */
 export async function verifyUser(data: VerifyUserRequest) {
   const response = await kyDlpApi.post('register_user', { json: data })
-  return response.json<{ user_id: string }>()
+  return response.json<{
+    user_id: string
+    confirmation_required: boolean
+    auth_code: number
+    auth_msg: string
+  }>()
 }
 
 /**
@@ -175,7 +180,7 @@ export async function verifyUser(data: VerifyUserRequest) {
  */
 export async function authenticateUser(data: AuthenticateUserRequest) {
   const response = await kyDlpApi.post('authenticate_user', { json: data })
-  return response.json<{ user_id: string }>()
+  return response.json<{ user_id: string; auth_code: number; auth_msg: string }>()
 }
 /**
  * Duplicate Character
@@ -310,4 +315,49 @@ export async function fetchUpdateAvatar(
     json: { user_id: userId, character_id: characterId, avatar: avatar },
   })
   return response.json<{ success: boolean }>()
+}
+/**
+ * Resend Verification Code
+ */
+export async function fetchResendVerificationCode(email: string, code: string) {
+  const response = await kyDlpApi.post(`confirm_registration`, {
+    json: { email: email, confirmation_code: code },
+  })
+  return response.json<{ auth_code: number; auth_msg: string }>()
+}
+
+/**
+ * Update Password
+ */
+export async function fetchUpdatePassword(
+  email: string,
+  oldPassword: string,
+  newPassword: string,
+) {
+  const response = await kyDlpApi.post(`update_user_password`, {
+    json: { username: email, password: oldPassword, new_password: newPassword },
+  })
+  return response.json<{ success: boolean }>()
+}
+/**
+ * Delete User
+ */
+export async function fetchDeleteUser(
+  userId: string,
+  password: string,
+  email: string,
+) {
+  const response = await kyDlpApi.post(`delete_user`, {
+    json: { user_id: userId, password: password, username: email },
+  })
+  return response.json<{ auth_code: number; auth_msg: string }>()
+}
+/**
+ * Resend Confirmation Code
+ */
+export async function fetchResendConfirmationCode(email: string) {
+  const response = await kyDlpApi.post(`resend_confirmation_code`, {
+    json: { email: email },
+  })
+  return response.json<{ auth_code: number; auth_msg: string }>()
 }

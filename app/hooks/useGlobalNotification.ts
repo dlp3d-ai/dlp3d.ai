@@ -45,3 +45,13 @@ export const useAsyncErrorHandler = () => {
 
   return { handleAsyncError }
 }
+
+export const useSuccessNotification = () => {
+  const { showSuccess } = useNotification()
+
+  const showSuccessNotification = (message: string) => {
+    showSuccess(message)
+  }
+
+  return { showSuccessNotification }
+}

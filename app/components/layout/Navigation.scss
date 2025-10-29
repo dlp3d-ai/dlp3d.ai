@@ -1,0 +1,44 @@
+.account-container {
+  position: relative;
+}
+
+.user-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0;
+  min-width: 200px;
+  z-index: 100;
+  margin-top: 0.5rem;
+}
+
+.user-menu-item {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: default;
+  font-size: 0.875rem;
+}
+
+.user-menu-item strong {
+  display: block;
+  color: #333;
+  margin-top: 0.25rem;
+}
+
+.user-menu-action {
+  cursor: pointer;
+  border-top: 1px solid #eee;
+
+  transition: background-color 0.2s;
+}
+
+.user-menu-action:hover {
+  background-color: #f8f9fa;
+}

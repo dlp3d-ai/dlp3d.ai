@@ -29,13 +29,15 @@ const baseOptions = {
       async (request: KyRequest, options: NormalizedOptions, response: Response) => {
         if (!response.ok) {
           // 安全地解析错误响应
+          let message: string
           try {
             const result = await response.json()
-            throw new Error(result.message || `HTTP ${response.status}`)
+            message =
+              result.detail?.error || result.message || `HTTP ${response.status}`
           } catch {
-            // 如果 JSON 解析失败，使用状态文本
-            throw new Error(response.statusText || `HTTP ${response.status}`)
+            message = response.statusText || `HTTP ${response.status}`
           }
+          throw new Error(message)
         }
 
         // 安全地解析成功响应

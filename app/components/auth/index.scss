@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 99999999 !important;
+  z-index: 1000;
   backdrop-filter: blur(4px);
   padding: clamp(0.5rem, 2vw, 1rem);
   box-sizing: border-box;
