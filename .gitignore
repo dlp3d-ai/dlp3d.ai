@@ -2,6 +2,16 @@
 
 # Sphinx documentation
 docs/_build/
+docs/scripts/
+_build/
+docs/_subrepos/
+docs/*/_subrepos/
+docs/*/_subrepos_index.md
+docs/_static/MotionDataViewer
+docs/_static/orchestrator
+docs/_static/web_backend
+docs/_static/speech2motion
+docs/_static/audio2face
 
 # dependencies
 /node_modules
@@ -39,5 +49,13 @@ yarn-error.log*
 next-env.d.ts
 
 
-
+# cursor IDE
 .cursor
+
+# motion_data
+motion_data/
+*.zip
+data/
+
+# weights
+weights/
