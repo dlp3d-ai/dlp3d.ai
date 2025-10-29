@@ -1,0 +1,51 @@
+name: Build Docker Image
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.platform == 'linux/arm64' && 'ubuntu-latest' || 'ubuntu-latest' }}
+    strategy:
+      matrix:
+        platform: [linux/amd64, linux/arm64]
+        include:
+          - platform: linux/amd64
+            platform_name: amd64
+          - platform: linux/arm64
+            platform_name: arm64
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Extract tag name
+      id: tag
+      run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+    - name: Build proxy
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./dockerfiles/nginx/Dockerfile
+        platforms: ${{ matrix.platform }}
+        push: true
+        tags: |
+          dlp3d/web_proxy:${{ steps.tag.outputs.tag }}-${{ matrix.platform_name }}
+          ${{ matrix.platform == 'linux/amd64' && format('dlp3d/web_proxy:{0}', steps.tag.outputs.tag) || '' }}
+        cache-from: type=gha,scope=${{ matrix.platform_name }}
+        cache-to: type=gha,mode=max,scope=${{ matrix.platform_name }}
+        build-args: |
+          TARGETPLATFORM=${{ matrix.platform }}
+          BUILDPLATFORM=${{ matrix.platform }}
