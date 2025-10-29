@@ -59,8 +59,3 @@ data/
 
 # weights
 weights/
-
-# subrepos
-docs/en/_subrepos/
-docs/zh-cn/_subrepos/
-docs/zh-cn/_subrepos_index.md
