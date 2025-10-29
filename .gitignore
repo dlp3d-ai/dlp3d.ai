@@ -6,14 +6,12 @@ docs/scripts/
 _build/
 docs/_subrepos/
 docs/*/_subrepos/
+docs/*/_subrepos_index.md
 docs/_static/MotionDataViewer
 docs/_static/orchestrator
 docs/_static/web_backend
 docs/_static/speech2motion
 docs/_static/audio2face
-docs/en/_subrepos/
-docs/*/_subrepos_index.md
-docs/zh-cn/_subrepos/
 
 # dependencies
 /node_modules
