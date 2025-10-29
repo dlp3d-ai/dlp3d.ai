@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  build:
+  build_web:
     runs-on: ${{ matrix.platform == 'linux/arm64' && 'ubuntu-latest' || 'ubuntu-latest' }}
     strategy:
       matrix:
@@ -38,7 +38,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        file: ./Dockerfile
+        file: ./dockerfiles/web/Dockerfile
         platforms: ${{ matrix.platform }}
         push: true
         tags: |

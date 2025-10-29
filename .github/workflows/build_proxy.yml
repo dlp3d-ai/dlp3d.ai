@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  build:
+  build_proxy:
     runs-on: ${{ matrix.platform == 'linux/arm64' && 'ubuntu-latest' || 'ubuntu-latest' }}
     strategy:
       matrix:
