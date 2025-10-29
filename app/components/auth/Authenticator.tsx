@@ -1,9 +1,23 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setAuthState } from '@/features/auth/authStore'
-import { createUser, verifyUser, authenticateUser } from '@/request/api'
-import { logger } from '@/utils/tslog'
+import {
+  verifyUser,
+  authenticateUser,
+  fetchResendVerificationCode,
+  fetchUpdateUserConfig,
+  fetchResendConfirmationCode,
+} from '@/request/api'
+// replaced logger with console to avoid dependency issues
 import { usePromptingSettings } from '@/hooks/usePromptingSettings'
+import { getBrowserTimeZone } from '@/utils/timeZone'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import EmailCodeModal from './EmailCodeModal'
+import {
+  useSuccessNotification,
+  useErrorNotification,
+} from '@/hooks/useGlobalNotification'
 /**
  * Props interface for the Authenticator component.
  */
@@ -14,12 +28,16 @@ interface AuthenticatorProps {
   onAuthSuccess: () => void
 }
 
-/**
- * Authenticator Component
- *
- * A React component that provides user authentication functionality with email and password input fields.
- * Handles login verification, form submission, and authentication state management.
- */
+/*
+  Authenticator Component
+
+  A React component that provides user authentication with email and password input, including
+  registration, verification code flow, and login.
+
+  @param onAuthSuccess () => void - Callback invoked on successful authentication.
+
+  @returns JSX.Element The authenticator UI.
+*/
 export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -29,104 +47,177 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
   const { loadUserCharacters } = usePromptingSettings()
-  /**
-   * Verifies user login credentials and handles authentication.
-   *
-   * @param email The user's email address for authentication.
-   * @param password The user's password for authentication.
-   * @returns Promise<boolean> Returns true if login is successful, false otherwise.
-   */
+  const [activeTab, setActiveTab] = useState<'login' | 'register'>('login')
+  const [needCode, setNeedCode] = useState(false)
+  const { showSuccessNotification } = useSuccessNotification()
+  const { showErrorNotification } = useErrorNotification()
+  const [codeErrorMessage, setCodeErrorMessage] = useState('')
+  /*
+    Verify user credentials and handle registration or login.
+
+    @param email string - The user's email address.
+    @param password string - The user's password.
+
+    @returns Promise<void> Resolves when the flow completes.
+  */
   const loginVerify = async (email: string, password: string) => {
     setIsLoading(true)
     setShowError(false)
     const AUTH_STORAGE_KEY = 'dlp3d_auth_state'
-
-    try {
-      const response = await authenticateUser({ username: email, password })
-      if (response.user_id) {
-        dispatch(
-          setAuthState({
-            isLogin: true,
-            userInfo: {
-              username: email,
-              email: email,
-              id: response.user_id,
-            },
-          }),
-        )
-        localStorage.setItem(
-          AUTH_STORAGE_KEY,
-          JSON.stringify({
-            isLogin: true,
-            userInfo: {
-              username: email,
-              email: email,
-              id: response.user_id,
-            },
-          }),
-        )
-
-        await loadUserCharacters()
-        onAuthSuccess()
-      }
-    } catch (error) {
-      logger.error(error)
+    if (activeTab === 'register') {
       try {
         const response = await verifyUser({ username: email, password })
-        if (response.user_id) {
-          const login = await authenticateUser({ username: email, password })
-          if (login.user_id) {
-            dispatch(
-              setAuthState({
-                isLogin: true,
-                userInfo: {
-                  username: email,
-                  email: email,
-                  id: response.user_id,
-                },
-              }),
+        setIsLoading(false)
+        if (response.auth_code === 200) {
+          setNeedCode(response.confirmation_required)
+          if (!response.confirmation_required) {
+            showSuccessNotification('Registration Successful!')
+            setActiveTab('login')
+          } else {
+            showSuccessNotification(
+              'We have sent a verification code to your email. Please enter the code to verify.',
             )
-            localStorage.setItem(
-              AUTH_STORAGE_KEY,
-              JSON.stringify({
-                isLogin: true,
-                userInfo: {
-                  username: email,
-                  email: email,
-                  id: response.user_id,
-                },
-              }),
-            )
-            await createUser(response.user_id)
-            await loadUserCharacters()
-            onAuthSuccess()
           }
+        } else {
+          showErrorNotification(response.auth_msg)
         }
       } catch (error) {
-        logger.error(error)
+        setIsLoading(false)
+        const errorMessage = (error as unknown as Error).message
+        showErrorNotification(errorMessage)
       }
+    } else {
+      try {
+        const response = await authenticateUser({ username: email, password })
+        if (response.auth_code === 200) {
+          dispatch(
+            setAuthState({
+              isLogin: true,
+              userInfo: {
+                username: email,
+                email: email,
+                id: response.user_id,
+              },
+            }),
+          )
+          localStorage.setItem(
+            AUTH_STORAGE_KEY,
+            JSON.stringify({
+              isLogin: true,
+              userInfo: {
+                username: email,
+                email: email,
+                id: response.user_id,
+              },
+            }),
+          )
+
+          await loadUserCharacters()
+          await fetchUpdateUserConfig({
+            user_id: response.user_id,
+            timezone: getBrowserTimeZone(),
+          })
+          onAuthSuccess()
+        } else {
+          showErrorNotification(response.auth_msg)
+        }
+      } finally {
+        setIsLoading(false)
+      }
+    }
+  }
+
+  /*
+    Handle form submission for user authentication.
+
+    @param e React.FormEvent - The form submit event.
+
+    @returns Promise<void> Resolves after submit handling is complete.
+  */
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setShowError(false)
+    if (email && password) {
+      // email and password verify
+      // password 8-16 characters, at least one uppercase letter, one lowercase letter, one number, one special character
+      if (!email.includes('@') || !email.includes('.')) {
+        setErrorMessage('Please enter a valid email address.')
+        setShowError(true)
+        return
+      }
+
+      await loginVerify(email, password)
+    } else {
+      setErrorMessage(
+        'Please check your email and password to confirm they are entered correctly.',
+      )
+      setShowError(true)
+    }
+  }
+
+  /*
+    Switch between login and register tabs.
+
+    @param event React.SyntheticEvent - The tab change event.
+    @param value 'login' | 'register' - The target tab value.
+
+    @returns void
+  */
+  const handleTabChange = (
+    event: React.SyntheticEvent,
+    value: 'login' | 'register',
+  ) => {
+    setActiveTab(value)
+  }
+  /*
+    Submit the verification code in register flow.
+
+    @param inputCode string - The 6-digit verification code.
+
+    @returns Promise<void> Resolves when the action completes.
+  */
+  const handleCodeSubmit = async (inputCode: string) => {
+    setCodeErrorMessage('')
+    setIsLoading(true)
+    try {
+      if (!inputCode.trim()) {
+        setCodeErrorMessage('Please enter the verification code.')
+        return
+      }
+      // After user confirms email, try authenticating
+      const response = await fetchResendVerificationCode(email, inputCode)
+      if (response.auth_code === 200) {
+        showSuccessNotification('Verification code sent successfully.')
+        setActiveTab('login')
+        setNeedCode(false)
+      } else {
+        showErrorNotification(response.auth_msg)
+        if (response.auth_msg.includes('please request a code again')) {
+          const res = await fetchResendConfirmationCode(email)
+          if (res.auth_code === 200) {
+            showSuccessNotification('Verification code resent successfully.')
+          } else {
+            showErrorNotification(res.auth_msg)
+          }
+        }
+      }
+      // await loginVerify(email, password)
+    } catch (error) {
+      console.error(error)
+      setCodeErrorMessage(
+        'Invalid or expired verification code, please try again later.',
+      )
     } finally {
       setIsLoading(false)
     }
   }
 
-  /**
-   * Handles form submission for user authentication.
-   *
-   * @param e The form event object.
-   * @returns Promise<void>
-   */
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (email && password) {
-      await loginVerify(email, password)
-    } else {
-      setErrorMessage('Invalid email or password')
-      setShowError(true)
+  const buttonText = (() => {
+    if (activeTab === 'login') {
+      return isLoading ? 'Signing in...' : 'Sign in'
     }
-  }
-
+    return isLoading ? 'Registering...' : 'Register'
+  })()
   return (
     <div
       style={{
@@ -140,6 +231,44 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
         fontFamily: 'Arial, sans-serif',
       }}
     >
+      <Tabs
+        value={activeTab}
+        onChange={handleTabChange}
+        variant="scrollable"
+        scrollButtons="auto"
+        allowScrollButtonsMobile
+        sx={{
+          backgroundColor: 'transparent',
+          borderRadius: '8px',
+          width: '100%',
+          marginBottom: '10px',
+          '& .MuiTab-root': {
+            color: 'rgba(255, 255, 255, 0.5)', // unselected state
+            minWidth: 'auto',
+            padding: '6px 16px',
+            fontSize: '14px',
+            width: '50%',
+          },
+          '& .Mui-selected': {
+            color: '#fff !important', // selected state
+          },
+          '& .MuiTabs-indicator': {
+            backgroundColor: '#fff', // underline color
+          },
+          '& .MuiTab-root.Mui-disabled': {
+            color: 'rgba(255, 255, 255, 0.1)', // unselected state
+          },
+          '& .MuiTabs-scrollButtons': {
+            color: '#fff',
+            '&.Mui-disabled': {
+              opacity: 0.3,
+            },
+          },
+        }}
+      >
+        <Tab label={<span>Login</span>} key="login" value="login" />
+        <Tab label={<span>Register</span>} key="register" value="register" />
+      </Tabs>
       <div style={{ width: '100%' }}>
         {showError && (
           <div
@@ -175,12 +304,11 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
             textAlign: 'left',
           }}
         >
-          Username
+          Email
         </label>
-
         {/* Email Input */}
         <input
-          type="text"
+          type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
           placeholder="Enter your email"
@@ -204,7 +332,6 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
             e.target.style.borderColor = '#4A4A6A'
           }}
         />
-
         {/* Password Label */}
         <label
           style={{
@@ -218,7 +345,6 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
         >
           Password
         </label>
-
         {/* Password Input Container */}
         <div
           style={{
@@ -297,6 +423,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
             </svg>
           </button>
         </div>
+        {/** code */}
 
         {/* Sign In Button */}
         <button
@@ -326,9 +453,17 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
             }
           }}
         >
-          {isLoading ? 'Signing in...' : 'Sign in'}
+          {buttonText}
         </button>
       </form>
+      <EmailCodeModal
+        isOpen={needCode}
+        email={email}
+        onClose={() => setNeedCode(false)}
+        onSubmit={handleCodeSubmit}
+        isSubmitting={isLoading}
+        errorMessage={codeErrorMessage}
+      />
     </div>
   )
 }

@@ -26,25 +26,38 @@ const baseOptions = {
   },
   hooks: {
     afterResponse: [
+      /*
+        Normalize responses and errors for all requests.
+
+        @param request KyRequest - The original request.
+        @param options NormalizedOptions - The normalized request options.
+        @param response Response - The fetch response to process.
+
+        @returns Promise<Response> A sanitized Response object with JSON body or an empty JSON.
+
+        @throws {Error} When the response is not ok; error message is extracted from the body if available.
+      */
       async (request: KyRequest, options: NormalizedOptions, response: Response) => {
         if (!response.ok) {
-          // 安全地解析错误响应
+          // Safely parse error response
+          let message: string
           try {
             const result = await response.json()
-            throw new Error(result.message || `HTTP ${response.status}`)
+            message =
+              result.detail?.error || result.message || `HTTP ${response.status}`
           } catch {
-            // 如果 JSON 解析失败，使用状态文本
-            throw new Error(response.statusText || `HTTP ${response.status}`)
+            message = response.statusText || `HTTP ${response.status}`
           }
+          throw new Error(message)
         }
 
-        // 安全地解析成功响应
+        // Safely parse successful response
         try {
           const text = await response.text()
           const result = text.trim() ? JSON.parse(text) : null
           return new Response(result ? JSON.stringify(result) : JSON.stringify(null))
         } catch {
-          // 如果解析失败，返回空响应
+          // If parsing fails, return an empty JSON response
           return new Response(JSON.stringify(null))
         }
       },

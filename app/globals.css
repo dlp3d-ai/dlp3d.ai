@@ -51,14 +51,13 @@
 
 /* Sign Out 按钮红色高亮，悬停时更亮 */
 .user-menu-action {
-  color: #ff6b6b !important;
+  /* color: #ff6b6b !important; */
   border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
   cursor: pointer !important;
   transition: background 0.2s, color 0.2s;
 }
-.user-menu-action:hover {
-  background: rgba(255, 255, 255, 0.04) !important;
-  color: #fff !important;
+.user-menu-action-error {
+  color: #ff6b6b !important;
 }
 
 /* Error Toast 样式 */

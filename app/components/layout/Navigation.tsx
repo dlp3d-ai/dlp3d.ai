@@ -17,7 +17,20 @@ import {
   setAuthState,
   getDefaultAuthState,
 } from '@/features/auth/authStore'
+import UpdatePassword from '../auth/UpdatePassword'
+import DeleteUser from '../auth/DeleteUser'
+import { fetchUpdatePassword, fetchDeleteUser } from '@/request/api'
+import {
+  useSuccessNotification,
+  useErrorNotification,
+} from '@/hooks/useGlobalNotification'
+import './Navigation.scss'
 
+/*
+  Top navigation component for the application.
+
+  @returns JSX.Element The navigation bar UI.
+*/
 export default function Navigation() {
   const dispatch = useDispatch()
   const [showAuthModal, setShowAuthModal] = useState(false)
@@ -28,6 +41,10 @@ export default function Navigation() {
   const userMenuRef = useRef<HTMLDivElement>(null)
   const { isMobile } = useDevice()
   const isChatStarting = useSelector(getIsChatStarting)
+  const [showDeleteAccountDialog, setShowDeleteAccountDialog] = useState(false)
+  const [showChangePasswordDialog, setShowChangePasswordDialog] = useState(false)
+  const { showSuccessNotification } = useSuccessNotification()
+  const { showErrorNotification } = useErrorNotification()
   // Close user menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -45,6 +62,11 @@ export default function Navigation() {
     }
   }, [showUserMenu])
 
+  /*
+    Handle clicks on the account button to toggle the user menu or open auth modal.
+
+    @returns void
+  */
   const handleAccountClick = () => {
     if (isAuthenticated) {
       setShowUserMenu(!showUserMenu)
@@ -53,6 +75,11 @@ export default function Navigation() {
     }
   }
 
+  /*
+    Clear auth state and sign out the current user.
+
+    @returns Promise<void> Resolves when sign-out completes.
+  */
   const handleSignOut = async () => {
     try {
       clearAuthStateFromStorage()
@@ -65,12 +92,88 @@ export default function Navigation() {
     }
   }
 
+  /*
+    Close auth modal and reload the page after successful authentication.
+
+    @returns void
+  */
   const handleAuthSuccess = () => {
     setShowAuthModal(false)
     // Force page reload to update auth state
     window.location.reload()
   }
 
+  /*
+    Open the delete account confirmation dialog.
+
+    @returns void
+  */
+  const handleDeleteAccount = () => {
+    setShowDeleteAccountDialog(true)
+  }
+  /*
+    Open the change password dialog.
+
+    @returns void
+  */
+  const handleChangePassword = () => {
+    setShowChangePasswordDialog(true)
+  }
+  /*
+    Submit handler for changing password from the user menu.
+
+    @param param { email: string; oldPassword: string; newPassword: string } - The password change payload.
+
+    @returns Promise<void> Resolves when the flow completes.
+  */
+  const handleChangePasswordSubmit = async (param: {
+    email: string
+    oldPassword: string
+    newPassword: string
+  }) => {
+    setShowChangePasswordDialog(false)
+    try {
+      await fetchUpdatePassword(param.email, param.oldPassword, param.newPassword)
+      setShowChangePasswordDialog(false)
+      showSuccessNotification('Password updated successfully')
+      handleSignOut()
+    } catch (error) {
+      console.error('Error changing password:', error)
+    }
+  }
+  /*
+    Confirm and process account deletion.
+
+    @param param { email: string; password: string } - The deletion payload.
+
+    @returns Promise<void> Resolves when deletion completes.
+  */
+  const handleConfirmDeleteAccount = async (param: {
+    email: string
+    password: string
+  }) => {
+    try {
+      const response = await fetchDeleteUser(
+        userInfo.id,
+        param.password,
+        param.email,
+      )
+      if (response.auth_code === 200) {
+        setShowDeleteAccountDialog(false)
+        showSuccessNotification('Account deleted successfully')
+        handleSignOut()
+      } else {
+        showErrorNotification(response.auth_msg)
+      }
+    } catch (error) {
+      console.error('Error deleting account:', error)
+    }
+  }
+  /*
+    Navigate to the home page when the logo is clicked.
+
+    @returns void
+  */
   const handleLogoClick = () => {
     window.location.href = '/'
   }
@@ -131,9 +234,22 @@ export default function Navigation() {
                   </div>
                   <button
                     className="user-menu-item user-menu-action"
+                    onClick={handleChangePassword}
+                  >
+                    Change Password
+                  </button>
+
+                  <button
+                    className="user-menu-item user-menu-action"
                     onClick={handleSignOut}
                   >
                     Sign Out
+                  </button>
+                  <button
+                    className="user-menu-item user-menu-action user-menu-action-error"
+                    onClick={handleDeleteAccount}
+                  >
+                    Delete Account
                   </button>
                 </div>
               )}
@@ -148,53 +264,17 @@ export default function Navigation() {
         onAuthSuccess={handleAuthSuccess}
       />
 
-      {/* eslint-disable-next-line react/no-unknown-property */}
-      <style jsx>{`
-        .account-container {
-          position: relative;
-        }
+      <DeleteUser
+        isOpen={showDeleteAccountDialog}
+        onClose={() => setShowDeleteAccountDialog(false)}
+        onSubmit={handleConfirmDeleteAccount}
+      />
 
-        .user-menu {
-          position: absolute;
-          top: 100%;
-          right: 0;
-          background: white;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-          padding: 0.5rem 0;
-          min-width: 200px;
-          z-index: 100;
-          margin-top: 0.5rem;
-        }
-
-        .user-menu-item {
-          display: block;
-          width: 100%;
-          padding: 0.75rem 1rem;
-          text-align: left;
-          border: none;
-          background: none;
-          cursor: default;
-          font-size: 0.875rem;
-        }
-
-        .user-menu-item strong {
-          display: block;
-          color: #333;
-          margin-top: 0.25rem;
-        }
-
-        .user-menu-action {
-          cursor: pointer;
-          border-top: 1px solid #eee;
-          color: #dc3545;
-          transition: background-color 0.2s;
-        }
-
-        .user-menu-action:hover {
-          background-color: #f8f9fa;
-        }
-      `}</style>
+      <UpdatePassword
+        isOpen={showChangePasswordDialog}
+        onClose={() => setShowChangePasswordDialog(false)}
+        onSubmit={handleChangePasswordSubmit}
+      />
     </>
   )
 }
