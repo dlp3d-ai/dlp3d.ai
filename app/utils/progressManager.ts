@@ -115,5 +115,3 @@ export class LoadingProgressManager {
     return false
   }
 }
-
-
