@@ -14,6 +14,12 @@ export const SOCIAL_LINKS = [
     title: '小红书',
     label: '小红书',
   },
+  {
+    href: 'https://discord.gg/XB7jsKZQ',
+    className: 'discord',
+    title: 'Discord',
+    label: 'Discord',
+  },
   // { href: 'https://github.com/caizhongang/digital_life_project', className: 'peper', title: 'GitHub', label: 'GitHub' },
 ] as const
 
