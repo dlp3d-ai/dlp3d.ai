@@ -1,6 +1,3 @@
-
-<br/>
-
 <div align="center">
     <img src="docs/_static/banner.png"/>
 </div>
@@ -17,18 +14,17 @@ SIGGRAPH Asia 2025 (Real-Time Live!), Hong Kong
 ## Overview
 Digital Life Project 2 (DLP2) is an open-source real-time framework that brings Large Language Models (LLMs) to life through expressive 3D avatars. Users converse naturally by voice, while characters respond on demand with unified audio, whole-body animation, and physics simulation directly in the browser. Characters are fully customizable in both appearance (3D models) and personality (character prompts) and readily adaptable to any LLM or text-to-speech (TTS) service. 
 <div align="center">
-    <img src="docs/_static/poster.jpg"/>
+    <img src="docs/_static/poster_small.jpg"/>
 </div>
-
 
 
 ## Get Started
 
-Check out [Quick Start](docs/en/getting_started/quick_start.md) to deploy your own DLP2 locally!
+Check out [Quick Start](https://dlp3d.readthedocs.io/en/latest/getting_started/quick_start.html) to deploy your own DLP2 locally!
 
 ## License and Copyrights
 
-While DLP2 itself is distributed under the [MIT License](LICENSE.md), we remind users to comply with the licenses and terms of any third-party or community assets (e.g., 3D models) included or referenced in the project. Certain materials may feature characters from Genshin Impact by HoYoverse (MiHoYo). The 3D models used are from HoYoverse’s official release and are utilized in accordance with their fan content policy, which permits non-commercial, personal, and educational use. These materials are presented solely for illustrative and academic purposes and do not imply any official affiliation or endorsement by HoYoverse.
+While DLP2 itself is distributed under the [MIT License](LICENSE), we remind users to comply with the licenses and terms of any third-party or community assets (e.g., 3D models) included or referenced in the project. Certain materials may feature characters from Genshin Impact by HoYoverse (MiHoYo). The 3D models used are from HoYoverse’s official release and are utilized in accordance with their fan content policy, which permits non-commercial, personal, and educational use. These materials are presented solely for illustrative and academic purposes and do not imply any official affiliation or endorsement by HoYoverse.
 
 
 ## Citations
