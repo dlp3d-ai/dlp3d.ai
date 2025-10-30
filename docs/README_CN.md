@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="_static/banner.png"/>
+    <img src="_static/banner.jpg"/>
 </div>
 
 <br/>
@@ -43,7 +43,7 @@ DLP2 本身采用 [MIT 许可证](../LICENSE) 发布，但我们提醒用户须�
     year={2025}
 }
 ```
-数字生命计划 (CVPR 2024) [主页](digital-life-project.com)
+数字生命计划 (CVPR 2024) [主页](https://digital-life-project.com/)
 ```
 @InProceedings{digital_life_project,
     author    = {Cai, Zhongang and Jiang, Jianping and Qing, Zhongfei and Guo, Xinying and Zhang, Mingyuan and Lin, Zhengyu and Mei, Haiyi and Wei, Chen and Wang, Ruisi and Yin, Wanqi and Pan, Liang and Fan, Xiangyu and Du, Han and Gao, Peng and Yang, Zhitao and Gao, Yang and Li, Jiaqi and Ren, Tianxiang and Wei, Yukun and Wang, Xiaogang and Loy, Chen Change and Yang, Lei and Liu, Ziwei},

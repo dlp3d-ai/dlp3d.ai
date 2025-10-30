@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="docs/_static/banner.png"/>
+    <img src="docs/_static/banner.jpg"/>
 </div>
 
 <br/>
@@ -8,7 +8,7 @@
 
 **SIGGRAPH Asia 2025 (Real-Time Live!), Hong Kong**
 
-> **English** | [中文](README_CN.md)
+> **English** | [中文](docs/README_CN.md)
 
 </div>
 
@@ -41,7 +41,7 @@ Digital Life Project 2 (SIGGRAPH Asia 2025)
     year={2025}
 }
 ```
-Digital Life Project (CVPR 2024) [[Homepage]](digital-life-project.com)
+Digital Life Project (CVPR 2024) [[Homepage]](https://digital-life-project.com/)
 ```
 @InProceedings{digital_life_project,
     author    = {Cai, Zhongang and Jiang, Jianping and Qing, Zhongfei and Guo, Xinying and Zhang, Mingyuan and Lin, Zhengyu and Mei, Haiyi and Wei, Chen and Wang, Ruisi and Yin, Wanqi and Pan, Liang and Fan, Xiangyu and Du, Han and Gao, Peng and Yang, Zhitao and Gao, Yang and Li, Jiaqi and Ren, Tianxiang and Wei, Yukun and Wang, Xiaogang and Loy, Chen Change and Yang, Lei and Liu, Ziwei},
