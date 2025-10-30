@@ -51,11 +51,9 @@ For better gaming experience, we recommend using screen resolution >= 1920x1080.
 
 **Mobile Devices**:
 
- - Android:
-
  - iOS: [iPhone 12 Pro Max](https://support.apple.com/en-us/111874) or later
 
- - iPadOS: 
+ - iPadOS: [iPad Pro 11-inch (2nd generation)](https://support.apple.com/en-us/118452) or later
 
 (md-data-preparation)=
 

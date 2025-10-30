@@ -51,11 +51,9 @@ DLP3d系统由3个核心组件组成，即***Web应用***、***Orchestrator***�
 
 **移动设备**：
 
- - Android：
-
  - iOS：[iPhone 12 Pro Max](https://support.apple.com/en-us/111874) 或更新版本
 
- - iPadOS：
+ - iPadOS：[iPad Pro 11寸（第2代）](https://support.apple.com/en-us/118452) 或更新版本
 
 (md-data-preparation)=
 
