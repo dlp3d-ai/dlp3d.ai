@@ -25,7 +25,7 @@ export default function ScenePanel({ onSceneChange }: ScenePanelProps) {
       scene_name: name,
     })
     if (!res) return
-    onSceneChange(HDRI_SCENES[index].hdri) // 调用父组件的回调函数
+    onSceneChange(HDRI_SCENES[index].name) // 调用父组件的回调函数
   }
 
   return (
