@@ -8,7 +8,7 @@
 
 **亚洲计算机图形与交互技术大会 (SIGGRAPH Asia) 2025 实时技术现场秀 (Real-Time Live!), 香港**
 
-> [English](README.md) | **中文**
+> [English](../README.md) | **中文**
 
 </div>
 
