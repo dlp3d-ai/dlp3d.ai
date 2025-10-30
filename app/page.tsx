@@ -52,7 +52,7 @@ export default function Home() {
   const isSceneLoading = useSelector(getIsSceneLoading)
   const loadingProgress = useSelector(getLoadingProgress)
 
-  const [hdri, setHdri] = useState(HDRI_SCENES[3].hdri)
+  const [sceneName, setSceneName] = useState(HDRI_SCENES[3].name)
 
   const [chatAvailable, setChatAvailable] = useState(false) // Whether Chat should be enabled for current character
   const [characterChangeKey, setCharacterChangeKey] = useState(0) // Track character selection changes
@@ -104,15 +104,15 @@ export default function Home() {
     if (selectedChat) {
       const name = HDRI_SCENES.find(
         (scene: any) => scene.name === selectedChat.scene_name,
-      )?.hdri
+      )?.name
 
-      if (selectedChat.scene_name && name !== hdri) {
+      if (selectedChat.scene_name && name !== sceneName) {
         const index = HDRI_SCENES.findIndex(
           (scene: any) => scene.name === selectedChat.scene_name,
         )
         if (index !== -1) {
           dispatch(setIsSceneLoading(true))
-          setHdri(HDRI_SCENES[index].hdri)
+          setSceneName(HDRI_SCENES[index].name)
           setSelectedScene(index)
         }
       }
@@ -134,8 +134,8 @@ export default function Home() {
     dispatch(setIsSceneLoading(true))
     dispatch(setLoadingText('Loading Scene...'))
 
-    setHdri(scene)
-    const index = HDRI_SCENES.findIndex((scene: any) => scene.hdri === scene)
+    setSceneName(scene)
+    const index = HDRI_SCENES.findIndex((scene: any) => scene.name === scene)
     setSelectedScene(index)
   }
 
@@ -267,7 +267,7 @@ export default function Home() {
         width="100vw"
         height="100vh"
         className="fullscreen-babylon-viewer"
-        hdriTexture={hdri}
+        sceneName={sceneName}
         selectedCharacter={selectedModelIndex}
         characterChangeKey={characterChangeKey}
         onCharacterLoaded={handleCharacterLoaded}
