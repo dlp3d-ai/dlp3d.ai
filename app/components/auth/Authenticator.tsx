@@ -34,7 +34,7 @@ interface AuthenticatorProps {
   A React component that provides user authentication with email and password input, including
   registration, verification code flow, and login.
 
-  @param onAuthSuccess () => void - Callback invoked on successful authentication.
+  @param onAuthSuccess Type: () => void. Callback invoked on successful authentication.
 
   @returns JSX.Element The authenticator UI.
 */
@@ -55,8 +55,8 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   /*
     Verify user credentials and handle registration or login.
 
-    @param email string - The user's email address.
-    @param password string - The user's password.
+    @param email Type: string. The user's email address.
+    @param password Type: string. The user's password.
 
     @returns Promise<void> Resolves when the flow completes.
   */
@@ -100,6 +100,28 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
               },
             }),
           )
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              position => {
+                const location = {
+                  latitude: position.coords.latitude,
+                  longitude: position.coords.longitude,
+                }
+                localStorage.setItem('dlp_user_location', JSON.stringify(location))
+              },
+              error => {
+                console.error('Failed to get location:', error)
+                localStorage.setItem('dlp_user_location', JSON.stringify({}))
+              },
+              {
+                enableHighAccuracy: true, // high-accuracy mode
+                timeout: 5000, // timeout in milliseconds
+                maximumAge: 0, // do not use cached position
+              },
+            )
+          } else {
+            localStorage.setItem('dlp_user_location', JSON.stringify({}))
+          }
           localStorage.setItem(
             AUTH_STORAGE_KEY,
             JSON.stringify({
@@ -130,7 +152,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   /*
     Handle form submission for user authentication.
 
-    @param e React.FormEvent - The form submit event.
+    @param e Type: React.FormEvent. The form submit event.
 
     @returns Promise<void> Resolves after submit handling is complete.
   */
@@ -158,8 +180,8 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   /*
     Switch between login and register tabs.
 
-    @param event React.SyntheticEvent - The tab change event.
-    @param value 'login' | 'register' - The target tab value.
+    @param event Type: React.SyntheticEvent. The tab change event.
+    @param value Type: 'login' | 'register'. The target tab value.
 
     @returns void
   */
@@ -172,7 +194,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   /*
     Submit the verification code in register flow.
 
-    @param inputCode string - The 6-digit verification code.
+    @param inputCode Type: string. The 6-digit verification code.
 
     @returns Promise<void> Resolves when the action completes.
   */
