@@ -22,7 +22,7 @@ DLP3d系统由3个核心组件组成，即***Web应用***、***Orchestrator***�
 - 后端与云服务：包括AI服务和Web后端。用户可以为LLM、TTS和ASR服务选择首选提供商。后端负责运行时的资产和数据库管理，为DLP3d生态系统中的用户认证、虚拟角色资源访问提供统一的API。
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/architecture.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/architecture.jpg" style="width: 100%; max-width: 100%;">
   <p><em>技术架构</em></p>
 </div>
 
@@ -51,11 +51,9 @@ DLP3d系统由3个核心组件组成，即***Web应用***、***Orchestrator***�
 
 **移动设备**：
 
- - Android：
-
  - iOS：[iPhone 12 Pro Max](https://support.apple.com/en-us/111874) 或更新版本
 
- - iPadOS：
+ - iPadOS：[iPad Pro 11寸（第2代）](https://support.apple.com/en-us/118452) 或更新版本
 
 (md-data-preparation)=
 
@@ -151,7 +149,7 @@ docker compose -f docker-compose-zh.yml up
 打开浏览器并访问`https://127.0.0.1:18000`。由于我们使用自签名证书，浏览器将显示安全警告。点击`高级`按钮，然后点击`继续访问127.0.0.1（不安全）`：
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/insecure_connection.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/insecure_connection.jpg" style="width: 100%; max-width: 100%;">
   <p><em>SSL证书警告</em></p>
 </div>
 
@@ -165,7 +163,7 @@ docker compose -f docker-compose-zh.yml up
 一旦所有三个证书都被信任，您可以返回到`https://127.0.0.1:18000`开始使用应用程序。您应该看到Web界面：
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/fronted_window_example.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/fronted_window_example.jpg" style="width: 100%; max-width: 100%;">
   <p><em>前端窗口示例</em></p>
 </div>
 
@@ -181,7 +179,7 @@ docker compose -f docker-compose-zh.yml up
 在认证窗口中选择`REGISTER`选项卡。输入您的电子邮件地址和密码，然后点击注册按钮创建新账户：
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/registration.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/registration.jpg" style="width: 100%; max-width: 100%;">
   <p><em>用户注册</em></p>
 </div>
 
@@ -191,7 +189,7 @@ docker compose -f docker-compose-zh.yml up
 注册成功后，切换到`LOGIN`选项卡。输入您在注册时使用的电子邮件地址和密码，然后点击`Sign In`：
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/authentication.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/authentication.jpg" style="width: 100%; max-width: 100%;">
   <p><em>用户认证</em></p>
 </div>
 
@@ -206,7 +204,7 @@ docker compose -f docker-compose-zh.yml up
 - 底部：开始聊天的入口点。
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/homepage.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/homepage.jpg" style="width: 100%; max-width: 100%;">
   <p><em>主页</em></p>
 </div>
 
@@ -216,14 +214,14 @@ docker compose -f docker-compose-zh.yml up
 通过点击展开`聊天列表`面板。然后，所有可用的虚拟角色将列在下方：
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/chat_list.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/chat_list.jpg" style="width: 100%; max-width: 100%;">
   <p><em>聊天列表</em></p>
 </div>
 
 我们默认提供4个虚拟角色，即`刻晴-系统默认`、`芙宁娜-系统默认`、`胡桃-系统默认`和`Ani-系统默认`。请注意，默认角色不能直接编辑。您可以通过复制现有的默认虚拟角色来创建新的虚拟角色，并编辑通过复制产生的角色，每个虚拟角色卡片的右上角提供了复制按钮。虚拟角色卡片底部的名称将在聊天期间使用，这里我们将其重命名为`Keqing-test`作为示例：
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/duplicate_character.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/duplicate_character.jpg" style="width: 100%; max-width: 100%;">
   <p><em>复制角色</em></p>
 </div>
 
@@ -232,7 +230,7 @@ docker compose -f docker-compose-zh.yml up
 要自定义虚拟角色的内在行为——如个性、能力和偏好——打开窗口右侧的`提示词`面板。每个虚拟角色都带有一个默认的角色提示词，您可以自由编辑以创建自己独特的个性。
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/character_prompt.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/character_prompt.jpg" style="width: 100%; max-width: 100%;">
   <p><em>提示词设置</em></p>
 </div>
 
@@ -249,14 +247,14 @@ docker compose -f docker-compose-zh.yml up
 要启用这些功能，您需要为LLM配置API密钥。打开窗口右侧的`LLM`面板，然后点击LLM卡片左下角的`key`图标，在弹出窗口中保存您的API密钥：
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/api_key_unsaved.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/api_key_unsaved.jpg" style="width: 100%; max-width: 100%;">
   <p><em>API密钥</em></p>
 </div>
 
 API密钥成功保存后，LLM徽标将高亮显示。请注意，后端服务不会验证用户上传的密钥。错误的API密钥将导致聊天无法推进。
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/api_key_saved.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/api_key_saved.jpg" style="width: 100%; max-width: 100%;">
   <p><em>LLM设置</em></p>
 </div>
 
@@ -275,7 +273,7 @@ API密钥安全地存储在您的本地MongoDB数据库中。DLP3D.AI不会收�
 :::
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/asr_tts_selection.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/asr_tts_selection.jpg" style="width: 100%; max-width: 100%;">
   <p><em>ASR/TTS设置</em></p>
 </div>
 
@@ -284,7 +282,7 @@ API密钥安全地存储在您的本地MongoDB数据库中。DLP3D.AI不会收�
 在`场景`面板上，您可以设置聊天期间的背景场景。完成聊天设置后，点击`聊天`按钮与虚拟角色聊天：
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/start_chat.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/start_chat.jpg" style="width: 100%; max-width: 100%;">
   <p><em>开始聊天</em></p>
 </div>
 
@@ -297,7 +295,7 @@ API密钥安全地存储在您的本地MongoDB数据库中。DLP3D.AI不会收�
 加载进度完成后，点击`开始`按钮进入聊天。请注意，对于首次聊天，您的浏览器可能会请求麦克风权限。请点击`允许`按钮，以便您的语音可以正常处理。
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/loading_progress.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/loading_progress.jpg" style="width: 100%; max-width: 100%;">
   <p><em>加载进度</em></p>
 </div>
 
@@ -306,7 +304,7 @@ API密钥安全地存储在您的本地MongoDB数据库中。DLP3D.AI不会收�
 进入聊天后，虚拟角色将播放开场白，然后进入空闲状态。要与虚拟角色对话，点击并按住`麦克风`按钮，然后开始上传您的语音：
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/not_recording.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/not_recording.jpg" style="width: 100%; max-width: 100%;">
   <p><em>虚拟角色空闲状态</em></p>
 </div>
 
@@ -317,6 +315,6 @@ API密钥安全地存储在您的本地MongoDB数据库中。DLP3D.AI不会收�
 :::
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/recording.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/recording.jpg" style="width: 100%; max-width: 100%;">
   <p><em>虚拟角色聆听状态</em></p>
 </div>

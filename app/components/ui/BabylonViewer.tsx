@@ -46,7 +46,7 @@ import {
   loadGroundMeshForHDR,
 } from '../../library/babylonjs/utils/loadMesh'
 import { LoadingProgressManager } from '../../utils/progressManager'
-
+import { HDRI_SCENES } from '@/library/babylonjs/config/scene'
 /**
  * Props interface for the BabylonViewer component.
  */
@@ -57,8 +57,8 @@ interface BabylonViewerProps {
   height?: string
   /** Additional CSS class name for styling */
   className?: string
-  /** HDRI texture filename for environment lighting, defaults to 'hdr-vase.jpg' */
-  hdriTexture?: string
+  /** sceneName for scenes, defaults to 'Vast' */
+  sceneName?: string
   /** Index of the selected character model, defaults to 0 */
   selectedCharacter?: number
   /** Key to trigger character change, defaults to 0 */
@@ -101,7 +101,7 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
       width = '600px',
       height = '400px',
       className = '',
-      hdriTexture = 'hdr-vase.jpg',
+      sceneName = 'Vast',
       selectedCharacter = 0,
       characterChangeKey = 0,
       onCharacterLoaded,
@@ -830,13 +830,16 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
      */
     useEffect(() => {
       let canceled = false
-      if (sceneRef.current && hdriTexture) {
+      if (sceneRef.current && sceneName) {
         // Update HDR texture
         if (hdrTextureRef.current) {
           hdrTextureRef.current.dispose()
         }
+        const sceneConfig = HDRI_SCENES.find(scene => scene.name === sceneName)!
+        const image = `/img/hdr/${sceneConfig.hdri}`
+
         const newHdrTexture = new EquiRectangularCubeTexture(
-          `/img/hdr/${hdriTexture}`,
+          image,
           sceneRef.current,
           1024,
         )
@@ -918,12 +921,13 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
         // Load corresponding ground model and await full scene readiness before signaling loaded
         const run = async () => {
           try {
+            const sceneConfig = HDRI_SCENES.find(scene => scene.name === sceneName)!
             const meshes = await loadGroundMeshForHDR(
               sceneRef.current!,
-              hdriTexture,
-              new Vector3(0, 0, 0),
-              new Vector3(0, 0, 0),
-              new Vector3(1.5, 1.5, 1.5),
+              sceneConfig.groundModel!.filename,
+              sceneConfig.groundModel!.translation,
+              sceneConfig.groundModel!.rotation,
+              sceneConfig.groundModel!.scale,
               true,
             )
             // Only save the first Mesh type mesh
@@ -933,7 +937,7 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
             }
           } catch (error) {
             console.warn(
-              `Failed to load ground model for ${hdriTexture}, nothing will be shown:`,
+              `Failed to load ground model for ${sceneName}, nothing will be shown:`,
               error,
             )
             // No longer create fallback platform box
@@ -961,7 +965,14 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
       return () => {
         canceled = true
       }
-    }, [hdriTexture])
+    }, [
+      sceneName,
+      HDRI_SCENES,
+      loadGroundMeshForHDR,
+      currentGroundMeshRef,
+      onSceneLoaded,
+      onCharacterLoaded,
+    ])
 
     /**
      * Handle character selection changes with synchronized loading and effects.

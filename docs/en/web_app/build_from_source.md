@@ -87,7 +87,7 @@ pnpm run dev_ws
 To create a web app window, open the browser and visit `https://${YOUR_IP_ADDRESS}`. For the first time visit, the browser may raise an error indicating that the connection is not private. This is because we're using a self-signed certificate. To bypass the issue, click the `Advanced` button and click `Proceed to 127.0.0.1 (unsafe)`:
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/insecure_connection.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/insecure_connection.jpg" style="width: 100%; max-width: 100%;">
   <p><em>Insecure Connection Error</em></p>
 </div>
 

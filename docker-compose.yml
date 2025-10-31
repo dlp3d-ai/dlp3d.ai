@@ -26,8 +26,8 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:18083/health"]
       interval: 10s
       timeout: 5s
-      retries: 10
-      start_period: 20s
+      retries: 20
+      start_period: 40s
 
   mongodb:
     image: mongodb/mongodb-community-server:7.0-ubi8

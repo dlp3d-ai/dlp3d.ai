@@ -37,6 +37,8 @@ import {
   setAuthState,
 } from '@/features/auth/authStore'
 import { usePromptingSettings } from '@/hooks/usePromptingSettings'
+import { checkLocation, isSensetimeOrchestrator } from '@/utils/location'
+import { ConfirmDialog } from './components/common/Dialog'
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -52,7 +54,8 @@ export default function Home() {
   const isSceneLoading = useSelector(getIsSceneLoading)
   const loadingProgress = useSelector(getLoadingProgress)
 
-  const [hdri, setHdri] = useState(HDRI_SCENES[3].hdri)
+  const [sceneName, setSceneName] = useState(HDRI_SCENES[3].name)
+  const isSensetimeTAServer = isSensetimeOrchestrator()
 
   const [chatAvailable, setChatAvailable] = useState(false) // Whether Chat should be enabled for current character
   const [characterChangeKey, setCharacterChangeKey] = useState(0) // Track character selection changes
@@ -67,6 +70,7 @@ export default function Home() {
   const { isMobile } = useDevice()
   const { loadUserCharacters } = usePromptingSettings()
   const [selectedScene, setSelectedScene] = useState(3) // 用于跳转scene参数
+  const [locationDialogOpen, setLocationDialogOpen] = useState(false)
 
   useEffect(() => {
     setIsGlobalLoading(isLoading || isSceneLoading || isCharacterLoading)
@@ -104,15 +108,15 @@ export default function Home() {
     if (selectedChat) {
       const name = HDRI_SCENES.find(
         (scene: any) => scene.name === selectedChat.scene_name,
-      )?.hdri
+      )?.name
 
-      if (selectedChat.scene_name && name !== hdri) {
+      if (selectedChat.scene_name && name !== sceneName) {
         const index = HDRI_SCENES.findIndex(
           (scene: any) => scene.name === selectedChat.scene_name,
         )
         if (index !== -1) {
           dispatch(setIsSceneLoading(true))
-          setHdri(HDRI_SCENES[index].hdri)
+          setSceneName(HDRI_SCENES[index].name)
           setSelectedScene(index)
         }
       }
@@ -134,8 +138,8 @@ export default function Home() {
     dispatch(setIsSceneLoading(true))
     dispatch(setLoadingText('Loading Scene...'))
 
-    setHdri(scene)
-    const index = HDRI_SCENES.findIndex((scene: any) => scene.hdri === scene)
+    setSceneName(scene)
+    const index = HDRI_SCENES.findIndex((scene: any) => scene.name === scene)
     setSelectedScene(index)
   }
 
@@ -180,7 +184,15 @@ export default function Home() {
                 ).toString(),
           )
         }
-
+        const isInMainlandChinaOrHongKong = checkLocation()
+        const enterWrongLocation = localStorage.getItem('dlp_enter_wrong_location')
+        if (
+          !isInMainlandChinaOrHongKong &&
+          !enterWrongLocation &&
+          isSensetimeTAServer
+        ) {
+          setLocationDialogOpen(true)
+        }
         try {
           dispatch(setIsChatStarting(true))
           if (typeof window !== 'undefined') {
@@ -267,7 +279,7 @@ export default function Home() {
         width="100vw"
         height="100vh"
         className="fullscreen-babylon-viewer"
-        hdriTexture={hdri}
+        sceneName={sceneName}
         selectedCharacter={selectedModelIndex}
         characterChangeKey={characterChangeKey}
         onCharacterLoaded={handleCharacterLoaded}
@@ -322,6 +334,19 @@ export default function Home() {
           currentTtsType ?? ''
         }”) is not available on the current server. Please switch to a different TTS in Character Settings.`}
         autoDismissDuration={null}
+      />
+      {/* Location Dialog */}
+      <ConfirmDialog
+        isOpen={locationDialogOpen}
+        onClose={() => setLocationDialogOpen(false)}
+        showCancelButton={false}
+        onConfirm={() => {
+          setLocationDialogOpen(false)
+          localStorage.setItem('dlp_enter_wrong_location', 'true')
+        }}
+        title="Network Latency Warning"
+        message="We've detected that you're connecting from a location far from our servers, which may result in higher network latency and a suboptimal user experience. For the best performance and experience, we recommend accessing our open-source project and deploying it locally."
+        confirmText="Enter Wrong Location"
       />
       {/* Footer */}
       {!isChatStarting && !isLogin && (

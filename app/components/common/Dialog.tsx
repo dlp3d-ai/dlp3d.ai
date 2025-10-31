@@ -239,6 +239,7 @@ export function ConfirmDialog({
   confirmText = '确认',
   cancelText = '取消',
   type = 'default', // default, danger, warning
+  showCancelButton = true,
 }: {
   isOpen: boolean
   onClose: () => void
@@ -248,6 +249,7 @@ export function ConfirmDialog({
   confirmText?: string
   cancelText?: string
   type?: 'default' | 'danger' | 'warning'
+  showCancelButton?: boolean
 }) {
   const getButtonStyle = (isConfirm: boolean) => {
     const baseStyle = {
@@ -315,20 +317,22 @@ export function ConfirmDialog({
           gap: '12px',
         }}
       >
-        <button
-          onClick={onClose}
-          style={getButtonStyle(false)}
-          onMouseEnter={e => {
-            e.currentTarget.style.backgroundColor = '#333652'
-            e.currentTarget.style.color = '#ffffff'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.backgroundColor = 'transparent'
-            e.currentTarget.style.color = '#888'
-          }}
-        >
-          {cancelText}
-        </button>
+        {showCancelButton && (
+          <button
+            onClick={onClose}
+            style={getButtonStyle(false)}
+            onMouseEnter={e => {
+              e.currentTarget.style.backgroundColor = '#333652'
+              e.currentTarget.style.color = '#ffffff'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.backgroundColor = 'transparent'
+              e.currentTarget.style.color = '#888'
+            }}
+          >
+            {cancelText}
+          </button>
+        )}
         <button
           onClick={handleConfirm}
           style={getButtonStyle(true)}
