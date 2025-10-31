@@ -38,7 +38,7 @@ exclude_patterns = ['_subrepos_index.md']
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_book_theme'
-html_logo = "_static/logo.png"
+html_logo = "_static/logo.svg"
 html_title = "DLP3D.AI Documentation"
 html_theme_options = {
     "home_page_in_toc": True,
