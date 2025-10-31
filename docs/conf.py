@@ -51,11 +51,11 @@ html_static_path = ['_static']
 
 def index_subrepos(language: str = 'en'):
     NAME_MAPPING = {
-        'MotionDataViewer': 'Motion Data Viewer',
         'orchestrator': 'Orchestrator',
         'web_backend': 'Web Backend',
         'speech2motion': 'Speech2Motion',
         'audio2face': 'Audio2Face',
+        'MotionDataViewer': 'Motion Data Viewer',
     } 
     out_file = os.path.join(os.path.dirname(__file__), language, '_subrepos_index.md')
     os.makedirs(os.path.dirname(out_file), exist_ok=True)

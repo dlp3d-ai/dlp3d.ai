@@ -19,7 +19,7 @@ sd_hide_title: true
 :child-align: justify
 :class: sd-fs-5
 
-```{rubric} 数字生命计划
+```{rubric} 数字生命计划 2
 ```
 Embodying Large Language Models on the Web
 
@@ -36,19 +36,31 @@ Embodying Large Language Models on the Web
 :color: secondary
 :class: sd-rounded-pill
 
-在线演示
+在线体验
 ```
 ````
 
 ::::
 
 ---
-Hello DLP3d.
+数字生命计划 2（简称 DLP2）是一个开源的实时框架，使大语言模型（LLM）能够通过富有表现力的 3D 虚拟角色栩栩如生地呈现出来。用户可以通过语音与角色自然对话，而角色会即时生成语音、全身动画及物理模拟，并直接在浏览器中进行同步展示。角色的外观（3D 模型）与个性（角色提示词）均可完全自定义，且可无缝适配任意大语言模型或文本转语音（TTS）服务。
+
 
 ```{toctree}
 :hidden:
 :maxdepth: 2
 getting_started/quick_start.md
+```
+
+```{toctree}
+:hidden:
+:caption: Web App
+:maxdepth: 2
+
+web_app/overview.md
+web_app/build_from_source.md
+web_app/stream_data.md
+web_app/fsm.md
 ```
 
 ```{include} _subrepos_index.md
