@@ -88,7 +88,7 @@ pnpm run dev_ws
 要创建Web应用窗口，请打开浏览器并访问`https://${YOUR_IP_ADDRESS}`。首次访问时，浏览器可能会提示连接不安全。这是因为我们使用的是自签名证书。要绕过此问题，请点击`Advanced`按钮，然后点击`Proceed to 127.0.0.1 (unsafe)`：
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/insecure_connection.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/insecure_connection.jpg" style="width: 100%; max-width: 100%;">
   <p><em>不安全连接错误</em></p>
 </div>
 

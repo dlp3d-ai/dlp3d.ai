@@ -9,7 +9,7 @@ FSM is the brain of the 3DAC system, governing the entire chat lifecycle and ens
 The following figure illustrates the overall workflow of FSM:
 
 <div style="text-align: center;">
-  <img src="../../_static/en/web_app/fsm.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/web_app/fsm.jpg" style="width: 100%; max-width: 100%;">
   <p><em>FSM</em></p>
 </div>
 

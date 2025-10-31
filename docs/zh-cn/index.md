@@ -45,13 +45,13 @@ Embodying Large Language Models on the Web
 ---
 
 <div style="text-align: center;">
-  <img src="../_static/banner.jpg" style="width: 100%; max-width: 100%;">
+  <img src="_static/banner.jpg" style="width: 100%; max-width: 100%;">
 </div>
 
 数字生命计划 2（简称 DLP2）是一个开源的实时框架，使大语言模型（LLM）能够通过富有表现力的 3D 虚拟角色栩栩如生地呈现出来。用户可以通过语音与角色自然对话，而角色会即时生成语音、全身动画及物理模拟，并直接在浏览器中进行同步展示。角色的外观（3D 模型）与个性（角色提示词）均可完全自定义，且可无缝适配任意大语言模型或文本转语音（TTS）服务。
 
 <div style="text-align: center;">
-  <img src="../_static/poster_small.jpg" style="width: 100%; max-width: 100%;">
+  <img src="_static/poster_small.jpg" style="width: 100%; max-width: 100%;">
   <p><em>亚洲计算机图形与交互技术大会 (SIGGRAPH Asia) 2025 实时技术现场秀 (Real-Time Live!), 香港</em></p>
 </div>
 
