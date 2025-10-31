@@ -22,7 +22,7 @@ The DLP3d system consists of 3 core components, namely ***Web App***, ***Orchest
 - Backend & Cloud Services: encompasses both AI services and the web backend. Users can choose preferred providers for LLM, TTS, and ASR services. The backend is responsible for asset and database management at runtime, delivering unified APIs for user authentication, avatar resource access across the DLP3d ecosystem.
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/architecture.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/architecture.jpg" style="width: 100%; max-width: 100%;">
   <p><em>Technical Framework</em></p>
 </div>
 
@@ -149,7 +149,7 @@ Wait until all the services are started. The application uses self-signed certif
 Open your browser and visit `https://127.0.0.1:18000`. The browser will show a security warning because we're using a self-signed certificate. Click the `Advanced` button and then `Proceed to 127.0.0.1 (unsafe)`:
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/insecure_connection.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/insecure_connection.jpg" style="width: 100%; max-width: 100%;">
   <p><em>SSL Certificate Warning</em></p>
 </div>
 
@@ -163,7 +163,7 @@ Finally, visit `https://127.0.0.1:18002` and trust this certificate as well.
 Once all three certificates are trusted, you can return to `https://127.0.0.1:18000` to start using the application. You should see the web interface:
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/fronted_window_example.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/fronted_window_example.jpg" style="width: 100%; max-width: 100%;">
   <p><em>Fronted Window Example</em></p>
 </div>
 
@@ -179,7 +179,7 @@ You need to create an account and login first. Click the `Account` icon on the t
 Select the `REGISTER` tab in the authentication window. Enter your email address and password, then click the register button to create a new account:
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/registration.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/registration.jpg" style="width: 100%; max-width: 100%;">
   <p><em>User Registration</em></p>
 </div>
 
@@ -189,7 +189,7 @@ For community edition deployed on your own host, email and password are stored i
 After successful registration, switch to the `LOGIN` tab. Enter the email address and password you used during registration, then click `Sign In`:
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/authentication.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/authentication.jpg" style="width: 100%; max-width: 100%;">
   <p><em>User Authentication</em></p>
 </div>
 
@@ -204,7 +204,7 @@ Once you've successfully logged in, the UI panel will display:
 - Bottom: entrypoint for starting a chat.
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/homepage.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/homepage.jpg" style="width: 100%; max-width: 100%;">
   <p><em>Home Page</em></p>
 </div>
 
@@ -214,14 +214,14 @@ Once you've successfully logged in, the UI panel will display:
 Expand the `Chat List` panel by clicking it. Then, all available avatars will be listed below:
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/chat_list.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/chat_list.jpg" style="width: 100%; max-width: 100%;">
   <p><em>Chat List</em></p>
 </div>
 
 We provide 4 avatars by default, namely `Keqing-default`, `Furina-default`, `HuTao-default` and `Ani-default`. Notice that the default characters cannot be edited directly. Instead, you should create a new avatar by duplicating existing default avatars. You can find the duplicate button in the top-right corner of each avatar card. The newly created avatar, comparatively, can be further customized. The name at the bottom of the avatar card will be used during the chat, here we rename it as `Keqing-test` as an example:
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/duplicate_character.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/duplicate_character.jpg" style="width: 100%; max-width: 100%;">
   <p><em>Duplicate Character</em></p>
 </div>
 
@@ -230,7 +230,7 @@ We provide 4 avatars by default, namely `Keqing-default`, `Furina-default`, `HuT
 To customize an avatar’s intrinsic behaviors—such as personality, abilities, and preferences—open the `Prompt` panel on the right side of the window. Each avatar comes with a default character prompt that you can freely edit to create your own unique personality.
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/character_prompt.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/character_prompt.jpg" style="width: 100%; max-width: 100%;">
   <p><em>Prompt Settings</em></p>
 </div>
 
@@ -247,14 +247,14 @@ We employ LLMs to handle conversations, user behavior and relationship with avat
 To enable these features, you need to configure api keys for LLMs. Open the `LLM` panel on the right side of window, then, click the `key` icon on the bottom-left side of the LLM card and save your api key on the popped window: 
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/api_key_unsaved.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/api_key_unsaved.jpg" style="width: 100%; max-width: 100%;">
   <p><em>API Key</em></p>
 </div>
 
 The LLM logo will be highlighted once the api key is successfully saved. Notice that the backend service will not validate the user uploaded keys. An incorrect api key will break down the chat. 
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/api_key_saved.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/api_key_saved.jpg" style="width: 100%; max-width: 100%;">
   <p><em>LLM Settings</em></p>
 </div>
 
@@ -273,7 +273,7 @@ API keys are stored securely in your local MongoDB database. DLP3D.AI does not c
 :::
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/asr_tts_selection.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/asr_tts_selection.jpg" style="width: 100%; max-width: 100%;">
   <p><em>ASR/TTS Settings</em></p>
 </div>
 
@@ -282,7 +282,7 @@ API keys are stored securely in your local MongoDB database. DLP3D.AI does not c
 On the `Scene` panel, you can setup the background scene during the chat. Once you have completed the chat settings, click the `Chat` button to chat with the avatar:
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/start_chat.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/start_chat.jpg" style="width: 100%; max-width: 100%;">
   <p><em>Start Chat</em></p>
 </div>
 
@@ -295,7 +295,7 @@ If error occurs during the loading process, an error toast will appear on the sc
 Once the loading progress is finished, click the `Start` button to enter the chat. Notice that for the first chat, your browser may request the microphone permission. Please click the `Allow` button so that your speech can be normally processed.
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/loading_progress.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/loading_progress.jpg" style="width: 100%; max-width: 100%;">
   <p><em>Loading Progress</em></p>
 </div>
 
@@ -304,7 +304,7 @@ Once the loading progress is finished, click the `Start` button to enter the cha
 When entered the chat, the avatar will play opening remark and then enter the idle state. To talk with the avatar, click and hold the `Microphone` button, then start uploading your voice: 
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/not_recording.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/not_recording.jpg" style="width: 100%; max-width: 100%;">
   <p><em>Avatar in Idle State</em></p>
 </div>
 
@@ -315,7 +315,7 @@ If the screen is lagging during chat, please consider turning off the cloth simu
 :::
 
 <div style="text-align: center;">
-  <img src="../../_static/en/getting_started/recording.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/getting_started/recording.jpg" style="width: 100%; max-width: 100%;">
   <p><em>Avatar in Listening State</em></p>
 </div>
 

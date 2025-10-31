@@ -45,13 +45,13 @@ Live Demo
 ---
 
 <div style="text-align: center;">
-  <img src="../_static/banner.jpg" style="width: 100%; max-width: 100%;">
+  <img src="_static/banner.jpg" style="width: 100%; max-width: 100%;">
 </div>
 
 Digital Life Project 2 (DLP2) is an open-source real-time framework that brings Large Language Models (LLMs) to life through expressive 3D avatars. Users converse naturally by voice, while characters respond on demand with unified audio, whole-body animation, and physics simulation directly in the browser. Characters are fully customizable in both appearance (3D models) and personality (character prompts) and readily adaptable to any LLM or text-to-speech (TTS) service. 
 
 <div style="text-align: center;">
-  <img src="../_static/poster_small.jpg" style="width: 100%; max-width: 100%;">
+  <img src="_static/poster_small.jpg" style="width: 100%; max-width: 100%;">
   <p><em>SIGGRAPH Asia 2025 (Real-Time Live!), Hong Kong</em></p>
 </div>
 

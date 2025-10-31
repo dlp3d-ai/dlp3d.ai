@@ -9,7 +9,7 @@
 下图展示了状态机的整体工作流程：
 
 <div style="text-align: center;">
-  <img src="../../_static/en/web_app/fsm.jpg" style="width: 100%; max-width: 100%;">
+  <img src="../_static/en/web_app/fsm.jpg" style="width: 100%; max-width: 100%;">
   <p><em>状态机</em></p>
 </div>
 
