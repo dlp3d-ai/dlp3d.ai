@@ -18,6 +18,7 @@ import {
   useSuccessNotification,
   useErrorNotification,
 } from '@/hooks/useGlobalNotification'
+
 /**
  * Props interface for the Authenticator component.
  */
@@ -52,6 +53,37 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   const { showSuccessNotification } = useSuccessNotification()
   const { showErrorNotification } = useErrorNotification()
   const [codeErrorMessage, setCodeErrorMessage] = useState('')
+
+  const getCurrentPositionAsync = (options: PositionOptions) => {
+    return new Promise((resolve, reject) => {
+      let resolved = false
+
+      const timer = setTimeout(() => {
+        if (!resolved) {
+          reject(new Error('Location request timed out or no response received'))
+        }
+      }, options.timeout || 5000)
+
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          resolved = true
+          clearTimeout(timer)
+          const location = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          }
+
+          resolve(location)
+        },
+        error => {
+          resolved = true
+          clearTimeout(timer)
+          reject(error)
+        },
+        options,
+      )
+    })
+  }
   /*
     Verify user credentials and handle registration or login.
 
@@ -90,6 +122,17 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
       try {
         const response = await authenticateUser({ username: email, password })
         if (response.auth_code === 200) {
+          try {
+            const position = await getCurrentPositionAsync({
+              enableHighAccuracy: true,
+              timeout: 5000,
+              maximumAge: 0,
+            })
+            localStorage.setItem('dlp_user_location', JSON.stringify(position))
+          } catch (error) {
+            console.error('Failed to get location:', error)
+            localStorage.setItem('dlp_user_location', JSON.stringify(null))
+          }
           dispatch(
             setAuthState({
               isLogin: true,
@@ -100,28 +143,6 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
               },
             }),
           )
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              position => {
-                const location = {
-                  latitude: position.coords.latitude,
-                  longitude: position.coords.longitude,
-                }
-                localStorage.setItem('dlp_user_location', JSON.stringify(location))
-              },
-              error => {
-                console.error('Failed to get location:', error)
-                localStorage.setItem('dlp_user_location', JSON.stringify({}))
-              },
-              {
-                enableHighAccuracy: true, // high-accuracy mode
-                timeout: 5000, // timeout in milliseconds
-                maximumAge: 0, // do not use cached position
-              },
-            )
-          } else {
-            localStorage.setItem('dlp_user_location', JSON.stringify({}))
-          }
           localStorage.setItem(
             AUTH_STORAGE_KEY,
             JSON.stringify({
