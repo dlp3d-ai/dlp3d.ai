@@ -143,6 +143,28 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
               },
             }),
           )
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              position => {
+                const location = {
+                  latitude: position.coords.latitude,
+                  longitude: position.coords.longitude,
+                }
+                localStorage.setItem('dlp_user_location', JSON.stringify(location))
+              },
+              error => {
+                console.error('Failed to get location:', error)
+                localStorage.setItem('dlp_user_location', JSON.stringify({}))
+              },
+              {
+                enableHighAccuracy: true, // high-accuracy mode
+                timeout: 5000, // timeout in milliseconds
+                maximumAge: 0, // do not use cached position
+              },
+            )
+          } else {
+            localStorage.setItem('dlp_user_location', JSON.stringify({}))
+          }
           localStorage.setItem(
             AUTH_STORAGE_KEY,
             JSON.stringify({
