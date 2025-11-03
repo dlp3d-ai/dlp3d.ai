@@ -149,7 +149,7 @@ export default function Home() {
   }, [])
 
   // 修改handleStartConversation逻辑
-  const handleStartConversation = async () => {
+  const handleStartConversation = useCallback(async () => {
     if (isCharacterLoading || isSceneLoading) {
       return
     }
@@ -243,7 +243,18 @@ export default function Home() {
         window.open(fallbackUrl, '_blank', 'noopener,noreferrer')
       }
     }
-  }
+  }, [
+    isCharacterLoading,
+    isSceneLoading,
+    currentTtsType,
+    chatAvailable,
+    selectedChat,
+    isSensetimeTAServer,
+    dispatch,
+    selectedCharacterId,
+    selectedScene,
+    loadUserCharacters,
+  ])
   useEffect(() => {
     // 监听路由变化，当回到首页时重置聊天状态
     const handleRouteChange = () => {
@@ -263,6 +274,41 @@ export default function Home() {
       window.removeEventListener('popstate', handleRouteChange)
     }
   }, [dispatch])
+  const ChatButton = useCallback(() => {
+    if (isChatStarting || (isMobile && isLogin)) return null
+    return (
+      <div className="button-group-container">
+        <button
+          className="start-conversation-btn"
+          onClick={handleStartConversation}
+          disabled={
+            !chatAvailable || isCharacterLoading || isSceneLoading || !isLogin
+          }
+          style={{
+            opacity:
+              chatAvailable && !isCharacterLoading && !isSceneLoading ? 1 : 0.6,
+            cursor:
+              chatAvailable && !isCharacterLoading && !isSceneLoading
+                ? 'pointer'
+                : 'not-allowed',
+            borderRadius: '30px 0 0 30px', // Only round the left side
+          }}
+        >
+          {chatAvailable && !isCharacterLoading && !isSceneLoading && isLogin
+            ? 'Chat'
+            : 'Coming Soon'}
+        </button>
+      </div>
+    )
+  }, [
+    isChatStarting,
+    isMobile,
+    isLogin,
+    handleStartConversation,
+    chatAvailable,
+    isCharacterLoading,
+    isSceneLoading,
+  ])
 
   return (
     <>
@@ -354,30 +400,8 @@ export default function Home() {
           <Footer />
         </footer>
       )}
-      {/* Button Group Container */}
-      {!isChatStarting && !isMobile && (
-        <div className="button-group-container">
-          <button
-            className="start-conversation-btn"
-            onClick={handleStartConversation}
-            disabled={!chatAvailable || isCharacterLoading || isSceneLoading}
-            style={{
-              opacity:
-                chatAvailable && !isCharacterLoading && !isSceneLoading ? 1 : 0.6,
-              cursor:
-                chatAvailable && !isCharacterLoading && !isSceneLoading
-                  ? 'pointer'
-                  : 'not-allowed',
-              borderRadius: '30px 0 0 30px', // Only round the left side
-            }}
-          >
-            {chatAvailable && !isCharacterLoading && !isSceneLoading && isLogin
-              ? 'Chat'
-              : 'Coming Soon'}
-          </button>
-        </div>
-      )}
-      {/* Loading overlay removed in favor of full-screen LoadingScreen */}
+
+      <ChatButton />
     </>
   )
 }
