@@ -21,7 +21,7 @@ sd_hide_title: true
 
 ```{rubric} 数字生命计划 2
 ```
-Embodying Large Language Models on the Web
+基于Web的开源3D自主角色
 
 ````{div} sd-d-flex-row
 ```{button-ref} getting_started/quick_start
