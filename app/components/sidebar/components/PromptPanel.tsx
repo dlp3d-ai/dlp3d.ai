@@ -7,12 +7,13 @@ import { getSelectedChat } from '@/features/chat/chat'
 import { useSelector } from 'react-redux'
 
 import { usePromptingSettings } from '@/hooks/usePromptingSettings'
+import { useTranslation } from 'react-i18next'
 
 export default function PromptPanel() {
   const { isMobile } = useDevice()
   const settings = useSelector(getSelectedChat)
   const { updateCharacter } = usePromptingSettings()
-
+  const { t } = useTranslation()
   const [textContent, setTextContent] = useState(settings?.prompt || '')
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,7 +108,7 @@ export default function PromptPanel() {
               }
             }}
           >
-            Save
+            {t('common.save')}
           </button>
         </div>
       </div>

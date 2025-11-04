@@ -9,6 +9,7 @@ import {
 } from '@/data_structures/webSocketState'
 import { EventEmitter } from '@/hooks/eventEmitter'
 import { errorBus } from '@/utils/errorBus'
+import i18n from '@/i18n/config'
 
 /**
  * Custom hook for managing WebSocket connections with message queuing and event handling.
@@ -82,7 +83,7 @@ const useWebSocket = (initialUrl?: string): WebSocketState => {
         await new Promise<void>((resolve, reject) => {
           const checkBufferedAmount = () => {
             if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
-              reject(new Error('WebSocket connection lost'))
+              reject(new Error(i18n.t('websocket.connectionLost', { ns: 'client' })))
               return
             }
 
@@ -102,7 +103,13 @@ const useWebSocket = (initialUrl?: string): WebSocketState => {
 
           // Timeout for individual message
           setTimeout(() => {
-            reject(new Error('Individual message sending timeout'))
+            reject(
+              new Error(
+                i18n.t('websocket.individualMessageSendingTimeout', {
+                  ns: 'client',
+                }),
+              ),
+            )
           }, 5000)
         })
 
@@ -172,7 +179,7 @@ const useWebSocket = (initialUrl?: string): WebSocketState => {
       const connectionUrl = url || urlRef.current
       if (!connectionUrl) {
         console.error('❌ WebSocket URL is required')
-        reject(new Error('WebSocket URL is required'))
+        reject(new Error(i18n.t('websocket.urlRequired', { ns: 'client' })))
         return
       }
 
@@ -202,7 +209,10 @@ const useWebSocket = (initialUrl?: string): WebSocketState => {
         console.error('WebSocket readyState:', ws.readyState)
         console.error('WebSocket url:', connectionUrl)
         errorBus.emit('error', {
-          message: `WebSocket connection to ${connectionUrl} failed, make sure that the server is running`,
+          message:
+            i18n.t('websocket.connectionFailed', { ns: 'client' }) +
+            ': ' +
+            connectionUrl,
           severity: 'error',
           durationMs: 6000,
         })
@@ -243,7 +253,6 @@ const useWebSocket = (initialUrl?: string): WebSocketState => {
   const sendMessage = (message: string | ArrayBuffer): boolean => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
       try {
-        // console.log('Sending message:', message)
         wsRef.current.send(message)
         return true
       } catch (error) {
@@ -251,7 +260,7 @@ const useWebSocket = (initialUrl?: string): WebSocketState => {
         return false
       }
     } else {
-      console.warn('WebSocket is not connected, message sending failed')
+      console.warn(i18n.t('websocket.notConnected', { ns: 'client' }))
       return false
     }
   }
@@ -271,16 +280,11 @@ const useWebSocket = (initialUrl?: string): WebSocketState => {
   const sendMessageAndWait = (message: string | ArrayBuffer): Promise<void> => {
     return new Promise((resolve, reject) => {
       if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
-        // console.log('❌ sendMessageAndWait: WebSocket not connected')
-        reject(new Error('WebSocket is not connected'))
+        reject(new Error(i18n.t('websocket.notConnected', { ns: 'client' })))
         return
       }
 
-      // Create unique ID for this message
       const messageId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-      // console.log(`📝 Adding message ${messageId} to queue, current queue length: ${messageQueueRef.current.length}`)
-
-      // Add message to queue
       messageQueueRef.current.push({
         id: messageId,
         message,
@@ -288,8 +292,6 @@ const useWebSocket = (initialUrl?: string): WebSocketState => {
         reject,
         timestamp: Date.now(),
       })
-
-      // console.log(`📝 Message ${messageId} added to queue, new queue length: ${messageQueueRef.current.length}`)
 
       // Start processing queue if not already processing
       processMessageQueue()
@@ -312,7 +314,7 @@ const useWebSocket = (initialUrl?: string): WebSocketState => {
   ): Promise<ArrayBuffer | null> => {
     return new Promise((resolve, reject) => {
       if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
-        reject(new Error('WebSocket is not connected'))
+        reject(new Error(i18n.t('websocket.notConnected', { ns: 'client' })))
         return
       }
 

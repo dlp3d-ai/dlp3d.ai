@@ -5,7 +5,6 @@ import {
   getScreenshotFromStorage,
   clearScreenshotFromStorage,
 } from '../../utils/screenshot'
-import { LoadingProgressManager } from '../../utils/progressManager'
 
 /**
  * Props interface for ScreenshotOverlay component.
@@ -122,7 +121,7 @@ export default function ScreenshotOverlay({
       setTimeout(() => {
         setIsReady(true) // Mark as ready
         setLoadingProgress(100)
-        setLoadingText('Ready')
+        // setLoadingText(t('loading.ready'))
         setTimeout(() => {
           setShowStartButton(true)
         }, 500)
@@ -156,20 +155,7 @@ export default function ScreenshotOverlay({
   // Initialize progress
   useEffect(() => {
     setLoadingProgress(0)
-    setLoadingText('Starting...')
     setIsReady(false) // Reset ready state
-
-    // If page refresh, simulate some initial progress
-    if (isPageRefresh) {
-      setTimeout(() => {
-        // Use safe dispatch instead of direct progress setting
-        LoadingProgressManager.getInstance().updateProgress(
-          10,
-          'Initializing...',
-          'screenshot-overlay-refresh',
-        )
-      }, 500)
-    }
   }, [isPageRefresh])
 
   /**

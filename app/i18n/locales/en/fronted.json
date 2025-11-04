@@ -1,0 +1,138 @@
+{
+  "common": {
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "editKey": "Edit KEY",
+    "close": "Close"
+  },
+  "loading": {
+    "title": "DIGITAL LIFE PROJECT",
+    "subTitle": "Open-source Autonomous 3D Characters on the Web",
+    "message": "Loading...",
+    "initializingScene": "Initializing Scene..."
+  },
+  "nav": {
+    "title": "DLP3D",
+    "account": "Account",
+    "signedInAs": "Signed in as",
+    "changePassword": "Change Password",
+    "signOut": "Sign Out",
+    "deleteAccount": "Delete Account",
+    "passwordUpdated": "Password updated successfully",
+    "accountDeleted": "Account deleted successfully"
+  },
+  "auth": {
+    "title": "DIGITAL LIFE PROJECT",
+    "subTitle": "Authentication",
+    "login": "Login",
+    "register": "Register",
+    "registering": "Registering...",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "oldPassword": "Old Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out"
+  },
+  "chat": {
+    "chat": "Chat",
+    "chatList": "Chat List",
+    "loginToChat": "Login to Chat",
+    "myConversations": "My conversations"
+  },
+  "sidebar": {
+    "model": "3D model",
+    "scene": "Scene",
+    "prompt": "Prompt",
+    "llm": "LLM",
+    "tts": "ASR/TTS"
+  },
+  "llmPanel": {
+    "editLLM": "Edit LLM",
+    "conversation": "Conversation",
+    "reaction": "Reaction",
+    "classification": "Classification",
+    "memory": "Memory",
+    "modelNameOverride": "Model Name Override",
+    "modelNameOverridePlaceholder": "Enter model name",
+    "apiKey": "API Key",
+    "apiKeyPlaceholder": "Please enter your key",
+    "sensenovaAK": "Access Key ID(AK)",
+    "sensenovaSK": "Secret Access Key(SK)"
+  },
+  "TTSPanel": {
+    "asr": "ASR",
+    "tts": "TTS",
+    "editKey": "Edit Key",
+    "enter": "Enter",
+    "appId": "App ID",
+    "appKey": "App Key",
+    "apiKey": "API Key",
+    "token": "Token",
+    "voiceSpeed": "Voice Speed",
+    "huoshan": "HUOSHAN",
+    "huoshan_icl": "HUOSHAN ICL",
+    "softsugar": "SOFTSUGAR",
+    "sensenova": "SENSENOVA",
+    "openai_realtime": "OPENAI",
+    "elevenlabs": "ELEVENLABS"
+  },
+  "simulationPanel": {
+    "title": "Simulation",
+    "clothSimulation": "Cloth Simulation",
+    "clothSimulationPlaceholder": "Whether enable cloth simulation",
+    "debugMode": "Debug Mode",
+    "debugModePlaceholder": "Physics viewer, detailed logging, etc."
+  },
+  "networkLatencyWarning": {
+    "title": "Network Latency Warning",
+    "message": "We've detected that you're connecting from a location far from our servers, which may result in higher network latency and a suboptimal user experience. For the best performance and experience, we recommend accessing our open-source project and deploying it locally.",
+    "confirmText": "Enter Wrong Location"
+  },
+  "notification": {
+    "editDefaultCharacterNotAllowed": "Editing the default character is not allowed. You must create a copy to make any changes.",
+    "updateDefaultCharacterNameNotAllowed": "Cannot update character name for the default character",
+    "deleteDefaultCharacterNotAllowed": "Cannot delete the default character",
+    "loadCharacterFailed": "Failed to load character",
+    "deleteCharacterFailed": "Failed to delete character",
+    "logInToDeleteCharacters": "Please log in to delete characters",
+    "logInToUpdateUserConfig": "Please log in to update user config",
+    "logInToGetLLMList": "Please log in to get LLM list",
+    "logInToUpdateCharacters": "Please log in to update characters",
+    "logInToUpdateCharacterName": "Please log in to update character name",
+    "registrationSucceed": "Registration Succeed",
+    "verificationCodeSent": "We have sent a verification code to your email. Please enter the code to verify.",
+    "verificationCodeSentSuccessfully": "Verification code sent successfully",
+    "verificationCodeResentSuccessfully": "Verification code resent successfully"
+  },
+  "confirmDialog": {
+    "title": "Tip",
+    "deleteMessage": "Are you sure you want to delete?"
+  },
+  "characters": {
+    "Ani-default": "Ani-default",
+    "KQ-default": "KQ-default",
+    "HT-default": "HT-default",
+    "FNN-default": "FNN-default"
+  },
+  "scenes": {
+    "Seabed": "Seabed",
+    "Ground View": "Ground View",
+    "Cobbled Street": "Cobbled Street",
+    "Vast": "Vast",
+    "Cyber Black": "Cyber Black",
+    "Green": "Green"
+  }
+}
+

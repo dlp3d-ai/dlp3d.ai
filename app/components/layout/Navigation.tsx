@@ -24,6 +24,8 @@ import {
   useSuccessNotification,
   useErrorNotification,
 } from '@/hooks/useGlobalNotification'
+import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from '../common/LanguageSwitcher'
 import './Navigation.scss'
 
 /*
@@ -37,6 +39,7 @@ export default function Navigation() {
   const [showUserMenu, setShowUserMenu] = useState(false)
   const isAuthenticated = useSelector(getIsLogin)
   const userInfo = useSelector(getUserInfo)
+  const { t } = useTranslation()
 
   const userMenuRef = useRef<HTMLDivElement>(null)
   const { isMobile } = useDevice()
@@ -135,7 +138,7 @@ export default function Navigation() {
     try {
       await fetchUpdatePassword(param.email, param.oldPassword, param.newPassword)
       setShowChangePasswordDialog(false)
-      showSuccessNotification('Password updated successfully')
+      showSuccessNotification(t('nav.passwordUpdated'))
       handleSignOut()
     } catch (error) {
       console.error('Error changing password:', error)
@@ -160,7 +163,7 @@ export default function Navigation() {
       )
       if (response.auth_code === 200) {
         setShowDeleteAccountDialog(false)
-        showSuccessNotification('Account deleted successfully')
+        showSuccessNotification(t('nav.accountDeleted'))
         handleSignOut()
       } else {
         showErrorNotification(response.auth_msg)
@@ -198,6 +201,7 @@ export default function Navigation() {
         <div className="nav-right">
           <div className="nav-right-content">
             {/* <button className="about-btn">About</button> */}
+            {!isChatStarting && <LanguageSwitcher />}
 
             <div className="account-container" ref={userMenuRef}>
               <button
@@ -229,27 +233,27 @@ export default function Navigation() {
               {isAuthenticated && showUserMenu && (
                 <div className="user-menu">
                   <div className="user-menu-item">
-                    <span>Signed in as</span>
+                    <span>{t('nav.signedInAs')}</span>
                     <strong>{userInfo.username}</strong>
                   </div>
                   <button
                     className="user-menu-item user-menu-action"
                     onClick={handleChangePassword}
                   >
-                    Change Password
+                    {t('nav.changePassword')}
                   </button>
 
                   <button
                     className="user-menu-item user-menu-action"
                     onClick={handleSignOut}
                   >
-                    Sign Out
+                    {t('nav.signOut')}
                   </button>
                   <button
                     className="user-menu-item user-menu-action user-menu-action-error"
                     onClick={handleDeleteAccount}
                   >
-                    Delete Account
+                    {t('nav.deleteAccount')}
                   </button>
                 </div>
               )}

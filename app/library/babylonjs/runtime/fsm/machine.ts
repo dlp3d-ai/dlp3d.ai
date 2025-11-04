@@ -50,6 +50,7 @@ import {
   toEmotionAdjective,
   toEmotionTypeArray,
 } from '@/library/babylonjs/runtime/character/emotions'
+import i18n from '@/i18n/config'
 
 /**
  * Finite state machine that controls the core functionality of the 3DAC system.
@@ -231,7 +232,7 @@ export class StateMachine {
     this._lastStateValue = null
     this._stateValue = States.INIT
     this._running = true
-    Logger.log('State machine started')
+    Logger.log(i18n.t('fsm.started', { ns: 'client' }))
     this._startStateLoop()
   }
 
@@ -308,13 +309,15 @@ export class StateMachine {
             await this.waitingForUserStartGame()
             break
           default: {
-            Logger.error(`Unknown state: ${this._stateValue}`)
+            Logger.error(
+              i18n.t('fsm.unknownState', { ns: 'client' }) + ': ' + this._stateValue,
+            )
             break
           }
         }
       } catch (e) {
         Logger.error(
-          `State machine runtime error, error type: ${typeof e}, error message: ${e}`,
+          i18n.t('fsm.runtimeError', { ns: 'client' }) + ': ' + typeof e + ', ' + e,
         )
       }
 
@@ -330,13 +333,12 @@ export class StateMachine {
    * is received, switches to WAITING_FOR_FRONTEND_READY state.
    */
   async init() {
-    Logger.log('Starting 3DAC')
     this._basicSceneLaunchTimeInMilliSeconds = performance.now()
 
     if (typeof window !== 'undefined') {
       LoadingProgressManager.getInstance().updateProgress(
         5,
-        'Initializing 3DAC System...',
+        i18n.t('loading.initialize3DACSystem', { ns: 'client' }),
         'machine-init',
       )
     }
@@ -358,7 +360,7 @@ export class StateMachine {
         performance.now() - this._basicSceneLaunchTimeInMilliSeconds >
         this._basicSceneTimeOutInMilliSeconds
       ) {
-        Logger.error('Basic scene startup timeout')
+        Logger.error(i18n.t('fsm.basicSceneStartupTimeout', { ns: 'client' }))
         await this._switchState(States.EXIT)
         return
       }
@@ -401,7 +403,7 @@ export class StateMachine {
     if (typeof window !== 'undefined') {
       LoadingProgressManager.getInstance().updateProgress(
         20,
-        'Loading Environment Model...',
+        i18n.t('loading.loadEnvironment', { ns: 'client' }),
         'machine-environment',
       )
     }
@@ -442,7 +444,7 @@ export class StateMachine {
 
         Logger.log(`HDRi environment loaded: ${hdriFileName}`)
       } catch (error) {
-        Logger.error(`Error loading HDRi environment: ${error}`)
+        Logger.error(i18n.t('fsm.hdrLoadingError', { ns: 'client' }) + ': ' + error)
       }
     }
 
@@ -467,7 +469,7 @@ export class StateMachine {
     try {
       await changeScene(selectedSceneIndex)
     } catch (error) {
-      Logger.error(`Error setting up scene: ${error}`)
+      Logger.error(i18n.t('fsm.sceneSetupError', { ns: 'client' }) + ': ' + error)
       await this._switchState(States.EXIT)
       return
     }
@@ -496,7 +498,7 @@ export class StateMachine {
     if (typeof window !== 'undefined') {
       LoadingProgressManager.getInstance().updateProgress(
         25,
-        'Loading Character Config...',
+        i18n.t('loading.loadCharacterConfig', { ns: 'client' }),
         'machine-character',
       )
     }
@@ -570,7 +572,13 @@ export class StateMachine {
 
           if (response.status !== 200) {
             Logger.error(
-              `Failed to get configuration from ${settingFullPath}: ${response.status}, ${response.statusText}`,
+              i18n.t('fsm.getConfigFailed', { ns: 'client' }) +
+                ': ' +
+                settingFullPath +
+                ': ' +
+                response.status +
+                ', ' +
+                response.statusText,
             )
             this._switchState(States.EXIT)
             return
@@ -588,11 +596,11 @@ export class StateMachine {
         this._assetManagerCfg['voiceSpeed'] = results[1]['voice_speed']
       } catch (e) {
         if (e instanceof Error && e.name === 'AbortError') {
-          Logger.error(
-            `Character configuration fetch timeout: Request timed out after ${safeTimeout} seconds. Please check network connection or increase timeout duration.`,
-          )
+          Logger.error(i18n.t('fsm.characterConfigFetchTimeout', { ns: 'client' }))
         } else {
-          Logger.error(`Character configuration fetch failed: ${e}`)
+          Logger.error(
+            i18n.t('fsm.characterConfigFetchFailed', { ns: 'client' }) + ': ' + e,
+          )
         }
         await this._switchState(States.EXIT)
         return
@@ -607,7 +615,7 @@ export class StateMachine {
       if (typeof window !== 'undefined') {
         LoadingProgressManager.getInstance().updateProgress(
           30,
-          'Synchronizing character static assets...',
+          i18n.t('loading.loadCharacterStaticAssets', { ns: 'client' }),
           'machine-character',
         )
       }
@@ -633,7 +641,9 @@ export class StateMachine {
         speechTexts,
       )
     } else {
-      Logger.error(`Unknown asset manager type: ${className}`)
+      Logger.error(
+        i18n.t('fsm.unknownAssetManagerType', { ns: 'client' }) + ': ' + className,
+      )
       await this._switchState(States.EXIT)
       return
     }
@@ -653,7 +663,8 @@ export class StateMachine {
         if (remainingSeconds > 0) {
           progressManager.updateProgress(
             startProgress,
-            `Synchronizing character static assets...${remainingSeconds}s`,
+            i18n.t('loading.loadCharacterStaticAssets', { ns: 'client' }) +
+              `${remainingSeconds}s`,
             'machine-assets',
           )
           remainingSeconds--
@@ -666,7 +677,11 @@ export class StateMachine {
         clearInterval(countdownInterval)
       }
     } catch (e) {
-      Logger.error(`Character model sync failed: ${e}`)
+      Logger.error(
+        i18n.t('fsm.characterStaticAssetsDownloadFailed', { ns: 'client' }) +
+          ': ' +
+          e,
+      )
       await this._switchState(States.EXIT)
       return
     }
@@ -674,7 +689,7 @@ export class StateMachine {
     if (typeof window !== 'undefined') {
       LoadingProgressManager.getInstance().updateProgress(
         40,
-        'Loading Character Model...',
+        i18n.t('loading.loadCharacterModel', { ns: 'client' }),
         'machine-character',
       )
     }
@@ -686,7 +701,7 @@ export class StateMachine {
 
       const response = await fetch(this._assetManager.morphTargetsFileUrl)
       if (!response.ok) {
-        Logger.error('Failed to fetch morph targets metadata')
+        Logger.error(i18n.t('fsm.fetchMorphTargetsMetadataFailed', { ns: 'client' }))
         await this._switchState(States.EXIT)
         return
       }
@@ -713,7 +728,9 @@ export class StateMachine {
 
       await this._switchState(States.WAITING_FOR_ALGORITHM_READY_ON_START)
     } catch (e) {
-      Logger.error(`Character model loading failed: ${e}`)
+      Logger.error(
+        i18n.t('fsm.characterModelLoadingFailed', { ns: 'client' }) + ': ' + e,
+      )
       await this._switchState(States.EXIT)
       return
     }
@@ -730,7 +747,7 @@ export class StateMachine {
     if (typeof window !== 'undefined') {
       LoadingProgressManager.getInstance().updateProgress(
         60,
-        'Waiting for Algorithm Ready...',
+        i18n.t('loading.waitForAlgorithmReady', { ns: 'client' }),
         'machine-assets',
       )
     }
@@ -752,7 +769,7 @@ export class StateMachine {
       await this._uploadActorText('Health check')
       const requestTime = Date.now()
       if (this._orchestratorStreamingClient === null) {
-        Logger.error('No running streaming client found.')
+        Logger.error(i18n.t('fsm.noRunningStreamingClientFound', { ns: 'client' }))
         await this._handleAlgorithmGenerationFailure()
         return
       }
@@ -769,7 +786,9 @@ export class StateMachine {
           break
         } else {
           if (currentTime - requestTime > orchestratorTimeout * 1000) {
-            Logger.error('Algorithm timed out during streaming.')
+            Logger.error(
+              i18n.t('fsm.algorithmTimedOutDuringStreaming', { ns: 'client' }),
+            )
             await this._handleAlgorithmGenerationFailure()
             return
           }
@@ -786,7 +805,9 @@ export class StateMachine {
           break
         } else {
           if (currentTime - readyTime > orchestratorTimeout * 1000) {
-            Logger.error('Algorithm timed out during streaming.')
+            Logger.error(
+              i18n.t('fsm.algorithmTimedOutDuringStreaming', { ns: 'client' }),
+            )
             await this._handleAlgorithmGenerationFailure()
             return
           }
@@ -799,7 +820,9 @@ export class StateMachine {
       const streams = await this._orchestratorStreamingClient.getNetworkStreams()
       if (Object.keys(streams).length !== 3) {
         Logger.error(
-          `Algorithm streaming returned incorrect number of streams, expected 3 streams, actually returned ${Object.keys(streams).length} streams.`,
+          i18n.t('fsm.incorrectStreamNumber', { ns: 'client' }) +
+            ': ' +
+            Object.keys(streams).length,
         )
         await this._handleAlgorithmGenerationFailure()
         return
@@ -807,7 +830,9 @@ export class StateMachine {
 
       this._switchState(States.CHECK_AND_UPDATE_ASSETS)
     } catch (e) {
-      Logger.error(`Streaming buffer evaluation failed: ${e}`)
+      Logger.error(
+        i18n.t('fsm.streamingBufferEvaluationFailed', { ns: 'client' }) + ': ' + e,
+      )
       await this._switchState(States.ALGORITHM_NOT_READY_ON_START)
     }
   }
@@ -830,7 +855,9 @@ export class StateMachine {
           await this._configSync.write(data)
         }
       } catch (e) {
-        Logger.error(`Configuration update failed: ${e}`)
+        Logger.error(
+          i18n.t('fsm.configurationUpdateFailed', { ns: 'client' }) + ': ' + e,
+        )
         return
       }
       await this._switchState(States.WAITING_FOR_ALGORITHM_READY_ON_START)
@@ -856,7 +883,9 @@ export class StateMachine {
     morphTargetMeshName: string | null,
   ) {
     if (url === null || morphTargetMeshName === null) {
-      Logger.error('Model file URL or morph target mesh name is empty')
+      Logger.error(
+        i18n.t('fsm.modelFileUrlOrMorphTargetMeshNameEmpty', { ns: 'client' }),
+      )
       await this._switchState(States.EXIT)
       return
     }
@@ -868,7 +897,7 @@ export class StateMachine {
       constraintsUrl = null
       rigidBodiesUrl = null
     }
-
+    Logger.log('Loading character model: ' + url)
     await newCharacter.loadGLBAsync(
       this._globalState.scene,
       url,
@@ -880,14 +909,6 @@ export class StateMachine {
       rigidBodiesUrl,
     )
     this._globalState.runtime?.addCharacter(newCharacter)
-
-    if (typeof window !== 'undefined') {
-      LoadingProgressManager.getInstance().updateProgress(
-        20,
-        'Loading Character Model...',
-        'onSceneReady-character',
-      )
-    }
 
     this._globalState.characters.push(newCharacter)
 
@@ -923,7 +944,7 @@ export class StateMachine {
         }
       }
     } catch (err) {
-      Logger.error(`Error setting up character: ${err}`)
+      Logger.error(i18n.t('fsm.characterSetupError', { ns: 'client' }) + ': ' + err)
       await this._switchState(States.EXIT)
       return
     }
@@ -938,8 +959,7 @@ export class StateMachine {
    */
   async checkAndUpdateAssets() {
     if (this._assetManager === null) {
-      const msg = 'No running asset manager found.'
-      Logger.error(msg)
+      Logger.error(i18n.t('fsm.noRunningAssetManagerFound', { ns: 'client' }))
       await this._switchState(States.EXIT)
       return
     }
@@ -955,7 +975,7 @@ export class StateMachine {
       if (typeof window !== 'undefined') {
         LoadingProgressManager.getInstance().updateProgress(
           70,
-          'Update motion, audio and face...',
+          i18n.t('loading.syncLocalAssets', { ns: 'client' }),
           'machine-assets',
         )
       }
@@ -974,7 +994,8 @@ export class StateMachine {
         if (remainingSeconds > 0) {
           progressManager.updateProgress(
             startProgress,
-            `Update motion, audio and face...${remainingSeconds}s`,
+            i18n.t('loading.syncLocalAssets', { ns: 'client' }) +
+              `${remainingSeconds}s`,
             'machine-assets',
           )
           remainingSeconds--
@@ -1041,7 +1062,7 @@ export class StateMachine {
       if (typeof window !== 'undefined') {
         LoadingProgressManager.getInstance().updateProgress(
           80,
-          'Generating opening remark...',
+          i18n.t('loading.generateOpeningRemark', { ns: 'client' }),
           'machine-assets',
         )
       }
@@ -1051,20 +1072,20 @@ export class StateMachine {
       } else if (language === 'en') {
         await this._uploadUserTextStreaming('The user has entered the chat')
       } else {
-        Logger.error('Unsupported language: ' + language)
+        Logger.error(
+          i18n.t('fsm.unsupportedLanguage', { ns: 'client' }) + ': ' + language,
+        )
         await this._switchState(States.EXIT)
         return
       }
     } catch (e) {
-      const msg = `Local asset sync failed: ${e}`
-      Logger.error(msg)
+      Logger.error(i18n.t('fsm.localAssetSyncFailed', { ns: 'client' }) + ': ' + e)
       await this._switchState(States.EXIT)
       return
     }
 
     if (this._orchestratorStreamingClient === null) {
-      const msg = 'No running streaming client found.'
-      Logger.error(msg)
+      Logger.error(i18n.t('fsm.noRunningStreamingClientFound', { ns: 'client' }))
       await this._handleAlgorithmGenerationFailure()
       return
     }
@@ -1079,7 +1100,9 @@ export class StateMachine {
         await new Promise(resolve => setTimeout(resolve, sleepTimeInSeconds * 1000))
         cnt += 1
         if (cnt > retryTimes) {
-          Logger.error('Timeout waiting for service response type.')
+          Logger.error(
+            i18n.t('fsm.waitForServiceResponseTypeTimeout', { ns: 'client' }),
+          )
           await this._switchState(States.EXIT)
           return
         }
@@ -1095,7 +1118,7 @@ export class StateMachine {
         await new Promise(resolve => setTimeout(resolve, sleepTimeInSeconds * 1000))
         cnt += 1
         if (cnt > retryTimes) {
-          Logger.error('Timeout waiting for data stream ready signal.')
+          Logger.error(i18n.t('fsm.waitForDataStreamReadyTimeout', { ns: 'client' }))
           await this._switchState(States.EXIT)
           return
         }
@@ -1110,32 +1133,28 @@ export class StateMachine {
         animationDict = await this._orchestratorStreamingClient!.getAnimation()
       } catch (error) {
         if (error instanceof StreamUnavailableError) {
-          Logger.error(
-            'Client received data stream available signal, but data stream is actually unavailable.',
-          )
+          Logger.error(i18n.t('fsm.dataStreamActuallyUnavailable', { ns: 'client' }))
           await this._switchState(States.EXIT)
           return
         } else if (error instanceof StreamEndedError) {
-          Logger.error(
-            'Client received data stream available signal, but data stream has ended.',
-          )
+          Logger.error(i18n.t('fsm.dataStreamEnded', { ns: 'client' }))
           await this._switchState(States.EXIT)
           return
         } else if (error instanceof ConnectionTimeoutError) {
-          Logger.error(
-            'Client received data stream available signal, but data stream connection timed out.',
-          )
+          Logger.error(i18n.t('fsm.dataStreamConnectionTimedOut', { ns: 'client' }))
           await this._switchState(States.EXIT)
           return
         } else {
-          Logger.error(`Unknown error: ${error}`)
+          Logger.error(i18n.t('fsm.unknownError', { ns: 'client' }) + ': ' + error)
           await this._switchState(States.EXIT)
           return
         }
       }
       if (Object.keys(animationDict).length !== 3) {
         Logger.error(
-          `Client received data stream available signal, but data stream channel count is incomplete, only received ${Object.keys(animationDict)}`,
+          i18n.t('fsm.dataStreamAvailableWithIncompleteChannel', { ns: 'client' }) +
+            ': ' +
+            Object.keys(animationDict),
         )
         await this._switchState(States.EXIT)
         return
@@ -1146,7 +1165,7 @@ export class StateMachine {
     if (typeof window !== 'undefined') {
       LoadingProgressManager.getInstance().updateProgress(
         95,
-        'System Ready!',
+        i18n.t('loading.systemReady', { ns: 'client' }),
         'machine-ready',
       )
     }
@@ -1302,7 +1321,7 @@ export class StateMachine {
       await this._switchState(States.WAITING_FOR_USER_STOP_RECORDING)
     } else if (message === null) {
       if (this._orchestratorStreamingClient === null) {
-        Logger.error('No running streaming client found.')
+        Logger.error(i18n.t('fsm.noRunningStreamingClientFound', { ns: 'client' }))
         await this._handleAlgorithmGenerationFailure()
       }
 
@@ -1321,31 +1340,36 @@ export class StateMachine {
           } catch (error) {
             if (error instanceof StreamUnavailableError) {
               Logger.error(
-                'Client received data stream available signal, but data stream is actually unavailable.',
+                i18n.t('fsm.dataStreamActuallyUnavailable', { ns: 'client' }),
               )
               await this._handleAlgorithmGenerationFailure()
               return
             } else if (error instanceof StreamEndedError) {
-              Logger.error(
-                'Client received data stream available signal, but data stream has ended.',
-              )
+              Logger.error(i18n.t('fsm.dataStreamEnded', { ns: 'client' }))
               await this._handleAlgorithmGenerationFailure()
               return
             } else if (error instanceof ConnectionTimeoutError) {
               Logger.error(
-                'Client received data stream available signal, but data stream connection timed out.',
+                i18n.t('fsm.dataStreamConnectionTimedOut', { ns: 'client' }),
               )
               await this._handleAlgorithmGenerationFailure()
               return
             } else {
-              Logger.error(`Unknown error: ${error}`)
+              Logger.error(
+                i18n.t('fsm.unknownError', { ns: 'client' }) + ': ' + error,
+              )
               await this._handleAlgorithmGenerationFailure()
               return
             }
           }
           if (Object.keys(animationDict).length !== 3) {
-            const msg = `Client received data stream available signal, but data stream channel count is incomplete, only received ${Object.keys(animationDict)}`
-            Logger.error(msg)
+            Logger.error(
+              i18n.t('fsm.dataStreamAvailableWithIncompleteChannel', {
+                ns: 'client',
+              }) +
+                ': ' +
+                Object.keys(animationDict),
+            )
             await this._handleAlgorithmGenerationFailure()
             return
           }
@@ -1427,7 +1451,11 @@ export class StateMachine {
         case undefined:
           return
         default:
-          Logger.error(`Unknown 3DAC generation result type: ${resp_type}`)
+          Logger.error(
+            i18n.t('fsm.unknown3DACGenerationResultType', { ns: 'client' }) +
+              ': ' +
+              resp_type,
+          )
           await this._handleAlgorithmGenerationFailure()
       }
     } else if (message.condition === Conditions.USER_INTERRUPT_ANIMATION) {
@@ -1518,7 +1546,7 @@ export class StateMachine {
       } catch (error) {
         if (error instanceof StreamUnavailableError) {
           Logger.error(
-            'Received data stream unavailable signal during streaming animation playback.',
+            i18n.t('fsm.dataStreamUnavailableDuringPlayback', { ns: 'client' }),
           )
           await this._handleAlgorithmGenerationFailure()
           return
@@ -1527,7 +1555,9 @@ export class StateMachine {
             await this._orchestratorStreamingClient!.getNetworkStreams()
           if (Object.keys(streams).length !== 3) {
             Logger.error(
-              `Received data stream end signal during streaming animation playback, but data stream channel count is incorrect, expected 3 streams, actually returned ${Object.keys(streams).length} streams.`,
+              i18n.t('fsm.dataStreamEndedWithIncompleteChannel', { ns: 'client' }) +
+                ': ' +
+                Object.keys(streams).length,
             )
             await this._handleAlgorithmGenerationFailure()
             return
@@ -1555,9 +1585,7 @@ export class StateMachine {
           }
           await this._switchState(States.WAITING_FOR_ACTOR_ANIMATION_FINISHED)
         } else {
-          Logger.error(
-            `Received unknown error during streaming animation playback: ${error}`,
-          )
+          Logger.error(i18n.t('fsm.unknownError', { ns: 'client' }) + ': ' + error)
           await this._handleAlgorithmGenerationFailure()
         }
       }
@@ -1742,7 +1770,7 @@ export class StateMachine {
       } catch (error) {
         if (error instanceof StreamUnavailableError) {
           Logger.error(
-            'Received data stream unavailable signal during streaming animation reception.',
+            i18n.t('fsm.dataStreamUnavailableDuringStreaming', { ns: 'client' }),
           )
           await this._handleAlgorithmGenerationFailure()
           return
@@ -1756,7 +1784,9 @@ export class StateMachine {
           return
         } else {
           Logger.error(
-            `Received unknown error during streaming animation reception: ${error}`,
+            i18n.t('fsm.unknownErrorDuringStreaming', { ns: 'client' }) +
+              ': ' +
+              error,
           )
           await this._handleAlgorithmGenerationFailure()
         }
@@ -1767,13 +1797,29 @@ export class StateMachine {
     if (message.condition === Conditions.USER_START_GAME) {
       const recordState = await this._globalState.audioStreamState?.checkDevice()
       if (recordState && recordState !== AudioRecordState.NOT_RECORDING) {
-        const msg = `Microphone status check failed: ${recordState}`
+        let msg = i18n.t('audio.deviceCheckFailed', { ns: 'client' }) + ': '
+        switch (recordState) {
+          case AudioRecordState.PERMISSION_DENIED:
+            msg += i18n.t('audio.microphoneState.permissionDenied', { ns: 'client' })
+            break
+          case AudioRecordState.MICROPHONE_NOT_FOUND:
+            msg += i18n.t('audio.microphoneState.microphoneNotFound', {
+              ns: 'client',
+            })
+            break
+          case AudioRecordState.UNKNOWN_ERROR:
+            msg += i18n.t('audio.microphoneState.unknownError', { ns: 'client' })
+            break
+          default:
+            msg += i18n.t('audio.microphoneState.unknownError', { ns: 'client' })
+            break
+        }
         Logger.error(msg)
         await this._switchState(States.EXIT)
       }
 
       await this._globalState.audioStreamState?.startRecord()
-      Logger.log('🎤 Microphone is now enabled...')
+      Logger.log('Microphone is now enabled')
 
       this._globalState.runtime?.playAnimation()
       Logger.log('Starting character entrance animation playback')
@@ -1783,7 +1829,7 @@ export class StateMachine {
         this._openingRemarkFaceClips.length === 0 ||
         this._openingRemarkAudioClips.length === 0
       ) {
-        Logger.error('Character entrance animation data is missing.')
+        Logger.error(i18n.t('fsm.entranceAnimationDataMissing', { ns: 'client' }))
         await this._switchState(States.EXIT)
       }
 
@@ -1909,7 +1955,11 @@ export class StateMachine {
     const conditionMsgStr = conditionMsg.convertToString()
     const stateName = stateToEnglishName(this._stateValue)
     Logger.error(
-      `Received unexpected condition in ${stateName} state: ${conditionMsgStr}`,
+      i18n.t('fsm.unexpectedCondition', { ns: 'client' }) +
+        ': ' +
+        conditionMsgStr +
+        ', ' +
+        stateName,
     )
   }
 
@@ -2023,7 +2073,9 @@ export class StateMachine {
         const msg = `PCM queue has been cleared, all audio data has been sent`
         Logger.debug(msg)
       } catch (error) {
-        Logger.error(`Failed to clear PCM queue: ${error}`)
+        Logger.error(
+          i18n.t('fsm.clearPCMQueueFailed', { ns: 'client' }) + ': ' + error,
+        )
       }
     }
 
@@ -2339,9 +2391,15 @@ export class StateMachine {
     if (prevScore !== newScore) {
       if (displayMessage) {
         if (newScore > prevScore) {
-          showSideMessageWithTitle(avatarName, `Relationship has improved`)
+          showSideMessageWithTitle(
+            avatarName,
+            i18n.t('relationship.improved', { ns: 'client' }),
+          )
         } else if (newScore < prevScore) {
-          showSideMessageWithTitle(avatarName, `Relationship has decreased`)
+          showSideMessageWithTitle(
+            avatarName,
+            i18n.t('relationship.decreased', { ns: 'client' }),
+          )
         }
       }
       character.relationship.score = relationship.score
@@ -2350,7 +2408,9 @@ export class StateMachine {
         if (displayMessage) {
           showSideMessageWithTitle(
             avatarName,
-            `New Status: ${relationship.relationship}`,
+            i18n.t('relationship.newStatus', { ns: 'client' }) +
+              ': ' +
+              relationship.relationship,
           )
         }
         character.relationship.stage = relationship.relationship
@@ -2372,7 +2432,9 @@ export class StateMachine {
       ) {
         showSideMessageWithTitle(
           avatarName,
-          `Seems to be ${toEmotionAdjective(newEmotion)}`,
+          i18n.t('emotion.seemsToBe', { ns: 'client' }) +
+            ' ' +
+            toEmotionAdjective(newEmotion),
         )
       }
     }
