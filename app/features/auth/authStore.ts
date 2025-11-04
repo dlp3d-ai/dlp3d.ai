@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 // localStorage 键名
 const AUTH_STORAGE_KEY = 'dlp3d_auth_state'
+const USER_LOCATION_KEY = 'dlp_user_location'
 
 // 默认状态
 export const getDefaultAuthState = (): AuthState => ({
@@ -49,6 +50,7 @@ export const clearAuthStateFromStorage = () => {
 
   try {
     localStorage.removeItem(AUTH_STORAGE_KEY)
+    localStorage.removeItem(USER_LOCATION_KEY)
   } catch (error) {
     console.warn('Failed to clear auth state from localStorage:', error)
   }

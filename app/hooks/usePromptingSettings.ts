@@ -52,7 +52,12 @@ export function usePromptingSettings() {
     const userCharacters = await getCharactersList(user.id)
     dispatch(setChatList(userCharacters))
     if (!selectedCharacter) {
-      await selectCharacter(userCharacters[0].character_id)
+      const id = localStorage.getItem('dlp_selected_character_id')
+      if (id) {
+        await selectCharacter(id)
+      } else {
+        await selectCharacter(userCharacters[0].character_id)
+      }
     }
     return userCharacters
   }

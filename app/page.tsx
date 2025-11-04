@@ -180,7 +180,7 @@ export default function Home() {
    * and opens a new window with the chat interface. Handles TTS compatibility checks
    * and location-based warnings for specific server hosts.
    */
-  const handleStartConversation = async () => {
+  const handleStartConversation = useCallback(async () => {
     if (isCharacterLoading || isSceneLoading) {
       return
     }
@@ -274,7 +274,18 @@ export default function Home() {
         window.open(fallbackUrl, '_blank', 'noopener,noreferrer')
       }
     }
-  }
+  }, [
+    isCharacterLoading,
+    isSceneLoading,
+    currentTtsType,
+    chatAvailable,
+    selectedChat,
+    isSensetimeTAServer,
+    dispatch,
+    selectedCharacterId,
+    selectedScene,
+    loadUserCharacters,
+  ])
   useEffect(() => {
     // Listen for route changes and reset chat state when returning to homepage
     const handleRouteChange = () => {
@@ -294,6 +305,41 @@ export default function Home() {
       window.removeEventListener('popstate', handleRouteChange)
     }
   }, [dispatch])
+  const ChatButton = useCallback(() => {
+    if (isChatStarting || (isMobile && isLogin)) return null
+    return (
+      <div className="button-group-container">
+        <button
+          className="start-conversation-btn"
+          onClick={handleStartConversation}
+          disabled={
+            !chatAvailable || isCharacterLoading || isSceneLoading || !isLogin
+          }
+          style={{
+            opacity:
+              chatAvailable && !isCharacterLoading && !isSceneLoading ? 1 : 0.6,
+            cursor:
+              chatAvailable && !isCharacterLoading && !isSceneLoading
+                ? 'pointer'
+                : 'not-allowed',
+            borderRadius: '30px 0 0 30px', // Only round the left side
+          }}
+        >
+          {chatAvailable && !isCharacterLoading && !isSceneLoading && isLogin
+            ? 'Chat'
+            : 'Coming Soon'}
+        </button>
+      </div>
+    )
+  }, [
+    isChatStarting,
+    isMobile,
+    isLogin,
+    handleStartConversation,
+    chatAvailable,
+    isCharacterLoading,
+    isSceneLoading,
+  ])
 
   return (
     <>
@@ -385,30 +431,8 @@ export default function Home() {
           <Footer />
         </footer>
       )}
-      {/* Button Group Container */}
-      {!isChatStarting && !isMobile && (
-        <div className="button-group-container">
-          <button
-            className="start-conversation-btn"
-            onClick={handleStartConversation}
-            disabled={!chatAvailable || isCharacterLoading || isSceneLoading}
-            style={{
-              opacity:
-                chatAvailable && !isCharacterLoading && !isSceneLoading ? 1 : 0.6,
-              cursor:
-                chatAvailable && !isCharacterLoading && !isSceneLoading
-                  ? 'pointer'
-                  : 'not-allowed',
-              borderRadius: '30px 0 0 30px', // Only round the left side
-            }}
-          >
-            {chatAvailable && !isCharacterLoading && !isSceneLoading && isLogin
-              ? t('chat.chat')
-              : t('chat.loginToChat')}
-          </button>
-        </div>
-      )}
-      {/* Loading overlay removed in favor of full-screen LoadingScreen */}
+
+      <ChatButton />
     </>
   )
 }

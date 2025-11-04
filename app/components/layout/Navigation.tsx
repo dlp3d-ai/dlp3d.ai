@@ -16,6 +16,7 @@ import {
   clearAuthStateFromStorage,
   setAuthState,
   getDefaultAuthState,
+  logout,
 } from '@/features/auth/authStore'
 import UpdatePassword from '../auth/UpdatePassword'
 import DeleteUser from '../auth/DeleteUser'
@@ -88,8 +89,9 @@ export default function Navigation() {
       clearAuthStateFromStorage()
       dispatch(setAuthState(getDefaultAuthState()))
       setShowUserMenu(false)
+      dispatch(logout())
       // Force page reload to update auth state
-      // window.location.reload();
+      window.location.reload()
     } catch (error) {
       console.error('Error signing out:', error)
     }
