@@ -1,0 +1,78 @@
+{
+  "loading": {
+    "initializeScene": "Creating Virtual World...",
+    "initialize3DACSystem": "Initializing DLP3D Core Systems...",
+    "loadEnvironment": "Rendering Sky and Terrain Layers...",
+    "loadCharacterConfig": "Retrieving Character Consciousness...",
+    "loadCharacterStaticAssets": "Reforging Digital Flesh and Bone...",
+    "loadCharacterModel": "Reincarnating the Character Vessel...",
+    "waitForAlgorithmReady": "Infusing the Soul into the Digital Body...",
+    "syncLocalAssets": "Calibrating Motion, Voice, and Expression...",
+    "generateOpeningRemark": "Generating First Words of Awareness...",
+    "systemReady": "Awakening Complete — Character Ready to Converse."
+  },
+  "audio": {
+    "microphoneState": {
+        "permissionDenied": "Microphone access was denied. Please check your browser permission settings",
+        "microphoneNotFound": "No microphone device was detected",
+        "unknownError": "Unknown error occurred while accessing the microphone"
+    },
+    "deviceCheckFailed": "Microphone status check failed",
+    "closeAudioContextFailed": "Failed to close AudioContext"
+  },
+  "websocket": {
+    "connectionLost": "WebSocket connection lost",
+    "individualMessageSendingTimeout": "Individual message sending timeout",
+    "urlRequired": "WebSocket URL is required",
+    "connectionFailed": "WebSocket connection failed, make sure that the server is running",
+    "notConnected": "WebSocket is not connected"
+  },
+  "fsm": {
+    "unknownState": "Unknown state",
+    "runtimeError": "State machine runtime error",
+    "hdrLoadingError": "Error loading HDRi environment",
+    "sceneSetupError": "Error setting up scene",
+    "characterSetupError": "Error setting up character",
+    "getConfigFailed": "Failed to get configuration from",
+    "characterConfigFetchTimeout": "Character configuration fetch timeout. Please check network connection or increase timeout duration",
+    "characterConfigFetchFailed": "Character configuration fetch failed",
+    "unknownAssetManagerType": "Unknown asset manager type",
+    "characterStaticAssetsDownloadFailed": "Character static assets download failed",
+    "characterModelLoadingFailed": "Character model loading failed",
+    "noRunningStreamingClientFound": "No running streaming client found",
+    "noRunningAssetManagerFound": "No running asset manager found",
+    "algorithmTimedOutDuringStreaming": "Algorithm timed out during streaming",
+    "incorrectStreamNumber": "Algorithm streaming returned incorrect number of streams, expected 3 streams, actually returned",
+    "streamingBufferEvaluationFailed": "Streaming buffer evaluation failed",
+    "configurationUpdateFailed": "3DACConfiguration update failed",
+    "fetchMorphTargetsMetadataFailed": "Failed to fetch morph targets metadata",
+    "modelFileUrlOrMorphTargetMeshNameEmpty": "Model file URL or morph target mesh name is empty",
+    "characterNotFound": "Character not found",
+    "unsupportedLanguage": "Unsupported language",
+    "localAssetSyncFailed": "Local asset sync failed",
+    "waitForServiceResponseTypeTimeout": "Timeout waiting for service response type",
+    "waitForDataStreamReadyTimeout": "Timeout waiting for data stream ready",
+    "dataStreamActuallyUnavailable": "Client received data stream available signal, but data stream is actually unavailable",
+    "dataStreamEnded": "Client received data stream available signal, but data stream has ended",
+    "dataStreamConnectionTimedOut": "Client received data stream available signal, but data stream connection timed out",
+    "dataStreamAvailableWithIncompleteChannel": "Client received data stream available signal, but data stream channel count is incomplete, only received",
+    "dataStreamEndedWithIncompleteChannel": "Received data stream end signal during streaming animation playback, but data stream channel count is incorrect, expected 3 streams, actually returned",
+    "dataStreamUnavailableDuringPlayback": "Received data stream unavailable signal during streaming animation playback",
+    "dataStreamUnavailableDuringStreaming": "Received data stream unavailable signal during streaming animation reception",
+    "unknownErrorDuringStreaming": "Received unknown error during streaming animation reception",
+    "entranceAnimationDataMissing": "Character entrance animation data is missing",
+    "basicSceneStartupTimeout": "Basic scene startup timeout",
+    "unknown3DACGenerationResultType": "Unknown 3DAC generation result type",
+    "unknownError": "Unknown error",
+    "unexpectedCondition": "Received unexpected condition",
+    "clearPCMQueueFailed": "Failed to clear PCM queue"
+  },
+  "relationship": {
+    "improved": "Relationship has improved",
+    "decreased": "Relationship has decreased",
+    "newStatus": "New Status"
+  },
+  "emotion": {
+    "seemsToBe": "Seems to be"
+  }
+}

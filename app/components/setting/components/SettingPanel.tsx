@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useDevice } from '../../../contexts/DeviceContext'
 import { ListItem, ListItemText, Switch } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 export default function SettingPanel() {
   const { isMobile } = useDevice()
+  const { t } = useTranslation()
   const [toggleEnabled, setToggleEnabled] = useState(
     window.localStorage.getItem('cloth_simulation') === '1',
   )
@@ -52,7 +54,7 @@ export default function SettingPanel() {
         }}
       >
         <ListItemText
-          primary="Cloth Simulation"
+          primary={t('simulationPanel.clothSimulation')}
           primaryTypographyProps={{
             style: {
               color: '#fff',
@@ -60,7 +62,7 @@ export default function SettingPanel() {
               fontWeight: 500,
             },
           }}
-          secondary="Whether enable cloth simulation"
+          secondary={t('simulationPanel.clothSimulationPlaceholder')}
           secondaryTypographyProps={{
             style: {
               color: '#888',
@@ -99,7 +101,7 @@ export default function SettingPanel() {
         }}
       >
         <ListItemText
-          primary="Debug Mode"
+          primary={t('simulationPanel.debugMode')}
           primaryTypographyProps={{
             style: {
               color: '#fff',
@@ -107,7 +109,7 @@ export default function SettingPanel() {
               fontWeight: 500,
             },
           }}
-          secondary="Physics viewer, detailed logging, etc."
+          secondary={t('simulationPanel.debugModePlaceholder')}
           secondaryTypographyProps={{
             style: {
               color: '#888',

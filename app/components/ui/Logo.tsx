@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useDevice } from '../../contexts/DeviceContext'
+import { useTranslation } from 'react-i18next'
 interface LogoProps {
   className?: string
 
@@ -16,6 +17,7 @@ export default function Logo({
   clickable = false,
 }: LogoProps) {
   const { isMobile } = useDevice()
+  const { t } = useTranslation()
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if ((event.key === 'Enter' || event.key === ' ') && onClick) {
       event.preventDefault()
@@ -45,7 +47,7 @@ export default function Logo({
           className="logo-text"
           style={{ fontSize: isMobile ? '1rem' : '1.5rem' }}
         >
-          DLP3D
+          {t('nav.title')}
         </span>
       </div>
     </>

@@ -15,18 +15,23 @@ import { fetchGetAvailableTTS, fetchGetAvailableASR } from '@/request/api'
 import { fetchGetTTS, fetchGetASR } from '@/request/configApi'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
+import { useTranslation } from 'react-i18next'
 
+/**
+ * TTSPanel component.
+ *
+ * A panel component for configuring TTS (Text-to-Speech) and ASR (Automatic Speech Recognition) settings.
+ * Provides tabs for selecting ASR and TTS providers, voice selection, speed control,
+ * and API key configuration for various TTS/ASR services.
+ */
 export default function TTSPanel() {
   const settings = useSelector(getSelectedChat)
   const { updateCharacter, updateUserConfig } = usePromptingSettings()
   const { isMobile } = useDevice()
-
+  const { t } = useTranslation()
   const [selectedVoiceKey, setSelectedVoiceKey] = useState(settings?.voice)
   const [speed, setSpeed] = useState(settings?.voice_speed)
 
-  /**
-   * tabs
-   */
   const [ASRTabs, setASRTabs] = useState<string[]>([])
   const [TTSTabs, setTTSTabs] = useState<string[]>([])
   const [availableASR, setAvailableASR] = useState<string[]>([])
@@ -41,9 +46,18 @@ export default function TTSPanel() {
   const [editTab, setEditTab] = useState('')
   const [editType, setEditType] = useState('')
 
+  /**
+   * Handle ASR tab change.
+   *
+   * Checks if the selected ASR provider is available, updates the selected tab,
+   * and saves the configuration to the character settings.
+   *
+   * @param {React.SyntheticEvent} event The synthetic event object.
+   * @param {string} newASR The new ASR provider identifier.
+   */
   const handleASRTabChange = useCallback(
     async (event: React.SyntheticEvent, newASR: string) => {
-      // 检查是否可用：完全匹配或前缀匹配
+      // Check availability: exact match or prefix match
       const isAvailable = availableASR.some(
         available => available === newASR || newASR.startsWith(available),
       )
@@ -56,6 +70,14 @@ export default function TTSPanel() {
     [availableASR, settings, updateCharacter],
   )
 
+  /**
+   * Handle TTS tab change.
+   *
+   * Checks if the selected TTS provider is available and updates the selected tab.
+   *
+   * @param {React.SyntheticEvent} event The synthetic event object.
+   * @param {string} newTTS The new TTS provider identifier.
+   */
   const handleTTSTabChange = useCallback(
     (event: React.SyntheticEvent, newTTS: string) => {
       if (!availableTTS.includes(newTTS)) {
@@ -66,9 +88,18 @@ export default function TTSPanel() {
     [availableTTS],
   )
 
-  // 防抖处理
+  // Debounce handling
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
+  /**
+   * Handle voice speed change.
+   *
+   * Updates the voice speed with debouncing to avoid excessive API calls.
+   * Saves the updated settings after a delay.
+   *
+   * @param {Event} newSpeed The event object.
+   * @param {number | number[]} value The new speed value.
+   */
   const handleSpeedChange = useCallback(
     (newSpeed: Event, value: number | number[]) => {
       const newSpeedValue = value as number
@@ -87,10 +118,20 @@ export default function TTSPanel() {
         }
 
         updateCharacter(settings!.character_id, 'tts', updatedSettings)
-      }, 800) // 300ms 防抖延迟
+      }, 800) // 800ms debounce delay
     },
     [settings, updateCharacter, selectedVoiceKey],
   )
+  /**
+   * Handle key settings button click.
+   *
+   * Opens the API key configuration dialog for the selected provider.
+   * If keys are already configured, displays placeholder values.
+   *
+   * @param {string} tab The provider tab identifier.
+   * @param {string} type The type ('asr' or 'tts').
+   * @param {React.MouseEvent} event The mouse event object.
+   */
   const handleKeySettings = useCallback(
     async (tab: string, type: string, event: React.MouseEvent) => {
       event.stopPropagation()
@@ -98,7 +139,7 @@ export default function TTSPanel() {
       setEditType(type)
       setDialogOpen(true)
 
-      // 检查是否已配置：根据类型检查对应的可用列表
+      // Check if already configured: check corresponding available list based on type
       const isAvailable =
         type === 'asr'
           ? availableASR.some(
@@ -119,6 +160,13 @@ export default function TTSPanel() {
     },
     [availableASR, availableTTS],
   )
+  /**
+   * Handle voice selection.
+   *
+   * Updates the selected voice and saves the configuration to the character settings.
+   *
+   * @param {VoiceOption} voice The selected voice option.
+   */
   const handleVoiceSelect = useCallback(
     async (voice: VoiceOption) => {
       setSelectedVoiceKey(voice.value)
@@ -131,12 +179,18 @@ export default function TTSPanel() {
     },
     [settings, updateCharacter, speed, selectedTTSTab],
   )
+  /**
+   * Handle key save action.
+   *
+   * Saves API keys for various TTS/ASR providers based on the provider type.
+   * Only updates keys that are not placeholders. Refreshes available provider lists after saving.
+   */
   const handleKeySave = useCallback(async () => {
     const tabName = editTab.toLowerCase()
 
     switch (tabName) {
       case 'huoshan':
-        // 只有当不是占位符时才更新
+        // Only update if not placeholder
         if (key !== '******') {
           await updateUserConfig('huoshan_app_id', key)
         }
@@ -145,7 +199,7 @@ export default function TTSPanel() {
         }
         break
       case 'huoshan_icl':
-        // 只有当不是占位符时才更新
+        // Only update if not placeholder
         if (key !== '******') {
           await updateUserConfig('huoshan_app_id', key)
         }
@@ -154,7 +208,7 @@ export default function TTSPanel() {
         }
         break
       case 'softsugar':
-        // 只有当不是占位符时才更新
+        // Only update if not placeholder
         if (key !== '******') {
           await updateUserConfig('softsugar_app_id', key)
         }
@@ -163,25 +217,25 @@ export default function TTSPanel() {
         }
         break
       case 'sensenova':
-        // 只有当不是占位符时才更新
+        // Only update if not placeholder
         if (key !== '******') {
           await updateUserConfig('nova_tts_api_key', key)
         }
         break
       case 'elevenlabs':
-        // 只有当不是占位符时才更新
+        // Only update if not placeholder
         if (key !== '******') {
           await updateUserConfig('elevenlabs_api_key', key)
         }
         break
       case 'openai_realtime':
-        // 只有当不是占位符时才更新
+        // Only update if not placeholder
         if (key !== '******') {
           await updateUserConfig('openai_api_key', key)
         }
         break
       default:
-        // 只有当不是占位符时才更新
+        // Only update if not placeholder
         if (key !== '******') {
           await updateUserConfig(`${editTab}_${editType}_api_key`, key)
         }
@@ -190,12 +244,17 @@ export default function TTSPanel() {
 
     setDialogOpen(false)
 
-    // 重新获取可用选项以刷新状态
+    // Refetch available options to refresh state
     const activeTtsData = await fetchGetAvailableTTS(settings!.user_id)
     const activeAsrData = await fetchGetAvailableASR(settings!.user_id)
     setAvailableTTS(activeTtsData.options)
     setAvailableASR(activeAsrData.options)
   }, [editTab, key, key2, editType, updateUserConfig, settings])
+  /**
+   * Render the ASR and TTS provider tabs.
+   *
+   * @returns {JSX.Element} The rendered tabs component.
+   */
   const getTabs = useCallback(() => {
     return (
       <div>
@@ -209,7 +268,7 @@ export default function TTSPanel() {
               paddingLeft: '10px',
             }}
           >
-            ASR
+            {t('TTSPanel.asr')}
           </div>
           <Tabs
             value={selectedASRTab}
@@ -222,19 +281,19 @@ export default function TTSPanel() {
               borderRadius: '8px',
               marginBottom: '10px',
               '& .MuiTab-root': {
-                color: 'rgba(255, 255, 255, 0.5)', // 未选中状态
+                color: 'rgba(255, 255, 255, 0.5)', // Unselected state
                 minWidth: 'auto',
                 padding: '6px 16px',
                 fontSize: isMobile ? '12px' : '14px',
               },
               '& .Mui-selected': {
-                color: '#fff !important', // 选中状态
+                color: '#fff !important', // Selected state
               },
               '& .MuiTabs-indicator': {
-                backgroundColor: '#fff', // 下划线颜色
+                backgroundColor: '#fff', // Indicator color
               },
               '& .MuiTab-root.Mui-disabled': {
-                color: 'rgba(255, 255, 255, 0.1)', // 未选中状态
+                color: 'rgba(255, 255, 255, 0.1)', // Disabled state
               },
               '& .MuiTabs-scrollButtons': {
                 color: '#fff',
@@ -281,7 +340,7 @@ export default function TTSPanel() {
                           : 0.2,
                       }}
                     >
-                      {tab}
+                      {t(`TTSPanel.${tab}`)}
                     </span>
                   </div>
                 }
@@ -300,7 +359,7 @@ export default function TTSPanel() {
                 paddingLeft: '10px',
               }}
             >
-              TTS
+              {t('TTSPanel.tts')}
             </span>
             <Tabs
               value={selectedTTSTab}
@@ -313,19 +372,19 @@ export default function TTSPanel() {
                 borderRadius: '8px',
                 marginBottom: '10px',
                 '& .MuiTab-root': {
-                  color: 'rgba(255, 255, 255, 0.5)', // 未选中状态
+                  color: 'rgba(255, 255, 255, 0.5)', // Unselected state
                   minWidth: 'auto',
                   padding: '6px 16px',
                   fontSize: isMobile ? '12px' : '14px',
                 },
                 '& .Mui-selected': {
-                  color: '#fff !important', // 选中状态
+                  color: '#fff !important', // Selected state
                 },
                 '& .MuiTabs-indicator': {
-                  backgroundColor: '#fff', // 下划线颜色
+                  backgroundColor: '#fff', // Indicator color
                 },
                 '& .MuiTab-root.Mui-disabled': {
-                  color: 'rgba(255, 255, 255, 0.1)', // 未选中状态
+                  color: 'rgba(255, 255, 255, 0.1)', // Disabled state
                 },
                 '& .MuiTabs-scrollButtons': {
                   color: '#fff',
@@ -366,7 +425,7 @@ export default function TTSPanel() {
                       <span
                         style={{ opacity: availableTTS.includes(tab) ? 1 : 0.2 }}
                       >
-                        {tab}
+                        {t(`TTSPanel.${tab}`)}
                       </span>
                     </div>
                   }
@@ -390,7 +449,13 @@ export default function TTSPanel() {
     handleASRTabChange,
     handleTTSTabChange,
     handleKeySettings,
+    t,
   ])
+  /**
+   * Render the voice selection list.
+   *
+   * @returns {JSX.Element} The rendered voice list component.
+   */
   const getList = useCallback(() => {
     return (
       <div
@@ -441,7 +506,17 @@ export default function TTSPanel() {
     )
   }, [voiceOptions, selectedVoiceKey, handleVoiceSelect, isMobile])
 
+  /**
+   * Render the API key configuration dialog.
+   *
+   * @returns {JSX.Element} The rendered dialog component.
+   */
   const getDialog = useCallback(() => {
+    /**
+     * Get input fields based on provider type.
+     *
+     * @returns {JSX.Element} The rendered input fields for the selected provider.
+     */
     const getInputFields = () => {
       const tabName = editTab.toLowerCase()
 
@@ -459,7 +534,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                App ID
+                {t('TTSPanel.appId')}
               </label>
               <input
                 type="text"
@@ -484,7 +559,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder="Enter Huoshan App ID"
+                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.appId')}`}
               />
               <label
                 style={{
@@ -496,7 +571,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                Token
+                {t('TTSPanel.token')}
               </label>
               <input
                 type="text"
@@ -521,7 +596,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder="Enter Huoshan Token"
+                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.token')}`}
               />
             </>
           )
@@ -538,7 +613,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                App ID
+                {t('TTSPanel.appId')}
               </label>
               <input
                 type="text"
@@ -563,7 +638,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder="Enter Huoshan ICL App ID"
+                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.appId')}`}
               />
               <label
                 style={{
@@ -575,7 +650,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                Token
+                {t('TTSPanel.token')}
               </label>
               <input
                 type="text"
@@ -600,7 +675,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder="Enter Huoshan ICL Token"
+                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.token')}`}
               />
             </>
           )
@@ -617,7 +692,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                App ID
+                {t('TTSPanel.appId')}
               </label>
               <input
                 type="text"
@@ -642,7 +717,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder="Enter Softsugar App ID"
+                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.appId')}`}
               />
               <label
                 style={{
@@ -654,7 +729,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                App Key
+                {t('TTSPanel.appKey')}
               </label>
               <input
                 type="text"
@@ -679,7 +754,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder="Enter Softsugar App Key"
+                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.appKey')}`}
               />
             </>
           )
@@ -696,7 +771,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                API Key
+                {t('TTSPanel.apiKey')}
               </label>
               <input
                 type="text"
@@ -721,7 +796,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder="Enter Sensenova API Key"
+                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.apiKey')}`}
               />
             </>
           )
@@ -738,7 +813,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                API Key
+                {t('TTSPanel.apiKey')}
               </label>
               <input
                 type="text"
@@ -763,7 +838,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder="Enter ElevenLabs API Key"
+                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.apiKey')}`}
               />
             </>
           )
@@ -780,7 +855,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                API Key
+                {t('TTSPanel.apiKey')}
               </label>
               <input
                 type="text"
@@ -805,7 +880,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder="Enter OpenAI API Key"
+                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.apiKey')}`}
               />
             </>
           )
@@ -822,7 +897,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                API Key
+                {t('TTSPanel.apiKey')}
               </label>
               <input
                 type="text"
@@ -847,7 +922,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder="Enter API Key"
+                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.apiKey')}`}
               />
             </>
           )
@@ -858,7 +933,7 @@ export default function TTSPanel() {
       <Dialog
         isOpen={dialogOpen}
         onClose={() => setDialogOpen(false)}
-        title="Edit KEY"
+        title={`${t('TTSPanel.editKey')}`}
       >
         <div
           style={{
@@ -896,15 +971,15 @@ export default function TTSPanel() {
                 e.currentTarget.style.opacity = '1'
               }}
             >
-              Save
+              {t('common.save')}
             </button>
           </div>
         </div>
       </Dialog>
     )
-  }, [dialogOpen, editTab, key, key2, handleKeySave])
+  }, [dialogOpen, editTab, key, key2, handleKeySave, t])
 
-  // 清理防抖定时器
+  // Cleanup debounce timer
   useEffect(() => {
     return () => {
       if (debounceTimeoutRef.current) {
@@ -937,7 +1012,7 @@ export default function TTSPanel() {
 
       {getList()}
 
-      {/* 固定在底部的速度控制滑块 */}
+      {/* Fixed speed control slider at bottom */}
       <div
         style={{
           position: 'absolute',
@@ -952,7 +1027,7 @@ export default function TTSPanel() {
       >
         <div style={{ marginBottom: isMobile ? '0' : '8px' }}>
           <span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>
-            voice speed: {speed?.toFixed(1)}x
+            {t('TTSPanel.voiceSpeed')}: {speed?.toFixed(1)}x
           </span>
         </div>
         <Slider
@@ -963,38 +1038,38 @@ export default function TTSPanel() {
           max={2.0}
           onChange={handleSpeedChange}
           sx={{
-            color: '#323451', // 进度条颜色
+            color: '#323451', // Progress bar color
             height: 8,
             '& .MuiSlider-track': {
               border: 'none',
-              backgroundColor: '#323451', // 进度条颜色
+              backgroundColor: '#323451', // Progress bar color
             },
             '& .MuiSlider-rail': {
-              backgroundColor: '#323451', // 轨道颜色
+              backgroundColor: '#323451', // Rail color
               opacity: 1,
             },
             '& .MuiSlider-thumb': {
               height: 30,
               width: 15,
-              backgroundColor: '#ffffff', // 滑块颜色
+              backgroundColor: '#ffffff', // Thumb color
               border: '2px solid #323451',
-              borderRadius: '15px', // 方形滑块
+              borderRadius: '15px', // Rounded thumb
 
               '&:hover, &.Mui-focusVisible, &.Mui-active': {
                 boxShadow: '0 0 0 8px rgba(255, 255, 255, 0.16)',
               },
             },
             '& .MuiSlider-mark': {
-              backgroundColor: '#323451', // 标记点颜色
+              backgroundColor: '#323451', // Mark color
               height: 8,
               width: 8,
               borderRadius: '50%',
               '&.MuiSlider-markActive': {
-                backgroundColor: '#ffffff', // 激活的标记点颜色
+                backgroundColor: '#ffffff', // Active mark color
               },
             },
             '& .MuiSlider-markLabel': {
-              color: '#ffffff', // 标签颜色
+              color: '#ffffff', // Label color
               fontSize: '12px',
               fontWeight: 500,
             },

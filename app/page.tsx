@@ -39,10 +39,19 @@ import {
 import { usePromptingSettings } from '@/hooks/usePromptingSettings'
 import { checkLocation, isSensetimeOrchestrator } from '@/utils/location'
 import { ConfirmDialog } from './components/common/Dialog'
+import { useTranslation } from 'react-i18next'
 
+/**
+ * Home component.
+ *
+ * The main page component that manages the 3D scene viewer, chat initialization,
+ * character loading, and scene management. Handles user authentication, loading states,
+ * and navigation to the chat interface.
+ */
 export default function Home() {
   const dispatch = useDispatch()
   const selectedChat = useSelector(getSelectedChat)
+  const { t } = useTranslation()
   const babylonViewerRef = useRef<BabylonViewerRef>(null)
 
   const isChatStarting = useSelector(getIsChatStarting)
@@ -60,8 +69,8 @@ export default function Home() {
   const [chatAvailable, setChatAvailable] = useState(false) // Whether Chat should be enabled for current character
   const [characterChangeKey, setCharacterChangeKey] = useState(0) // Track character selection changes
 
-  const [uiFadeOut, setUiFadeOut] = useState(false) // 控制淡出动画
-  const [isLoading, setIsLoading] = useState(true) // Loading状态
+  const [uiFadeOut, setUiFadeOut] = useState(false) // Controls fade-out animation
+  const [isLoading, setIsLoading] = useState(true) // Loading state
   const [isGlobalLoading, setIsGlobalLoading] = useState(
     isLoading || isSceneLoading || isCharacterLoading,
   )
@@ -69,7 +78,7 @@ export default function Home() {
   const [showUnsupportedTtsNotice, setShowUnsupportedTtsNotice] = useState(false)
   const { isMobile } = useDevice()
   const { loadUserCharacters } = usePromptingSettings()
-  const [selectedScene, setSelectedScene] = useState(3) // 用于跳转scene参数
+  const [selectedScene, setSelectedScene] = useState(3) // Parameter for scene navigation
   const [locationDialogOpen, setLocationDialogOpen] = useState(false)
 
   useEffect(() => {
@@ -123,10 +132,16 @@ export default function Home() {
     }
   }, [selectedChat])
 
+  /**
+   * Handle character loaded event.
+   *
+   * Dispatches actions to update loading state and triggers a custom event
+   * after a delay to ensure all components are initialized.
+   */
   const handleCharacterLoaded = useCallback(() => {
     dispatch(setIsCharacterLoading(false))
     dispatch(setLoadingText(''))
-    // 延迟触发事件，确保所有组件都已初始化
+    // Delay event trigger to ensure all components are initialized
     setTimeout(() => {
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('character-loaded'))
@@ -134,6 +149,11 @@ export default function Home() {
     }, 1000)
   }, [])
 
+  /**
+   * Handle scene change.
+   *
+   * @param scene The name of the scene to switch to.
+   */
   const handleSceneChange = (scene: string) => {
     dispatch(setIsSceneLoading(true))
     dispatch(setLoadingText('Loading Scene...'))
@@ -143,12 +163,23 @@ export default function Home() {
     setSelectedScene(index)
   }
 
+  /**
+   * Handle scene loaded event.
+   *
+   * Dispatches actions to update loading state when the scene has finished loading.
+   */
   const handleSceneLoaded = useCallback(() => {
     dispatch(setIsSceneLoading(false))
     dispatch(setLoadingText(''))
   }, [])
 
-  // 修改handleStartConversation逻辑
+  /**
+   * Handle starting a conversation.
+   *
+   * Validates prerequisites, saves camera and scene state, captures a screenshot,
+   * and opens a new window with the chat interface. Handles TTS compatibility checks
+   * and location-based warnings for specific server hosts.
+   */
   const handleStartConversation = useCallback(async () => {
     if (isCharacterLoading || isSceneLoading) {
       return
@@ -256,7 +287,7 @@ export default function Home() {
     loadUserCharacters,
   ])
   useEffect(() => {
-    // 监听路由变化，当回到首页时重置聊天状态
+    // Listen for route changes and reset chat state when returning to homepage
     const handleRouteChange = () => {
       if (window.location.pathname === '/') {
         dispatch(setIsChatStarting(false))
@@ -264,10 +295,10 @@ export default function Home() {
       }
     }
 
-    // 页面加载时检查当前路径
+    // Check current path on page load
     handleRouteChange()
 
-    // 监听浏览器前进后退事件
+    // Listen for browser back/forward events
     window.addEventListener('popstate', handleRouteChange)
 
     return () => {
@@ -315,7 +346,7 @@ export default function Home() {
       {/* Loading Screen */}
       <LoadingScreen
         isLoading={isGlobalLoading}
-        message={loadingText || 'Loading...'}
+        message={t('loading.message')}
         onComplete={() => setIsLoading(false)}
         progress={loadingProgress}
       />
@@ -336,7 +367,7 @@ export default function Home() {
 
       {/* Main Content Container */}
       <div className={`main-content-container${uiFadeOut ? ' fade-out' : ''}`}>
-        {/* 只要不是isChatStarting，才显示UI */}
+        {/* Only show UI when not isChatStarting */}
         {!isChatStarting && (
           <>
             {/* Hero Section */}
@@ -346,7 +377,7 @@ export default function Home() {
           </>
         )}
 
-        {/* 隐藏的贴片截图用 DOM */}
+        {/* Hidden DOM for billboard screenshot */}
         <div
           id="dlp-billboard-capture"
           style={{
@@ -390,9 +421,9 @@ export default function Home() {
           setLocationDialogOpen(false)
           localStorage.setItem('dlp_enter_wrong_location', 'true')
         }}
-        title="Network Latency Warning"
-        message="We've detected that you're connecting from a location far from our servers, which may result in higher network latency and a suboptimal user experience. For the best performance and experience, we recommend accessing our open-source project and deploying it locally."
-        confirmText="Enter Wrong Location"
+        title={t('networkLatencyWarning.title')}
+        message={t('networkLatencyWarning.message')}
+        confirmText={t('networkLatencyWarning.confirmText')}
       />
       {/* Footer */}
       {!isChatStarting && !isLogin && (
