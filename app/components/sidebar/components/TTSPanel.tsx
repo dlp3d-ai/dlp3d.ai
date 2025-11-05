@@ -24,6 +24,8 @@ import { useTranslation } from 'react-i18next'
  * A panel component for configuring TTS (Text-to-Speech) and ASR (Automatic Speech Recognition) settings.
  * Provides tabs for selecting ASR and TTS providers, voice selection, speed control,
  * and API key configuration for various TTS/ASR services.
+ *
+ * @returns JSX.Element The rendered TTS/ASR settings panel.
  */
 export default function TTSPanel() {
   const settings = useSelector(getSelectedChat)
@@ -56,8 +58,10 @@ export default function TTSPanel() {
    * Checks if the selected ASR provider is available, updates the selected tab,
    * and saves the configuration to the character settings.
    *
-   * @param {React.SyntheticEvent} event The synthetic event object.
-   * @param {string} newASR The new ASR provider identifier.
+   * @param event The synthetic event object (React.SyntheticEvent).
+   * @param newASR The new ASR provider identifier (string).
+   *
+   * @returns Promise<void> Resolves when the configuration is saved.
    */
   const handleASRTabChange = useCallback(
     async (event: React.SyntheticEvent, newASR: string) => {
@@ -79,8 +83,10 @@ export default function TTSPanel() {
    *
    * Checks if the selected TTS provider is available and updates the selected tab.
    *
-   * @param {React.SyntheticEvent} event The synthetic event object.
-   * @param {string} newTTS The new TTS provider identifier.
+   * @param event The synthetic event object (React.SyntheticEvent).
+   * @param newTTS The new TTS provider identifier (string).
+   *
+   * @returns void
    */
   const handleTTSTabChange = useCallback(
     (event: React.SyntheticEvent, newTTS: string) => {
@@ -101,8 +107,10 @@ export default function TTSPanel() {
    * Updates the voice speed with debouncing to avoid excessive API calls.
    * Saves the updated settings after a delay.
    *
-   * @param {Event} newSpeed The event object.
-   * @param {number | number[]} value The new speed value.
+   * @param newSpeed The event object (Event).
+   * @param value The new speed value (number).
+   *
+   * @returns void
    */
   const handleSpeedChange = useCallback(
     (newSpeed: Event, value: number | number[]) => {
@@ -132,9 +140,11 @@ export default function TTSPanel() {
    * Opens the API key configuration dialog for the selected provider.
    * If keys are already configured, displays placeholder values.
    *
-   * @param {string} tab The provider tab identifier.
-   * @param {string} type The type ('asr' or 'tts').
-   * @param {React.MouseEvent} event The mouse event object.
+   * @param tab The provider tab identifier (string).
+   * @param type The type ("asr" or "tts").
+   * @param event The mouse event object (React.MouseEvent).
+   *
+   * @returns Promise<void> Resolves when dialog state is updated.
    */
   const handleKeySettings = useCallback(
     async (tab: string, type: string, event: React.MouseEvent) => {
@@ -169,7 +179,9 @@ export default function TTSPanel() {
    *
    * Updates the selected voice and saves the configuration to the character settings.
    *
-   * @param {VoiceOption} voice The selected voice option.
+   * @param voice The selected voice option (VoiceOption).
+   *
+   * @returns Promise<void> Resolves when the configuration is saved.
    */
   const handleVoiceSelect = useCallback(
     async (voice: VoiceOption) => {
@@ -184,6 +196,13 @@ export default function TTSPanel() {
     },
     [settings, updateCharacter, speed, selectedTTSTab],
   )
+  /**
+   * Save a modified voice name entered by the user.
+   *
+   * Persists the custom voice value as the selected voice for the active TTS provider.
+   *
+   * @returns Promise<void> Resolves when the configuration is saved.
+   */
   const handleModifiedVoiceSave = useCallback(async () => {
     if (!modifiedVoiceName.trim()) {
       return
@@ -199,6 +218,14 @@ export default function TTSPanel() {
     setModifiedDialogOpen(false)
   }, [settings, updateCharacter, speed, selectedTTSTab, modifiedVoiceName])
 
+  /**
+   * Open the dialog for editing a custom (modified) voice name.
+   *
+   * Pre-fills the input with the current custom voice if it is not in the
+   * available voice options for the selected TTS provider.
+   *
+   * @returns void
+   */
   const handleVoiceSelectModified = () => {
     setModifiedVoiceName('')
     if (
@@ -482,8 +509,14 @@ export default function TTSPanel() {
     handleKeySettings,
     t,
   ])
+  /**
+   * Format a multi-part label by splitting on '-' and rendering as stacked lines.
+   *
+   * @param label The raw label text to format (string).
+   *
+   * @returns JSX.Element The formatted label component.
+   */
   const formatLabel = useCallback((label: string) => {
-    // 把-处理成换行
     const lines = label.split('-')
     return (
       <div
@@ -510,7 +543,7 @@ export default function TTSPanel() {
   /**
    * Render the voice selection list.
    *
-   * @returns {JSX.Element} The rendered voice list component.
+   * @returns JSX.Element The rendered voice list component.
    */
   const getList = useCallback(() => {
     return (
@@ -663,13 +696,13 @@ export default function TTSPanel() {
   /**
    * Render the API key configuration dialog.
    *
-   * @returns {JSX.Element} The rendered dialog component.
+   * @returns JSX.Element The rendered dialog component.
    */
   const getDialog = useCallback(() => {
     /**
      * Get input fields based on provider type.
      *
-     * @returns {JSX.Element} The rendered input fields for the selected provider.
+     * @returns JSX.Element The rendered input fields for the selected provider.
      */
     const getInputFields = () => {
       const tabName = editTab.toLowerCase()
@@ -1218,7 +1251,7 @@ export default function TTSPanel() {
       </Dialog>
     )
   }, [modifiedDialogOpen, modifiedVoiceName, handleModifiedVoiceSave])
-  // 清理防抖定时器
+  // Clean up debounce timer
   useEffect(() => {
     return () => {
       if (debounceTimeoutRef.current) {
