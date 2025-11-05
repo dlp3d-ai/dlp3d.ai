@@ -207,7 +207,9 @@ export default function LLMPanel() {
             }`}
             key={choices.value}
             onClick={() => handleModelSelect(choices)}
-            style={{ position: 'relative' }}
+            style={{
+              position: 'relative',
+            }}
           >
             <div
               className="config-sidebar-drawer-list-item-content"
