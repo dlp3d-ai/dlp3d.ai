@@ -7,16 +7,38 @@ import { getIsSceneLoading } from '@/features/chat/chat'
 import { getSelectedChat } from '@/features/chat/chat'
 import { usePromptingSettings } from '@/hooks/usePromptingSettings'
 import { HDRI_SCENES } from '@/library/babylonjs/config/scene'
+import { useTranslation } from 'react-i18next'
+
+/**
+ * Props for ScenePanel component.
+ */
 interface ScenePanelProps {
+  /** Callback function called when a scene is selected. */
   onSceneChange: (scene: string) => void
 }
 
+/**
+ * ScenePanel component.
+ *
+ * A panel component for selecting and managing HDRI scene environments.
+ * Displays a list of available scenes and allows users to select and update
+ * the active scene for the character.
+ */
 export default function ScenePanel({ onSceneChange }: ScenePanelProps) {
-  // Local state for selected scene index
+  const { t } = useTranslation()
   const settings = useSelector(getSelectedChat)
   const [selectedScene, setSelectedScene] = useState(settings?.scene_name)
   const isLoading = useSelector(getIsSceneLoading)
   const { updateCharacter } = usePromptingSettings()
+  /**
+   * Handle scene selection.
+   *
+   * Updates the selected scene, saves it to the character configuration,
+   * and calls the parent component's callback function.
+   *
+   * @param {string} name The name of the selected scene.
+   * @param {number} index The index of the selected scene in HDRI_SCENES array.
+   */
   const handleSceneSelect = async (name: string, index: number) => {
     if (isLoading) return
     if (name === settings?.scene_name) return
@@ -25,7 +47,7 @@ export default function ScenePanel({ onSceneChange }: ScenePanelProps) {
       scene_name: name,
     })
     if (!res) return
-    onSceneChange(HDRI_SCENES[index].name) // 调用父组件的回调函数
+    onSceneChange(HDRI_SCENES[index].name) // Call parent component callback
   }
 
   return (
@@ -48,7 +70,9 @@ export default function ScenePanel({ onSceneChange }: ScenePanelProps) {
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
 
-            <div className="config-sidebar-drawer-list-item-name">{scene.name}</div>
+            <div className="config-sidebar-drawer-list-item-name">
+              {t(`scenes.${scene.name}`)}
+            </div>
             {selectedScene === scene.name && (
               <div
                 style={{

@@ -1,0 +1,138 @@
+{
+  "common": {
+    "error": "错误",
+    "success": "成功",
+    "cancel": "取消",
+    "confirm": "确认",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "editKey": "编辑密钥",
+    "close": "关闭"
+  },
+  "loading": {
+    "title": "数字生命计划 2",
+    "subTitle": "开源3D自主角色",
+    "message": "加载中...",
+    "initializingScene": "正在初始化场景..."
+  },
+  "nav": {
+    "title": "数字生命计划 2",
+    "account": "账户",
+    "signedInAs": "登录为",
+    "changePassword": "修改密码",
+    "signOut": "退出登录",
+    "deleteAccount": "删除账户",
+    "passwordUpdated": "密码修改成功",
+    "accountDeleted": "账户删除成功"
+  },
+  "auth": {
+    "title": "数字生命计划 2",
+    "subTitle": "身份验证",
+    "login": "登录",
+    "register": "注册",
+    "registering": "注册中...",
+    "email": "邮箱",
+    "emailPlaceholder": "输入你的邮箱",
+    "password": "密码",
+    "passwordPlaceholder": "输入你的密码",
+    "oldPassword": "旧密码",
+    "newPassword": "新密码",
+    "confirmPassword": "确认密码",
+    "forgotPassword": "忘记密码",
+    "signIn": "登录",
+    "signingIn": "登录中...",
+    "signUp": "注册",
+    "signOut": "退出"
+  },
+  "chat": {
+    "chat": "开始对话",
+    "chatList": "对话列表",
+    "loginToChat": "登录以开始对话",
+    "myConversations": "我的对话"
+  },
+  "sidebar": {
+    "model": "3D模型",
+    "scene": "场景",
+    "prompt": "提示词",
+    "llm": "大语言模型",
+    "tts": "语音识别/合成"
+  },
+  "llmPanel": {
+    "editLLM": "编辑大语言模型",
+    "conversation": "对话",
+    "reaction": "反应",
+    "classification": "分类",
+    "memory": "记忆",
+    "modelNameOverride": "模型名称",
+    "modelNameOverridePlaceholder": "输入模型名称",
+    "apiKey": "API密钥",
+    "apiKeyPlaceholder": "输入密钥",
+    "sensenovaAK": "访问密钥ID(AK)",
+    "sensenovaSK": "秘密访问密钥(SK)"
+  },
+  "TTSPanel": {
+    "asr": "语音识别",
+    "tts": "语音合成",
+    "editKey": "编辑密钥",
+    "enter": "输入",
+    "appId": "应用编号",
+    "appKey": "应用密钥",
+    "apiKey": "API密钥",
+    "token": "令牌",
+    "voiceSpeed": "语速",
+    "huoshan": "火山",
+    "huoshan_icl": "火山 克隆",
+    "softsugar": "绵白糖",
+    "sensenova": "商汤日日新",
+    "openai_realtime": "OPENAI",
+    "elevenlabs": "ELEVENLABS"
+  },
+  "simulationPanel": {
+    "title": "模拟设定",
+    "clothSimulation": "布料模拟",
+    "clothSimulationPlaceholder": "是否启用布料模拟",
+    "debugMode": "调试模式",
+    "debugModePlaceholder": "碰撞体可视化、详细日志输出等"
+  },
+  "networkLatencyWarning": {
+    "title": "网络延迟警告",
+    "message": "检测到你的地理位置距离在线服务很远，这可能导致更高的网络延迟并影响用户体验。为获得最佳性能和体验，我们建议访问我们的开源项目并部署在本地。",
+    "confirmText": "仍要访问"
+  },
+  "notification": {
+    "editDefaultCharacterNotAllowed": "不允许编辑默认角色。请在对话列表创建一个角色副本以修改配置。",
+    "updateDefaultCharacterNameNotAllowed": "不允许更新默认角色的名称",
+    "deleteDefaultCharacterNotAllowed": "不允许删除默认角色",
+    "loadCharacterFailed": "加载角色失败",
+    "deleteCharacterFailed": "删除角色失败",
+    "logInToDeleteCharacters": "请登录以删除角色",
+    "logInToUpdateUserConfig": "请登录以更新用户配置",
+    "logInToGetLLMList": "请登录以获取大语言模型列表",
+    "logInToUpdateCharacters": "请登录以更新角色",
+    "logInToUpdateCharacterName": "请登录以更新角色名称",
+    "registrationSucceed": "注册成功",
+    "verificationCodeSent": "我们已向你的邮箱发送了验证码，请输入验证码以完成验证",
+    "verificationCodeSentSuccessfully": "验证码发送成功",
+    "verificationCodeResentSuccessfully": "验证码重新发送成功"
+  },
+  "confirmDialog": {
+    "title": "提示",
+    "deleteMessage": "确定要删除吗？"
+  },
+  "characters": {
+    "Ani-default": "Ani-默认",
+    "KQ-default": "刻晴-默认",
+    "HT-default": "胡桃-默认",
+    "FNN-default": "芙宁娜-默认"
+  },
+  "scenes": {
+    "Seabed": "海底世界",
+    "Ground View": "黑洞",
+    "Cobbled Street": "街道",
+    "Vast": "璃月",
+    "Cyber Black": "赛博空间",
+    "Green": "绿幕"
+  }
+}
+

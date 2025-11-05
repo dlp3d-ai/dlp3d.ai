@@ -21,7 +21,7 @@ sd_hide_title: true
 
 ```{rubric} Digital Life Project 2
 ```
-Embodying Large Language Models on the Web
+Open-source Autonomous 3D Characters on the Web
 
 ````{div} sd-d-flex-row
 ```{button-ref} getting_started/quick_start

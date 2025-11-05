@@ -1,0 +1,46 @@
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 12px;
+
+  .lang-btn {
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    min-width: 50px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.9);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    &.active {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.4);
+      font-weight: 600;
+    }
+  }
+}
+
+// adapt to mobile devices 
+@media (max-width: 768px) {
+  .language-switcher {
+    margin-right: 8px;
+
+    .lang-btn {
+      padding: 4px 8px;
+      font-size: 12px;
+      min-width: 40px;
+    }
+  }
+}
+

@@ -1,0 +1,78 @@
+{
+  "loading": {
+    "initializeScene": "创建虚拟世界...",
+    "initialize3DACSystem": "初始化DLP3D核心系统...",
+    "loadEnvironment": "渲染天空和地形层...",
+    "loadCharacterConfig": "检索角色的意识碎片...",
+    "loadCharacterStaticAssets": "合成角色的数字血肉...",
+    "loadCharacterModel": "唤醒角色的数字身躯...",
+    "waitForAlgorithmReady": "注入角色的灵魂...",
+    "syncLocalAssets": "校准动作、语音和表情...",
+    "generateOpeningRemark": "生成初次形成意识的言语...",
+    "systemReady": "角色已苏醒"
+  },
+  "audio": {
+    "microphoneState": {
+        "permissionDenied": "麦克风访问被拒绝。请检查您的浏览器权限设置",
+        "microphoneNotFound": "未检测到麦克风设备",
+        "unknownError": "请求麦克风时发生未知错误"
+    },
+    "deviceCheckFailed": "麦克风状态检查失败",
+    "closeAudioContextFailed": "关闭音频上下文失败"
+  },
+  "websocket": {
+    "connectionLost": "WebSocket连接丢失",
+    "individualMessageSendingTimeout": "单个消息发送超时",
+    "urlRequired": "WebSocket URL不能为空",
+    "connectionFailed": "WebSocket连接失败，确保服务正在运行",
+    "notConnected": "WebSocket未连接"
+  },
+  "fsm": {
+    "unknownState": "未知状态",
+    "runtimeError": "状态机运行时发生错误",
+    "hdrLoadingError": "加载环境贴图失败",
+    "sceneSetupError": "场景初始化失败",
+    "characterSetupError": "设置角色失败",
+    "getConfigFailed": "获取配置失败",
+    "characterConfigFetchTimeout": "角色配置获取超时，请检查网络连接或增加超时时间",
+    "characterConfigFetchFailed": "角色配置获取失败",
+    "unknownAssetManagerType": "未知资产管理器类型",
+    "characterStaticAssetsDownloadFailed": "角色静态资产同步失败",
+    "characterModelLoadingFailed": "角色模型加载失败",
+    "noRunningStreamingClientFound": "没有正在运行的流式客户端",
+    "noRunningAssetManagerFound": "没有正在运行的资产管理器",
+    "algorithmTimedOutDuringStreaming": "算法在流式传输期间超时",
+    "incorrectStreamNumber": "算法流式传输返回的流数不正确，期望3个流，实际返回数量",
+    "streamingBufferEvaluationFailed": "流式传输缓冲区评估失败",
+    "configurationUpdateFailed": "3DAC配置同步失败",
+    "fetchMorphTargetsMetadataFailed": "获取表情基元数据失败",
+    "modelFileUrlOrMorphTargetMeshNameEmpty": "模型文件URL或表情基名称为空",
+    "characterNotFound": "角色未找到",
+    "unsupportedLanguage": "不支持的语言",
+    "localAssetSyncFailed": "本地资产同步失败",
+    "waitForServiceResponseTypeTimeout": "等待服务响应类型超时",
+    "waitForDataStreamReadyTimeout": "等待数据流就绪超时",
+    "dataStreamActuallyUnavailable": "客户端收到数据流可用信号，但数据流实际上不可用",
+    "dataStreamEnded": "客户端收到数据流可用信号，但数据流已结束",
+    "dataStreamConnectionTimedOut": "客户端收到数据流可用信号，但数据流连接超时",
+    "dataStreamAvailableWithIncompleteChannel": "客户端收到数据流可用信号，但数据流通道数不完整，实际通道数",
+    "dataStreamEndedWithIncompleteChannel": "客户端收到数据流结束信号，但数据流通道数不正确，期望3个流，实际通道数",
+    "dataStreamUnavailableDuringPlayback": "客户端在流式传输动画播放期间，收到数据流不可用信号",
+    "dataStreamUnavailableDuringStreaming": "客户端在流式传输动画接收期间，收到数据流不可用信号",
+    "unknownErrorDuringStreaming": "客户端在流式传输动画接收期间，收到未知错误",
+    "unexpectedCondition": "收到意外条件",
+    "entranceAnimationDataMissing": "角色进场动画数据缺失",
+    "basicSceneStartupTimeout": "场景启动超时",
+    "unknown3DACGenerationResultType": "未知3DAC生成结果类型",
+    "unknownError": "未知错误",
+    "clearPCMQueueFailed": "清除PCM队列失败"
+  },
+  "relationship": {
+    "improved": "关系有所提升",
+    "decreased": "关系有所下降",
+    "newStatus": "新关系阶段"
+  },
+  "emotion": {
+    "seemsToBe": "看起来有点"
+  }
+}

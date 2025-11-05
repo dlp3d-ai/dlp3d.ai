@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Authenticator from './Authenticator'
 import './index.scss'
+import { useTranslation } from 'react-i18next'
 
 /**
  * Props interface for the AuthModal component.
@@ -40,7 +41,7 @@ export default function AuthModal({
     }>
   >([])
   const router = useRouter()
-
+  const { t } = useTranslation()
   useEffect(() => {
     setIsClient(true)
   }, [])
@@ -108,8 +109,8 @@ export default function AuthModal({
         </button>
         <div className="auth-modal-header">
           <h2 className="auth-title">
-            <span className="auth-title-main">DIGITAL LIFE PROJECT</span>
-            <span className="auth-title-sub">Authentication</span>
+            <span className="auth-title-main">{t('auth.title')}</span>
+            <span className="auth-title-sub">{t('auth.subTitle')}</span>
           </h2>
         </div>
         <Authenticator onAuthSuccess={onAuthSuccess} />

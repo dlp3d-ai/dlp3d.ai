@@ -8,6 +8,7 @@ import {
 } from '@/data_structures/audioStreamState'
 import { EventEmitter } from './eventEmitter'
 import { errorBus } from '../utils/errorBus'
+import i18n from '@/i18n/config'
 
 /**
  * PCMStreamHook
@@ -111,8 +112,9 @@ export const useAudioStream: PCMStreamHook = onPCMData => {
           AudioRecordState.PERMISSION_DENIED,
         )
         errorBus.emit('error', {
-          message:
-            'Microphone access was denied. Please check your browser permission settings',
+          message: i18n.t('audio.microphoneState.permissionDenied', {
+            ns: 'client',
+          }),
           severity: 'error',
           durationMs: 6000,
         })
@@ -123,7 +125,9 @@ export const useAudioStream: PCMStreamHook = onPCMData => {
           AudioRecordState.MICROPHONE_NOT_FOUND,
         )
         errorBus.emit('error', {
-          message: 'No microphone device was detected',
+          message: i18n.t('audio.microphoneState.microphoneNotFound', {
+            ns: 'client',
+          }),
           severity: 'error',
           durationMs: 6000,
         })
@@ -134,7 +138,10 @@ export const useAudioStream: PCMStreamHook = onPCMData => {
           AudioRecordState.UNKNOWN_ERROR,
         )
         errorBus.emit('error', {
-          message: `Recording failed: ${message}`,
+          message:
+            i18n.t('audio.microphoneState.unknownError', { ns: 'client' }) +
+            ': ' +
+            message,
           severity: 'error',
           durationMs: 6000,
         })
@@ -166,7 +173,9 @@ export const useAudioStream: PCMStreamHook = onPCMData => {
           await audioContextRef.current.close()
         }
       } catch (err) {
-        console.warn('Failed to close AudioContext:', err)
+        console.warn(
+          i18n.t('audio.closeAudioContextFailed', { ns: 'client' }) + ': ' + err,
+        )
       }
       audioContextRef.current = null
     }

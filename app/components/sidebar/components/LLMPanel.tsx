@@ -19,19 +19,35 @@ import {
 } from '@/request/configApi'
 import { getAvailableLlm } from '@/request/api'
 import { useDevice } from '@/contexts/DeviceContext'
+import { useTranslation } from 'react-i18next'
 
+/**
+ * Choice interface for LLM model selection.
+ */
 interface Choice {
+  /** The model value identifier. */
   value: string
+  /** The model key identifier. */
   key: string
+  /** The image URL for the model icon. */
   img: string
+  /** The display label for the model. */
   label: string
 }
 
+/**
+ * LLMPanel component.
+ *
+ * A panel component for configuring LLM (Large Language Model) settings.
+ * Supports multiple tabs for conversation, reaction, classification, and memory models.
+ * Allows users to select models, configure API keys, and override model names.
+ */
 export default function LLMPanel() {
   const { isMobile } = useDevice()
   const settings = useSelector(getSelectedChat)
   const [dialogOpen, setDialogOpen] = useState(false)
   const { updateCharacter, updateUserConfig } = usePromptingSettings()
+  const { t } = useTranslation()
   const [choseModel, setChoseModel] = useState<{
     value: string
     label: string
@@ -51,6 +67,15 @@ export default function LLMPanel() {
   const [choices, setChoices] = useState<Choice[]>([])
   const [choicesLoading, setChoicesLoading] = useState(false)
   const [availableLLM, setAvailableLLM] = useState<string[]>([])
+  /**
+   * Handle tab change event.
+   *
+   * Updates the selected tab and loads the corresponding model settings
+   * from the character configuration.
+   *
+   * @param {React.SyntheticEvent} event The synthetic event object.
+   * @param {string} newValue The new tab value.
+   */
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setSelectedTab(newValue)
     if (settings) {
@@ -61,6 +86,14 @@ export default function LLMPanel() {
     }
   }
 
+  /**
+   * Handle model selection.
+   *
+   * If the model requires API key configuration, opens the key dialog.
+   * Otherwise, updates the character configuration with the selected model.
+   *
+   * @param {Choice} model The selected model choice.
+   */
   const handleModelSelect = useCallback(
     async (model: Choice) => {
       setChoseModel(model)
@@ -104,6 +137,12 @@ export default function LLMPanel() {
     },
     [availableLLM, settings, selectedTab, updateCharacter],
   )
+  /**
+   * Handle save action.
+   *
+   * Saves model name override or API key configuration based on dialog type.
+   * Updates available LLM list after saving API keys.
+   */
   const handleSave = async () => {
     if (dialogType === 'name') {
       if (textName?.trim()) {
@@ -115,7 +154,7 @@ export default function LLMPanel() {
       }
     } else {
       if (keyType === 'sensenova') {
-        // 只有当不是占位符时才更新
+        // Only update if not placeholder
         if (textContent2 !== '******') {
           await updateUserConfig('sensenova_sk', textContent2)
         }
@@ -124,7 +163,7 @@ export default function LLMPanel() {
         }
       } else {
         const data = choseModel?.value.toLowerCase().split('_')[0]
-        // 只有当不是占位符时才更新
+        // Only update if not placeholder
         if (textContent !== '******') {
           await updateUserConfig(`${data}_api_key`, textContent)
         }
@@ -134,6 +173,15 @@ export default function LLMPanel() {
       setAvailableLLM(data.options)
     }
   }
+  /**
+   * Handle key settings button click.
+   *
+   * Opens the API key configuration dialog for the selected model.
+   * If the model already has keys configured, displays placeholder values.
+   *
+   * @param {Choice} model The model to configure.
+   * @param {React.MouseEvent} event The mouse event object.
+   */
   const handleKeySettings = useCallback(
     async (model: Choice, event: React.MouseEvent) => {
       event.stopPropagation()
@@ -152,6 +200,14 @@ export default function LLMPanel() {
     },
     [availableLLM],
   )
+  /**
+   * Handle settings button click.
+   *
+   * Opens the model name override dialog for the selected model.
+   *
+   * @param {Choice} model The model to configure.
+   * @param {React.MouseEvent} event The mouse event object.
+   */
   const handleSettings = useCallback(
     async (model: Choice, event: React.MouseEvent) => {
       event.stopPropagation()
@@ -168,6 +224,12 @@ export default function LLMPanel() {
     },
     [settings, selectedTab],
   )
+  /**
+   * Get LLM image URL by key.
+   *
+   * @param {string} key The LLM provider key.
+   * @returns {string} The image URL for the LLM provider.
+   */
   const getLLMImage = (key: string) => {
     switch (key) {
       case 'openai':
@@ -186,6 +248,11 @@ export default function LLMPanel() {
         return '/img/llm/openai.png'
     }
   }
+  /**
+   * Render the list of available LLM models.
+   *
+   * @returns {JSX.Element} The rendered list component with loading state or model items.
+   */
   const getList = useCallback(() => {
     return choicesLoading ? (
       <div style={{ color: '#fff', textAlign: 'center', padding: '20px' }}>
@@ -288,6 +355,12 @@ export default function LLMPanel() {
     handleKeySettings,
     isMobile,
   ])
+  /**
+   * Filter and transform choice strings into Choice objects.
+   *
+   * @param {string[]} choices Array of choice strings.
+   * @returns {Choice[]} Array of Choice objects with processed data.
+   */
   const filterChoices = useCallback((choices: string[]) => {
     return choices.map(choice => {
       return {
@@ -303,7 +376,7 @@ export default function LLMPanel() {
     const fetchData = async () => {
       if (selectedTab === 'conversation') {
         const data = await fetchGetConversation()
-        // 处理数据
+        // Process data
         setChoices(filterChoices(data.choices))
       } else if (selectedTab === 'reaction') {
         const data = await fetchGetReaction()
@@ -341,16 +414,16 @@ export default function LLMPanel() {
           borderRadius: '8px',
           marginBottom: '10px',
           '& .MuiTab-root': {
-            color: 'rgba(255, 255, 255, 0.5)', // 未选中状态
+            color: 'rgba(255, 255, 255, 0.5)', // Unselected state
             minWidth: 'auto',
             padding: '6px 16px',
             fontSize: isMobile ? '12px' : '14px',
           },
           '& .Mui-selected': {
-            color: '#fff !important', // 选中状态
+            color: '#fff !important', // Selected state
           },
           '& .MuiTabs-indicator': {
-            backgroundColor: '#fff', // 下划线颜色
+            backgroundColor: '#fff', // Indicator color
           },
           '& .MuiTabs-scrollButtons': {
             color: '#fff',
@@ -360,17 +433,17 @@ export default function LLMPanel() {
           },
         }}
       >
-        <Tab label="Conversation" value="conversation" />
-        <Tab label="Reaction" value="reaction" />
-        <Tab label="Classification" value="classification" />
-        <Tab label="Memory" value="memory" />
+        <Tab label={t('llmPanel.conversation')} value="conversation" />
+        <Tab label={t('llmPanel.reaction')} value="reaction" />
+        <Tab label={t('llmPanel.classification')} value="classification" />
+        <Tab label={t('llmPanel.memory')} value="memory" />
       </Tabs>
       {getList()}
 
       <Dialog
         isOpen={dialogOpen}
         onClose={() => setDialogOpen(false)}
-        title="Edit LLM"
+        title={t('llmPanel.editLLM')}
       >
         <div
           style={{
@@ -391,7 +464,7 @@ export default function LLMPanel() {
                   textAlign: 'left',
                 }}
               >
-                Model Name Override
+                {t('llmPanel.modelNameOverride')}
               </label>
               <input
                 type="text"
@@ -416,7 +489,7 @@ export default function LLMPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder="Enter name"
+                placeholder={t('llmPanel.modelNameOverridePlaceholder')}
               />
             </>
           )}
@@ -432,7 +505,9 @@ export default function LLMPanel() {
                   textAlign: 'left',
                 }}
               >
-                {keyType === 'sensenova' ? 'sensenova_ak' : `${keyType}_api_key`}
+                {keyType === 'sensenova'
+                  ? t('llmPanel.sensenovaAK')
+                  : `${keyType} ${t('llmPanel.apiKey')}`}
               </label>
               <input
                 type="text"
@@ -457,7 +532,7 @@ export default function LLMPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder="Enter your key"
+                placeholder={t('llmPanel.apiKeyPlaceholder')}
               />
               {keyType === 'sensenova' && (
                 <>
@@ -471,7 +546,7 @@ export default function LLMPanel() {
                       textAlign: 'left',
                     }}
                   >
-                    sensenova_sk
+                    {t('llmPanel.sensenovaSK')}
                   </label>
                   <input
                     type="text"
@@ -496,7 +571,7 @@ export default function LLMPanel() {
                     onBlur={e => {
                       e.target.style.borderColor = '#4A4A6A'
                     }}
-                    placeholder="Enter your key"
+                    placeholder={t('llmPanel.apiKeyPlaceholder')}
                   />
                 </>
               )}
@@ -537,7 +612,7 @@ export default function LLMPanel() {
                 // }
               }}
             >
-              Save
+              {t('common.save')}
             </button>
           </div>
         </div>

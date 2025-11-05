@@ -7,12 +7,13 @@ import './styles/index.scss'
 
 // Redux imports
 import { setIsLeftSliderOpen } from '@/features/chat/chat'
+import { useTranslation } from 'react-i18next'
 
 export default function LeftSidebar() {
   const { isMobile } = useDevice()
   const dispatch = useDispatch()
   const [active, setActive] = useState('')
-
+  const { t } = useTranslation()
   const onSettingClick = (event: React.MouseEvent) => {
     event.stopPropagation()
     if (active === 'setting') {
@@ -51,7 +52,7 @@ export default function LeftSidebar() {
                 fontWeight: 600,
               }}
             >
-              SIMULATION
+              {t('simulationPanel.title')}
             </span>
           </div>
         </div>
