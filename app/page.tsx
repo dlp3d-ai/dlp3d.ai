@@ -267,14 +267,14 @@ export default function Home() {
   return (
     <>
       {/* Loading Screen */}
-      {/* <LoadingScreen
+      <LoadingScreen
         isLoading={isGlobalLoading}
         message={loadingText || 'Loading...'}
         onComplete={() => setIsLoading(false)}
         progress={loadingProgress}
-      /> */}
+      />
       {/* Fullscreen Babylon.js Background */}
-      {/* <BabylonViewer
+      <BabylonViewer
         ref={babylonViewerRef}
         width="100vw"
         height="100vh"
@@ -284,7 +284,7 @@ export default function Home() {
         characterChangeKey={characterChangeKey}
         onCharacterLoaded={handleCharacterLoaded}
         onSceneLoaded={handleSceneLoaded}
-      /> */}
+      />
       {/* Navigation */}
       <Navigation />
 
