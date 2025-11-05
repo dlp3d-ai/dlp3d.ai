@@ -15,6 +15,7 @@ import { fetchGetAvailableTTS, fetchGetAvailableASR } from '@/request/api'
 import { fetchGetTTS, fetchGetASR } from '@/request/configApi'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
+import Settings from '@mui/icons-material/Settings'
 import { useTranslation } from 'react-i18next'
 
 /**
@@ -23,6 +24,8 @@ import { useTranslation } from 'react-i18next'
  * A panel component for configuring TTS (Text-to-Speech) and ASR (Automatic Speech Recognition) settings.
  * Provides tabs for selecting ASR and TTS providers, voice selection, speed control,
  * and API key configuration for various TTS/ASR services.
+ *
+ * @returns JSX.Element The rendered TTS/ASR settings panel.
  */
 export default function TTSPanel() {
   const settings = useSelector(getSelectedChat)
@@ -30,7 +33,10 @@ export default function TTSPanel() {
   const { isMobile } = useDevice()
   const { t } = useTranslation()
   const [selectedVoiceKey, setSelectedVoiceKey] = useState(settings?.voice)
+
   const [speed, setSpeed] = useState(settings?.voice_speed)
+  const [modifiedDialogOpen, setModifiedDialogOpen] = useState(false)
+  const [modifiedVoiceName, setModifiedVoiceName] = useState('')
 
   const [ASRTabs, setASRTabs] = useState<string[]>([])
   const [TTSTabs, setTTSTabs] = useState<string[]>([])
@@ -52,8 +58,10 @@ export default function TTSPanel() {
    * Checks if the selected ASR provider is available, updates the selected tab,
    * and saves the configuration to the character settings.
    *
-   * @param {React.SyntheticEvent} event The synthetic event object.
-   * @param {string} newASR The new ASR provider identifier.
+   * @param event The synthetic event object (React.SyntheticEvent).
+   * @param newASR The new ASR provider identifier (string).
+   *
+   * @returns Promise<void> Resolves when the configuration is saved.
    */
   const handleASRTabChange = useCallback(
     async (event: React.SyntheticEvent, newASR: string) => {
@@ -75,8 +83,10 @@ export default function TTSPanel() {
    *
    * Checks if the selected TTS provider is available and updates the selected tab.
    *
-   * @param {React.SyntheticEvent} event The synthetic event object.
-   * @param {string} newTTS The new TTS provider identifier.
+   * @param event The synthetic event object (React.SyntheticEvent).
+   * @param newTTS The new TTS provider identifier (string).
+   *
+   * @returns void
    */
   const handleTTSTabChange = useCallback(
     (event: React.SyntheticEvent, newTTS: string) => {
@@ -97,8 +107,10 @@ export default function TTSPanel() {
    * Updates the voice speed with debouncing to avoid excessive API calls.
    * Saves the updated settings after a delay.
    *
-   * @param {Event} newSpeed The event object.
-   * @param {number | number[]} value The new speed value.
+   * @param newSpeed The event object (Event).
+   * @param value The new speed value (number).
+   *
+   * @returns void
    */
   const handleSpeedChange = useCallback(
     (newSpeed: Event, value: number | number[]) => {
@@ -128,9 +140,11 @@ export default function TTSPanel() {
    * Opens the API key configuration dialog for the selected provider.
    * If keys are already configured, displays placeholder values.
    *
-   * @param {string} tab The provider tab identifier.
-   * @param {string} type The type ('asr' or 'tts').
-   * @param {React.MouseEvent} event The mouse event object.
+   * @param tab The provider tab identifier (string).
+   * @param type The type ("asr" or "tts").
+   * @param event The mouse event object (React.MouseEvent).
+   *
+   * @returns Promise<void> Resolves when dialog state is updated.
    */
   const handleKeySettings = useCallback(
     async (tab: string, type: string, event: React.MouseEvent) => {
@@ -165,11 +179,14 @@ export default function TTSPanel() {
    *
    * Updates the selected voice and saves the configuration to the character settings.
    *
-   * @param {VoiceOption} voice The selected voice option.
+   * @param voice The selected voice option (VoiceOption).
+   *
+   * @returns Promise<void> Resolves when the configuration is saved.
    */
   const handleVoiceSelect = useCallback(
     async (voice: VoiceOption) => {
       setSelectedVoiceKey(voice.value)
+
       const updatedSettings = {
         tts_adapter: selectedTTSTab,
         voice: voice.value,
@@ -179,6 +196,47 @@ export default function TTSPanel() {
     },
     [settings, updateCharacter, speed, selectedTTSTab],
   )
+  /**
+   * Save a modified voice name entered by the user.
+   *
+   * Persists the custom voice value as the selected voice for the active TTS provider.
+   *
+   * @returns Promise<void> Resolves when the configuration is saved.
+   */
+  const handleModifiedVoiceSave = useCallback(async () => {
+    if (!modifiedVoiceName.trim()) {
+      return
+    }
+    setSelectedVoiceKey(modifiedVoiceName)
+
+    const updatedSettings = {
+      tts_adapter: selectedTTSTab,
+      voice: modifiedVoiceName,
+      voice_speed: speed,
+    }
+    await updateCharacter(settings!.character_id, 'tts', updatedSettings)
+    setModifiedDialogOpen(false)
+  }, [settings, updateCharacter, speed, selectedTTSTab, modifiedVoiceName])
+
+  /**
+   * Open the dialog for editing a custom (modified) voice name.
+   *
+   * Pre-fills the input with the current custom voice if it is not in the
+   * available voice options for the selected TTS provider.
+   *
+   * @returns void
+   */
+  const handleVoiceSelectModified = () => {
+    setModifiedVoiceName('')
+    if (
+      selectedVoiceKey &&
+      !voiceOptions.some(item => item.value === selectedVoiceKey)
+    ) {
+      setModifiedVoiceName(selectedVoiceKey)
+    }
+
+    setModifiedDialogOpen(true)
+  }
   /**
    * Handle key save action.
    *
@@ -452,9 +510,40 @@ export default function TTSPanel() {
     t,
   ])
   /**
+   * Format a multi-part label by splitting on '-' and rendering as stacked lines.
+   *
+   * @param label The raw label text to format (string).
+   *
+   * @returns JSX.Element The formatted label component.
+   */
+  const formatLabel = useCallback((label: string) => {
+    const lines = label.split('-')
+    return (
+      <div
+        style={{
+          color: '#fff',
+          fontSize: '14px',
+          height: '100%',
+          width: 'calc(100% - 20px)',
+          flexDirection: 'column',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '4px',
+        }}
+      >
+        {lines.map(line => (
+          <span key={line} style={{ display: 'block' }}>
+            {line}
+          </span>
+        ))}
+      </div>
+    )
+  }, [])
+  /**
    * Render the voice selection list.
    *
-   * @returns {JSX.Element} The rendered voice list component.
+   * @returns JSX.Element The rendered voice list component.
    */
   const getList = useCallback(() => {
     return (
@@ -463,7 +552,7 @@ export default function TTSPanel() {
         style={{
           height: 'calc(100% - 200px)',
           overflowY: 'auto',
-          paddingBottom: isMobile ? '0' : '40px',
+          paddingBottom: '120px',
         }}
       >
         {voiceOptions.map(voice => (
@@ -473,14 +562,24 @@ export default function TTSPanel() {
             }`}
             key={voice.value}
             onClick={() => handleVoiceSelect(voice)}
-            style={{ position: 'relative' }}
+            style={{
+              position: 'relative',
+              height: 'auto',
+              opacity: selectedVoiceKey === voice.value ? 1 : 0.5,
+            }}
           >
-            <div className="config-sidebar-drawer-list-item-content">
-              <h4 style={{ color: '#fff', margin: '0 0 8px 0' }}>{voice.label}</h4>
+            <div
+              className="config-sidebar-drawer-list-item-content"
+              style={{
+                textAlign: 'center',
+                padding: isMobile ? '20px 8px 8px' : '10px',
+              }}
+            >
+              {formatLabel(voice.label)}
             </div>
-            <div className="config-sidebar-drawer-list-item-name text-ellipsis">
+            {/* <div className="config-sidebar-drawer-list-item-name text-ellipsis">
               {voice.label}
-            </div>
+            </div> */}
             {selectedVoiceKey === voice.value && (
               <div
                 style={{
@@ -502,20 +601,108 @@ export default function TTSPanel() {
             )}
           </div>
         ))}
+        <div
+          className={`config-sidebar-drawer-list-item ${
+            selectedVoiceKey &&
+            settings?.tts_adapter === selectedTTSTab &&
+            !voiceOptions.some(item => item.value === selectedVoiceKey)
+              ? 'active'
+              : ''
+          }`}
+          key="modified"
+          onClick={handleVoiceSelectModified}
+          style={{
+            position: 'relative',
+            height: 'auto',
+            opacity:
+              selectedVoiceKey &&
+              settings?.tts_adapter === selectedTTSTab &&
+              !voiceOptions.some(item => item.value === selectedVoiceKey)
+                ? 1
+                : 0.5,
+          }}
+        >
+          <div
+            className="config-sidebar-drawer-list-item-content"
+            style={{
+              textAlign: 'center',
+              padding: isMobile ? '20px 8px 8px' : '10px',
+            }}
+          >
+            <div
+              style={{
+                color: '#fff',
+                fontSize: '14px',
+                height: '100%',
+                width: 'calc(100% - 20px)',
+                flexDirection: 'column',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '4px',
+              }}
+            >
+              <span style={{ display: 'block' }}>Modified Voice</span>
+            </div>
+          </div>
+          {/* <div className="config-sidebar-drawer-list-item-name text-ellipsis">
+              {voice.label}
+            </div> */}
+          {selectedVoiceKey &&
+            settings?.tts_adapter === selectedTTSTab &&
+            !voiceOptions.some(item => item.value === selectedVoiceKey) && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '10px',
+                  right: '10px',
+                  background: '#1e202d',
+                  borderRadius: '50%',
+                  width: '24px',
+                  height: '24px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 10,
+                }}
+              >
+                <CheckIcon style={{ color: 'white', fontSize: '16px' }} />
+              </div>
+            )}
+          <Settings
+            onClick={handleVoiceSelectModified}
+            style={{
+              cursor: 'pointer',
+              position: 'absolute',
+              color: '#fff',
+              top: isMobile ? '3px' : '10px',
+              left: isMobile ? '3px' : '10px',
+            }}
+          />
+        </div>
       </div>
     )
-  }, [voiceOptions, selectedVoiceKey, handleVoiceSelect, isMobile])
+  }, [
+    voiceOptions,
+    selectedVoiceKey,
+    settings?.tts_adapter,
+    selectedTTSTab,
+    handleVoiceSelectModified,
+    isMobile,
+    formatLabel,
+    handleVoiceSelect,
+  ])
 
   /**
    * Render the API key configuration dialog.
    *
-   * @returns {JSX.Element} The rendered dialog component.
+   * @returns JSX.Element The rendered dialog component.
    */
   const getDialog = useCallback(() => {
     /**
      * Get input fields based on provider type.
      *
-     * @returns {JSX.Element} The rendered input fields for the selected provider.
+     * @returns JSX.Element The rendered input fields for the selected provider.
      */
     const getInputFields = () => {
       const tabName = editTab.toLowerCase()
@@ -977,9 +1164,94 @@ export default function TTSPanel() {
         </div>
       </Dialog>
     )
-  }, [dialogOpen, editTab, key, key2, handleKeySave, t])
-
-  // Cleanup debounce timer
+  }, [dialogOpen, editTab, key, key2, handleKeySave])
+  const getModifiedDialog = useCallback(() => {
+    return (
+      <Dialog
+        isOpen={modifiedDialogOpen}
+        onClose={() => setModifiedDialogOpen(false)}
+        title="Edit Modified Voice"
+      >
+        <div
+          style={{
+            padding: '20px',
+            borderTop: '1px solid #333652',
+            backgroundColor: '#1e202f',
+          }}
+        >
+          <label
+            style={{
+              display: 'block',
+              color: '#63667e',
+              fontSize: '14px',
+              fontWeight: '500',
+              marginBottom: '8px',
+              textAlign: 'left',
+            }}
+          >
+            Voice Name
+          </label>
+          <input
+            type="text"
+            value={modifiedVoiceName}
+            onChange={e => setModifiedVoiceName(e.target.value)}
+            style={{
+              width: '100%',
+              height: '48px',
+              padding: '0 16px',
+              backgroundColor: 'transparent',
+              border: '1px solid #4A4A6A',
+              borderRadius: '6px',
+              color: '#E0E0E0',
+              fontSize: '16px',
+              marginBottom: '16px',
+              boxSizing: 'border-box',
+              outline: 'none',
+            }}
+            onFocus={e => {
+              e.target.style.borderColor = '#6A6A8A'
+            }}
+            onBlur={e => {
+              e.target.style.borderColor = '#4A4A6A'
+            }}
+            placeholder="Enter Modified Voice Name"
+          />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginTop: '10px',
+            }}
+          >
+            <button
+              onClick={handleModifiedVoiceSave}
+              style={{
+                padding: '10px 20px',
+                borderRadius: '8px',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: 500,
+                backgroundColor: '#6b7cff',
+                color: '#ffffff',
+                transition: 'all 0.2s ease',
+                minWidth: '80px',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.opacity = '0.8'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.opacity = '1'
+              }}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </Dialog>
+    )
+  }, [modifiedDialogOpen, modifiedVoiceName, handleModifiedVoiceSave])
+  // Clean up debounce timer
   useEffect(() => {
     return () => {
       if (debounceTimeoutRef.current) {
@@ -1078,6 +1350,7 @@ export default function TTSPanel() {
       </div>
 
       {getDialog()}
+      {getModifiedDialog()}
     </div>
   )
 }

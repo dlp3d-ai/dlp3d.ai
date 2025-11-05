@@ -41,6 +41,8 @@ interface Choice {
  * A panel component for configuring LLM (Large Language Model) settings.
  * Supports multiple tabs for conversation, reaction, classification, and memory models.
  * Allows users to select models, configure API keys, and override model names.
+ *
+ * @returns JSX.Element The rendered LLM settings panel.
  */
 export default function LLMPanel() {
   const { isMobile } = useDevice()
@@ -73,8 +75,10 @@ export default function LLMPanel() {
    * Updates the selected tab and loads the corresponding model settings
    * from the character configuration.
    *
-   * @param {React.SyntheticEvent} event The synthetic event object.
-   * @param {string} newValue The new tab value.
+   * @param event The synthetic event object (React.SyntheticEvent).
+   * @param newValue The new tab value (string).
+   *
+   * @returns void
    */
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setSelectedTab(newValue)
@@ -92,7 +96,9 @@ export default function LLMPanel() {
    * If the model requires API key configuration, opens the key dialog.
    * Otherwise, updates the character configuration with the selected model.
    *
-   * @param {Choice} model The selected model choice.
+   * @param model The selected model choice (Choice).
+   *
+   * @returns Promise<void> Resolves when the selection is processed.
    */
   const handleModelSelect = useCallback(
     async (model: Choice) => {
@@ -142,6 +148,8 @@ export default function LLMPanel() {
    *
    * Saves model name override or API key configuration based on dialog type.
    * Updates available LLM list after saving API keys.
+   *
+   * @returns Promise<void> Resolves when the data is saved.
    */
   const handleSave = async () => {
     if (dialogType === 'name') {
@@ -179,8 +187,10 @@ export default function LLMPanel() {
    * Opens the API key configuration dialog for the selected model.
    * If the model already has keys configured, displays placeholder values.
    *
-   * @param {Choice} model The model to configure.
-   * @param {React.MouseEvent} event The mouse event object.
+   * @param model The model to configure (Choice).
+   * @param event The mouse event object (React.MouseEvent).
+   *
+   * @returns Promise<void> Resolves when dialog state is updated.
    */
   const handleKeySettings = useCallback(
     async (model: Choice, event: React.MouseEvent) => {
@@ -205,8 +215,10 @@ export default function LLMPanel() {
    *
    * Opens the model name override dialog for the selected model.
    *
-   * @param {Choice} model The model to configure.
-   * @param {React.MouseEvent} event The mouse event object.
+   * @param model The model to configure (Choice).
+   * @param event The mouse event object (React.MouseEvent).
+   *
+   * @returns Promise<void> Resolves when dialog state is updated.
    */
   const handleSettings = useCallback(
     async (model: Choice, event: React.MouseEvent) => {
@@ -227,8 +239,9 @@ export default function LLMPanel() {
   /**
    * Get LLM image URL by key.
    *
-   * @param {string} key The LLM provider key.
-   * @returns {string} The image URL for the LLM provider.
+   * @param key The LLM provider key (string).
+   *
+   * @returns string The image URL for the LLM provider.
    */
   const getLLMImage = (key: string) => {
     switch (key) {
@@ -251,7 +264,7 @@ export default function LLMPanel() {
   /**
    * Render the list of available LLM models.
    *
-   * @returns {JSX.Element} The rendered list component with loading state or model items.
+   * @returns JSX.Element The rendered list component with loading state or model items.
    */
   const getList = useCallback(() => {
     return choicesLoading ? (
@@ -274,7 +287,9 @@ export default function LLMPanel() {
             }`}
             key={choices.value}
             onClick={() => handleModelSelect(choices)}
-            style={{ position: 'relative' }}
+            style={{
+              position: 'relative',
+            }}
           >
             <div
               className="config-sidebar-drawer-list-item-content"
@@ -356,8 +371,9 @@ export default function LLMPanel() {
   /**
    * Filter and transform choice strings into Choice objects.
    *
-   * @param {string[]} choices Array of choice strings.
-   * @returns {Choice[]} Array of Choice objects with processed data.
+   * @param choices Array of choice strings (string[]).
+   *
+   * @returns Choice[] Array of Choice objects with processed data.
    */
   const filterChoices = useCallback((choices: string[]) => {
     return choices.map(choice => {
