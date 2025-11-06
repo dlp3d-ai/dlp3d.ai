@@ -246,8 +246,8 @@ export function ConfirmDialog({
   onConfirm: () => void
   title?: string
   message: string
-  confirmText?: string
-  cancelText?: string
+  confirmText?: string | React.ReactNode
+  cancelText?: string | React.ReactNode
   type?: 'default' | 'danger' | 'warning'
   showCancelButton?: boolean
 }) {

@@ -26,9 +26,7 @@ import {
   useErrorNotification,
 } from '@/hooks/useGlobalNotification'
 import { useTranslation } from 'react-i18next'
-import LanguageSwitcher from '../common/LanguageSwitcher'
-import './Navigation.scss'
-
+import LanguageSwitcher from './LanguageSwitch'
 /*
   Top navigation component for the application.
 

@@ -60,6 +60,9 @@ export const checkLocation = () => {
   @returns boolean True if the env NEXT_PUBLIC_ORCHESTRATOR_HOST contains 'sensetime'.
 */
 export const isSensetimeOrchestrator = () => {
-  const NEXT_PUBLIC_ORCHESTRATOR_HOST = env('NEXT_PUBLIC_ORCHESTRATOR_HOST')!
+  const NEXT_PUBLIC_ORCHESTRATOR_HOST = env('NEXT_PUBLIC_ORCHESTRATOR_HOST')
+  if (!NEXT_PUBLIC_ORCHESTRATOR_HOST) {
+    return false
+  }
   return NEXT_PUBLIC_ORCHESTRATOR_HOST.includes('sensetime')
 }
