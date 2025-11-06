@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { Dialog } from '@/components/common/Dialog'
+import { useTranslation } from 'react-i18next'
 
 interface UpdatePasswordProps {
   isOpen: boolean
@@ -37,17 +38,18 @@ export default function UpdatePassword({
   const [showOld, setShowOld] = useState(false)
   const [showNew, setShowNew] = useState(false)
   const [localError, setLocalError] = useState('')
+  const { t } = useTranslation()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLocalError('')
 
     if (!email.trim() || !oldPassword.trim() || !newPassword.trim()) {
-      setLocalError('Please fill in all fields.')
+      setLocalError(t('auth.pleaseFillInAllFields'))
       return
     }
     if (newPassword === oldPassword) {
-      setLocalError('New password and old password cannot be the same.')
+      setLocalError(t('auth.newPasswordAndOldPasswordCannotBeTheSame'))
       return
     }
 
@@ -64,7 +66,7 @@ export default function UpdatePassword({
     <Dialog
       isOpen={isOpen}
       onClose={onClose}
-      title="Update Password"
+      title={t('auth.updatePassword')}
       closeOnBackdropClick={false}
       maxWidth="420px"
       className="update-password-dialog"
@@ -78,15 +80,17 @@ export default function UpdatePassword({
         }}
       >
         <div style={{ color: '#cfcfe1', lineHeight: 1.6 }}>
-          Enter your email, current password, and the new password.
+          {t('auth.enterYourEmailCurrentPasswordAndTheNewPassword')}
         </div>
 
-        <label style={{ color: '#8b8ea8', fontSize: '14px' }}>Email</label>
+        <label style={{ color: '#8b8ea8', fontSize: '14px' }}>
+          {t('auth.email')}
+        </label>
         <input
           type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          placeholder="Enter your email"
+          placeholder={t('auth.enterYourEmail')}
           autoComplete="off"
           style={{
             height: '48px',
@@ -108,14 +112,14 @@ export default function UpdatePassword({
         />
 
         <label style={{ color: '#8b8ea8', fontSize: '14px' }}>
-          Current Password
+          {t('auth.oldPassword')}
         </label>
         <div style={{ position: 'relative', marginBottom: '0px' }}>
           <input
             type={showOld ? 'text' : 'password'}
             value={oldPassword}
             onChange={e => setOldPassword(e.target.value)}
-            placeholder="Enter current password"
+            placeholder={t('auth.enterCurrentPassword')}
             autoComplete="off"
             style={{
               width: '340px',
@@ -140,7 +144,7 @@ export default function UpdatePassword({
             onClick={() => setShowOld(!showOld)}
             style={{
               position: 'absolute',
-              right: '0',
+              right: '10px',
               top: '50%',
               transform: 'translateY(-50%)',
               background: 'none',
@@ -181,13 +185,15 @@ export default function UpdatePassword({
           </button>
         </div>
 
-        <label style={{ color: '#8b8ea8', fontSize: '14px' }}>New Password</label>
+        <label style={{ color: '#8b8ea8', fontSize: '14px' }}>
+          {t('auth.newPassword')}
+        </label>
         <div style={{ position: 'relative', marginBottom: '0px' }}>
           <input
             type={showNew ? 'text' : 'password'}
             value={newPassword}
             onChange={e => setNewPassword(e.target.value)}
-            placeholder="Enter new password"
+            placeholder={t('auth.enterNewPassword')}
             style={{
               width: '340px',
               height: '48px',
@@ -211,7 +217,7 @@ export default function UpdatePassword({
             onClick={() => setShowNew(!showNew)}
             style={{
               position: 'absolute',
-              right: '0',
+              right: '10px',
               top: '50%',
               transform: 'translateY(-50%)',
               background: 'none',
@@ -286,7 +292,7 @@ export default function UpdatePassword({
               e.currentTarget.style.color = '#aaa'
             }}
           >
-            Cancel
+            {t('common.cancel')}
           </button>
           <button
             type="submit"
@@ -318,7 +324,7 @@ export default function UpdatePassword({
               minWidth: '96px',
             }}
           >
-            Update
+            {t('common.save')}
           </button>
         </div>
       </form>

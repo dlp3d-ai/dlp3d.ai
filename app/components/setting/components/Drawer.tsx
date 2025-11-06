@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect } from 'react'
 import { useDevice } from '../../../contexts/DeviceContext'
 import { useSelector, useDispatch } from 'react-redux'

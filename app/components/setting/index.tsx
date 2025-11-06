@@ -1,3 +1,4 @@
+'use client'
 import { useDevice } from '../../contexts/DeviceContext'
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'

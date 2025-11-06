@@ -1,3 +1,5 @@
+'use client'
+
 import { useDevice } from '../../contexts/DeviceContext'
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'react'
@@ -147,6 +149,7 @@ export default function ConfigSidebar({
             className={`config-sidebar-item ${active === item.key ? 'active' : ''}`}
             key={index}
             onClick={event => onItemClick(item.key, event)}
+            style={{ position: 'relative' }}
           >
             <div className="config-sidebar-item-icon">
               <img src={item.icon} />

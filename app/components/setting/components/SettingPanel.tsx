@@ -1,7 +1,9 @@
+'use client'
 import React, { useState, useEffect } from 'react'
 import { useDevice } from '../../../contexts/DeviceContext'
 import { ListItem, ListItemText, Switch } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import GlobalTooltip from '@/components/common/GlobalTooltip'
 
 export default function SettingPanel() {
   const { isMobile } = useDevice()
@@ -54,15 +56,26 @@ export default function SettingPanel() {
         }}
       >
         <ListItemText
-          primary={t('simulationPanel.clothSimulation')}
+          primary={
+            <>
+              <span style={{ height: '20px' }}>
+                {t('simulationPanel.clothSimulation')}
+              </span>
+              <GlobalTooltip content={t('tip.settingClothDescription')} />
+            </>
+          }
           primaryTypographyProps={{
             style: {
               color: '#fff',
               fontSize: isMobile ? '14px' : '16px',
               fontWeight: 500,
+              display: 'flex',
+              alignItems: 'center',
+
+              gap: '4px',
             },
           }}
-          secondary={t('simulationPanel.clothSimulationPlaceholder')}
+          secondary={t('tip.settingCloth')}
           secondaryTypographyProps={{
             style: {
               color: '#888',
@@ -101,15 +114,25 @@ export default function SettingPanel() {
         }}
       >
         <ListItemText
-          primary={t('simulationPanel.debugMode')}
+          primary={
+            <>
+              <span style={{ height: '20px' }}>
+                {t('simulationPanel.debugMode')}
+              </span>
+              <GlobalTooltip content={t('tip.settingDebugDescription')} />
+            </>
+          }
           primaryTypographyProps={{
             style: {
               color: '#fff',
               fontSize: isMobile ? '14px' : '16px',
               fontWeight: 500,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
             },
           }}
-          secondary={t('simulationPanel.debugModePlaceholder')}
+          secondary={t('tip.settingDebug')}
           secondaryTypographyProps={{
             style: {
               color: '#888',

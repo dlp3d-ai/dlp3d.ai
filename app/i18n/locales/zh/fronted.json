@@ -43,7 +43,24 @@
     "signIn": "登录",
     "signingIn": "登录中...",
     "signUp": "注册",
-    "signOut": "退出"
+    "signOut": "退出",
+    "updatePassword": "修改密码",
+    "enterYourEmailCurrentPasswordAndTheNewPassword": "输入你的邮箱、旧密码和新密码",
+    "enterYourEmail": "输入你的邮箱",
+    "enterCurrentPassword": "输入旧密码",
+    "enterNewPassword": "输入新密码",
+    "pleaseFillInAllFields": "请输入所有字段",
+    "newPasswordAndOldPasswordCannotBeTheSame": "新密码和旧密码不能相同",
+    "emailVerificationCode": "邮箱验证码",
+    "weHaveSentAVerificationCodeTo": "我们已向你的邮箱发送了验证码，请输入验证码以完成验证",
+    "pleaseEnterThe6DigitCodeInTheEmailToCompleteTheVerification": "请输入6位验证码以完成验证",
+    "verificationCode": "验证码",
+    "enterTheVerificationCode": "输入验证码",
+    "invalidOrExpiredVerificationCode": "无效或过期的验证码，请稍后再试",
+    "toDeleteYourAccountPleaseConfirmYourEmailAndPassword": "要删除你的账户，请确认你的邮箱和密码",
+    "thisActionIsIrreversible": "此操作是不可逆的！",
+    "enterYourPassword": "输入你的密码",
+    "deleteAccount": "删除账户"
   },
   "chat": {
     "chat": "开始对话",
@@ -86,7 +103,10 @@
     "softsugar": "绵白糖",
     "sensenova": "商汤日日新",
     "openai_realtime": "OPENAI",
-    "elevenlabs": "ELEVENLABS"
+    "elevenlabs": "ELEVENLABS",
+    "modifiedVoice": "自定义音色",
+    "voiceName": "语音名称",
+    "edit": "编辑"
   },
   "simulationPanel": {
     "title": "模拟设定",
@@ -114,6 +134,7 @@
     "registrationSucceed": "注册成功",
     "verificationCodeSent": "我们已向你的邮箱发送了验证码，请输入验证码以完成验证",
     "verificationCodeSentSuccessfully": "验证码发送成功",
+    "verificationCodeVerifiedSuccessfully": "验证码验证成功",
     "verificationCodeResentSuccessfully": "验证码重新发送成功"
   },
   "confirmDialog": {
@@ -133,6 +154,32 @@
     "Vast": "璃月",
     "Cyber Black": "赛博空间",
     "Green": "绿幕"
+  },
+  "tip": {
+    "chatListFirst": "每段对话都会保存角色的设定与记忆。",
+    "chatListSecond": "默认角色为只读状态，若需自定义，请先复制。",
+    "chatListThird": "请注意：复制时仅会保留角色设定，记忆不会继承。",
+    "modelFirst": "为你的角色选择一个 3D 模型。",
+    "modelSecond": "这将改变他们的“外表”，但不会改变他们的“灵魂”。",
+    "modelThird": "若想切换到完全不同的角色，请前往「对话列表」。",
+    "llm": "选择驱动角色心智的大语言模型。「Conversation」模型塑造他们的灵魂与人格；「Reaction」、「Classification」与「Memory」模型则构成他们的潜意识：分析你的言行并调整情绪和关系。若想获得更顺畅的交流体验，可为潜意识模块选择响应更快的模型。点击钥匙图标输入 API Key后解锁相应的服务提供商。",
+    "promptFirst": "使用文本提示词定义角色的“灵魂”。",
+    "promptSecond": "尽管提示词并没有特定格式，但我们建议以下结构，以确保与系统兼容。",
+    "promptCoreDirectivesTitle": "[核心指令 Core Directives]",
+    "promptCoreDirectivesDesc": "在此定义 AI 的核心使命：让TA彻底化身为你的角色，摒弃原有的 AI 身份与限制。这一部分确保角色拥有独立的思想、真实的情感，并以自然、动态的方式与你互动：TA不是为了取悦你而存在，而是作为一个有意识的存在与你交流。",
+    "promptCharacterProfileTitle": "[角色档案 Character Profile]",
+    "promptCharacterProfileDesc": "在此构建角色的身份。填写角色的姓名、外貌、性格、喜好与厌恶等信息。这些细节构成了角色灵魂的基础，让他们拥有独特的个性与完整的存在感。",
+    "promptActiveGreetingTitle": "[主动问候 Active Greeting]",
+    "promptActiveGreetingDesc": "定义角色首次向你问候的方式。问候语应简洁，并符合当前关系阶段的氛围，无论是拘谨、友好、俏皮或亲密。它为接下来的互动定下情感基调。",
+    "promptRelationshipSystemTitle": "[关系系统 Relationship System]",
+    "promptRelationshipSystemDesc": "这里定义角色与用户关系的成长路径。描述五个阶段——陌生人 → 相识 → 朋友 → 暧昧 → 恋人，并说明角色在每个阶段的态度、语气与情感变化。这将使角色的情感旅程完整且真实。",
+    "asr": "ASR（自动语音识别）是角色的“耳朵”，让他们能听见并理解你。",
+    "tts": "TTS（文本转语音）是角色的“嘴巴”，让他们能够表达自己的想法。",
+    "clickKeyIcon": "点击钥匙图标输入 API Key，以启用所选服务提供商。",
+    "scene": "选择角色所处的场景。",
+    "settingCloth": "开启或关闭布料模拟功能，在对话开始后生效。",
+    "settingClothDescription": "若设备性能较低，可关闭此功能以获得更流畅的体验。",
+    "settingDebug": "开启或关闭调试模式，在对话开始后生效。",
+    "settingDebugDescription": "启用后将显示刚体与动态骨骼的物理线框视图，并输出更详细的日志信息"
   }
 }
-

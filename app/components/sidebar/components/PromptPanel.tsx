@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react'
 
 import { TextField } from '@mui/material'
@@ -8,7 +9,7 @@ import { useSelector } from 'react-redux'
 
 import { usePromptingSettings } from '@/hooks/usePromptingSettings'
 import { useTranslation } from 'react-i18next'
-
+import GlobalTooltip from '@/components/common/GlobalTooltip'
 export default function PromptPanel() {
   const { isMobile } = useDevice()
   const settings = useSelector(getSelectedChat)
@@ -35,6 +36,7 @@ export default function PromptPanel() {
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
+        position: 'relative',
       }}
     >
       <div
@@ -111,6 +113,22 @@ export default function PromptPanel() {
             {t('common.save')}
           </button>
         </div>
+      </div>
+      <div style={{ position: 'absolute', top: '0', right: '20px', color: '#fff' }}>
+        <GlobalTooltip
+          content={[
+            t('tip.promptFirst'),
+            t('tip.promptSecond'),
+            t('tip.promptCoreDirectivesTitle'),
+            t('tip.promptCoreDirectivesDesc'),
+            t('tip.promptCharacterProfileTitle'),
+            t('tip.promptCharacterProfileDesc'),
+            t('tip.promptActiveGreetingTitle'),
+            t('tip.promptActiveGreetingDesc'),
+            t('tip.promptRelationshipSystemTitle'),
+            t('tip.promptRelationshipSystemDesc'),
+          ]}
+        />
       </div>
     </div>
   )

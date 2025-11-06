@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Dialog } from '@/components/common/Dialog'
+import { useTranslation } from 'react-i18next'
 
 interface DeleteUserProps {
   isOpen: boolean
@@ -30,13 +31,13 @@ export default function DeleteUser({
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [localError, setLocalError] = useState('')
-
+  const { t } = useTranslation()
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLocalError('')
 
     if (!email.trim() || !password.trim()) {
-      setLocalError('Please fill in all fields.')
+      setLocalError(t('auth.pleaseFillInAllFields'))
       return
     }
 
@@ -54,7 +55,7 @@ export default function DeleteUser({
     <Dialog
       isOpen={isOpen}
       onClose={onClose}
-      title="Delete Account"
+      title={t('auth.deleteAccount')}
       closeOnBackdropClick={false}
       maxWidth="420px"
       className="delete-user-dialog"
@@ -69,17 +70,19 @@ export default function DeleteUser({
       >
         <div style={{ color: '#cfcfe1', lineHeight: 1.6 }}>
           <span>
-            To delete your account, please confirm your email and password.{' '}
+            {t('auth.toDeleteYourAccountPleaseConfirmYourEmailAndPassword')}
           </span>
-          <span>This action is irreversible.</span>
+          <span> {t('auth.thisActionIsIrreversible')}</span>
         </div>
 
-        <label style={{ color: '#8b8ea8', fontSize: '14px' }}>Email</label>
+        <label style={{ color: '#8b8ea8', fontSize: '14px' }}>
+          {t('auth.email')}
+        </label>
         <input
           type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          placeholder="Enter your email"
+          placeholder={t('auth.enterYourEmail')}
           autoComplete="off"
           style={{
             width: '340px',
@@ -100,13 +103,15 @@ export default function DeleteUser({
           }}
         />
 
-        <label style={{ color: '#8b8ea8', fontSize: '14px' }}>Password</label>
+        <label style={{ color: '#8b8ea8', fontSize: '14px' }}>
+          {t('auth.password')}
+        </label>
         <div style={{ position: 'relative', marginBottom: '0px' }}>
           <input
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={e => setPassword(e.target.value)}
-            placeholder="Enter your password"
+            placeholder={t('auth.enterYourPassword')}
             autoComplete="off"
             style={{
               width: '340px',
@@ -131,12 +136,13 @@ export default function DeleteUser({
             onClick={() => setShowPassword(!showPassword)}
             style={{
               position: 'absolute',
-              right: '0',
+              right: '10px',
               top: '50%',
               transform: 'translateY(-50%)',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
+              padding: '4px',
               borderRadius: '4px',
               display: 'flex',
               alignItems: 'center',
@@ -205,7 +211,7 @@ export default function DeleteUser({
               e.currentTarget.style.color = '#aaa'
             }}
           >
-            Cancel
+            {t('common.cancel')}
           </button>
           <button
             type="submit"
@@ -226,7 +232,7 @@ export default function DeleteUser({
               minWidth: '96px',
             }}
           >
-            Delete
+            {t('common.delete')}
           </button>
         </div>
       </form>

@@ -17,7 +17,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Settings from '@mui/icons-material/Settings'
 import { useTranslation } from 'react-i18next'
-
+import GlobalTooltip from '@/components/common/GlobalTooltip'
 /**
  * TTSPanel component.
  *
@@ -642,7 +642,7 @@ export default function TTSPanel() {
                 gap: '4px',
               }}
             >
-              <span style={{ display: 'block' }}>Modified Voice</span>
+              <span style={{ display: 'block' }}>{t('TTSPanel.modifiedVoice')}</span>
             </div>
           </div>
           {/* <div className="config-sidebar-drawer-list-item-name text-ellipsis">
@@ -721,7 +721,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                {t('TTSPanel.appId')}
+                appId
               </label>
               <input
                 type="text"
@@ -746,7 +746,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.appId')}`}
+                placeholder={`${t('TTSPanel.enter')} appId`}
               />
               <label
                 style={{
@@ -758,7 +758,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                {t('TTSPanel.token')}
+                key
               </label>
               <input
                 type="text"
@@ -783,7 +783,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.token')}`}
+                placeholder={`${t('TTSPanel.enter')} key`}
               />
             </>
           )
@@ -800,7 +800,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                {t('TTSPanel.appId')}
+                appId
               </label>
               <input
                 type="text"
@@ -825,7 +825,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.appId')}`}
+                placeholder={`${t('TTSPanel.enter')} appId`}
               />
               <label
                 style={{
@@ -837,7 +837,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                {t('TTSPanel.token')}
+                key
               </label>
               <input
                 type="text"
@@ -862,7 +862,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.token')}`}
+                placeholder={`${t('TTSPanel.enter')} key`}
               />
             </>
           )
@@ -879,7 +879,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                {t('TTSPanel.appId')}
+                appId
               </label>
               <input
                 type="text"
@@ -904,7 +904,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.appId')}`}
+                placeholder={`${t('TTSPanel.enter')} appId`}
               />
               <label
                 style={{
@@ -916,7 +916,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                {t('TTSPanel.appKey')}
+                appKey
               </label>
               <input
                 type="text"
@@ -941,7 +941,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.appKey')}`}
+                placeholder={`${t('TTSPanel.enter')} appKey`}
               />
             </>
           )
@@ -958,7 +958,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                {t('TTSPanel.apiKey')}
+                apiKey
               </label>
               <input
                 type="text"
@@ -983,7 +983,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.apiKey')}`}
+                placeholder={`${t('TTSPanel.enter')} apiKey`}
               />
             </>
           )
@@ -1000,7 +1000,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                {t('TTSPanel.apiKey')}
+                apiKey
               </label>
               <input
                 type="text"
@@ -1025,7 +1025,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.apiKey')}`}
+                placeholder={`${t('TTSPanel.enter')} apiKey`}
               />
             </>
           )
@@ -1042,7 +1042,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                {t('TTSPanel.apiKey')}
+                apiKey
               </label>
               <input
                 type="text"
@@ -1067,7 +1067,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.apiKey')}`}
+                placeholder={`${t('TTSPanel.enter')} apiKey`}
               />
             </>
           )
@@ -1084,7 +1084,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                {t('TTSPanel.apiKey')}
+                apiKey
               </label>
               <input
                 type="text"
@@ -1109,7 +1109,7 @@ export default function TTSPanel() {
                 onBlur={e => {
                   e.target.style.borderColor = '#4A4A6A'
                 }}
-                placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.apiKey')}`}
+                placeholder={`${t('TTSPanel.enter')} apiKey`}
               />
             </>
           )
@@ -1170,7 +1170,7 @@ export default function TTSPanel() {
       <Dialog
         isOpen={modifiedDialogOpen}
         onClose={() => setModifiedDialogOpen(false)}
-        title="Edit Modified Voice"
+        title={`${t('TTSPanel.edit')}${t('TTSPanel.modifiedVoice')}`}
       >
         <div
           style={{
@@ -1189,7 +1189,7 @@ export default function TTSPanel() {
               textAlign: 'left',
             }}
           >
-            Voice Name
+            {t('TTSPanel.voiceName')}
           </label>
           <input
             type="text"
@@ -1214,7 +1214,7 @@ export default function TTSPanel() {
             onBlur={e => {
               e.target.style.borderColor = '#4A4A6A'
             }}
-            placeholder="Enter Modified Voice Name"
+            placeholder={`${t('TTSPanel.enter')}${t('TTSPanel.modifiedVoiceName')}`}
           />
           <div
             style={{
@@ -1244,7 +1244,7 @@ export default function TTSPanel() {
                 e.currentTarget.style.opacity = '1'
               }}
             >
-              Save
+              {t('common.save')}
             </button>
           </div>
         </div>
@@ -1277,7 +1277,14 @@ export default function TTSPanel() {
   }, [settings])
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        position: 'relative',
+      }}
+    >
       {/* TTS Selection */}
       {getTabs()}
       {/* Voice Selection List */}
@@ -1351,6 +1358,9 @@ export default function TTSPanel() {
 
       {getDialog()}
       {getModifiedDialog()}
+      <div style={{ position: 'absolute', top: '0', right: '20px', color: '#fff' }}>
+        <GlobalTooltip content={t('tip.tts')} />
+      </div>
     </div>
   )
 }
