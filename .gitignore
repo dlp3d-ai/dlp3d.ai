@@ -53,6 +53,9 @@ next-env.d.ts
 # cursor IDE
 .cursor
 
+# vscode
+.vscode/
+
 # motion_data
 motion_data/
 *.zip
@@ -60,3 +63,4 @@ data/
 
 # weights
 weights/
+
