@@ -20,6 +20,18 @@ interface ConfigDrawerProps {
   onSceneChange: (scene: string) => void
 }
 
+/**
+ * ConfigDrawer component.
+ *
+ * Hosts the right-side configuration drawer and renders the active panel
+ * (model, prompt, LLM, TTS, scene). It synchronizes with the global drawer
+ * open state.
+ *
+ * @param active Currently active panel key.
+ * @param onSceneChange Callback to propagate scene selection changes.
+ *
+ * @returns JSX.Element The configuration drawer markup.
+ */
 export default function ConfigDrawer({
   active,
 
@@ -35,8 +47,13 @@ export default function ConfigDrawer({
     } else if (!active && isSliderOpen) {
       dispatch(setIsSliderOpen(false))
     }
-  }, [active, isSliderOpen])
+  }, [active, isSliderOpen, dispatch])
 
+  /**
+   * Render the inner panel based on the active key.
+   *
+   * @returns JSX.Element The active panel element.
+   */
   const renderPanel = () => {
     switch (active) {
       case 'model':

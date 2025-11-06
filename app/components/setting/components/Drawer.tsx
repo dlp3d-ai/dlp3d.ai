@@ -19,6 +19,17 @@ interface LeftDrawerProps {
 }
 
 export default function LeftSidebarDrawer({ active, onClose }: LeftDrawerProps) {
+  /**
+   * Left settings drawer component.
+   *
+   * Renders the left-side settings panel in a dialog and switches content
+   * based on the active key.
+   *
+   * @param active Currently active panel key.
+   * @param onClose Callback invoked when the drawer should close.
+   *
+   * @returns JSX.Element The left settings drawer dialog.
+   */
   const { isMobile } = useDevice()
   const dispatch = useDispatch()
   const isLeftSliderOpen = useSelector(getIsLeftSliderOpen)
@@ -33,6 +44,11 @@ export default function LeftSidebarDrawer({ active, onClose }: LeftDrawerProps) 
     }
   }, [active, isLeftSliderOpen, dispatch])
 
+  /**
+   * Render the inner panel content according to the active key.
+   *
+   * @returns JSX.Element The active panel element.
+   */
   const renderPanel = () => {
     switch (active) {
       case 'setting':

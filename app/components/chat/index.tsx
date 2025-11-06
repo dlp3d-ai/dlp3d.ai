@@ -412,7 +412,7 @@ export default function ChatListDrawer() {
                     t('tip.chatListFirst'),
                     t('tip.chatListSecond'),
                     t('tip.chatListThird'),
-                  ]}
+                  ].join('\n')}
                 />
               </div>
             </div>

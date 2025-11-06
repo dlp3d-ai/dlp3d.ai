@@ -96,7 +96,11 @@ export default function ModelPanel() {
       })}
       <div style={{ position: 'absolute', top: 0, right: '20px', color: '#fff' }}>
         <GlobalTooltip
-          content={[t('tip.modelFirst'), t('tip.modelSecond'), t('tip.modelThird')]}
+          content={[
+            t('tip.modelFirst'),
+            t('tip.modelSecond'),
+            t('tip.modelThird'),
+          ].join('\n')}
         />
       </div>
     </div>

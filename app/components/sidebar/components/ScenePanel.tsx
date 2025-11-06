@@ -99,7 +99,7 @@ export default function ScenePanel({ onSceneChange }: ScenePanelProps) {
         )
       })}
       <div style={{ position: 'absolute', top: '0', right: '20px', color: '#fff' }}>
-        <GlobalTooltip content={[t('tip.scene')]} />
+        <GlobalTooltip content={[t('tip.scene')].join('\n')} />
       </div>
     </div>
   )

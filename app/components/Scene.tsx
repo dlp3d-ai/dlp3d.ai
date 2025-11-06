@@ -1,6 +1,13 @@
 import React, { ReactElement } from 'react'
 import useBabylonJS from '../hooks/useBabylonJS'
 
+/**
+ * Scene component.
+ *
+ * Hosts the BabylonJS canvas and binds the returned ref from useBabylonJS.
+ *
+ * @returns ReactElement The canvas element used by BabylonJS.
+ */
 function Scene(): ReactElement {
   const { canvas: canvas } = useBabylonJS()
 

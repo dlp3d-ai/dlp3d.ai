@@ -6,6 +6,16 @@ import { useTranslation } from 'react-i18next'
 import GlobalTooltip from '@/components/common/GlobalTooltip'
 
 export default function SettingPanel() {
+  /**
+   * Handle cloth simulation toggle change.
+   *
+   * Updates local state and persists the selection to localStorage under key
+   * 'cloth_simulation'.
+   *
+   * @param event Change event from the toggle input.
+   *
+   * @returns void
+   */
   const { isMobile } = useDevice()
   const { t } = useTranslation()
   const [toggleEnabled, setToggleEnabled] = useState(
@@ -15,15 +25,35 @@ export default function SettingPanel() {
     window.localStorage.getItem('debug_mode') === '1',
   )
 
+  /**
+   * Handle cloth simulation toggle changes.
+   *
+   * @param event React.ChangeEvent<HTMLInputElement> The change event.
+   *
+   * @returns void
+   */
   const handleToggleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setToggleEnabled(event.target.checked)
     window.localStorage.setItem('cloth_simulation', event.target.checked ? '1' : '0')
   }
 
+  /**
+   * Handle debug mode toggle changes.
+   *
+   * @param event React.ChangeEvent<HTMLInputElement> The change event.
+   *
+   * @returns void
+   */
   const handleDebugToggleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDebugEnabled(event.target.checked)
     window.localStorage.setItem('debug_mode', event.target.checked ? '1' : '0')
   }
+  /**
+   * Initialize default values in localStorage for cloth simulation and debug mode
+   * when absent, and sync corresponding component states.
+   *
+   * @returns void
+   */
   const initData = () => {
     if (window.localStorage.getItem('cloth_simulation') === null) {
       window.localStorage.setItem('cloth_simulation', '1')

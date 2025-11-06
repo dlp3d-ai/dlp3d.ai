@@ -10,6 +10,14 @@ import { useSelector } from 'react-redux'
 import { usePromptingSettings } from '@/hooks/usePromptingSettings'
 import { useTranslation } from 'react-i18next'
 import GlobalTooltip from '@/components/common/GlobalTooltip'
+/**
+ * PromptPanel component.
+ *
+ * Panel for editing the character's system prompt text. Supports live editing
+ * and persisting the prompt to the selected character configuration.
+ *
+ * @returns JSX.Element The prompt editor panel.
+ */
 export default function PromptPanel() {
   const { isMobile } = useDevice()
   const settings = useSelector(getSelectedChat)
@@ -17,11 +25,23 @@ export default function PromptPanel() {
   const { t } = useTranslation()
   const [textContent, setTextContent] = useState(settings?.prompt || '')
 
+  /**
+   * Handle text input change for prompt content.
+   *
+   * @param event React.ChangeEvent<HTMLInputElement> The change event.
+   *
+   * @returns void
+   */
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newContent = event.target.value
     setTextContent(newContent)
   }
 
+  /**
+   * Persist prompt content to the character configuration.
+   *
+   * @returns Promise<void> Resolves when the prompt is saved.
+   */
   const handleSave = async () => {
     if (textContent?.trim()) {
       await updateCharacter(settings!.character_id, 'prompt', {
@@ -127,7 +147,7 @@ export default function PromptPanel() {
             t('tip.promptActiveGreetingDesc'),
             t('tip.promptRelationshipSystemTitle'),
             t('tip.promptRelationshipSystemDesc'),
-          ]}
+          ].join('\n')}
         />
       </div>
     </div>
