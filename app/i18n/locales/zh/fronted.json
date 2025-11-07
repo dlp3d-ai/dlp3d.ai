@@ -59,7 +59,7 @@
     "invalidOrExpiredVerificationCode": "无效或过期的验证码，请稍后再试",
     "toDeleteYourAccountPleaseConfirmYourEmailAndPassword": "要删除你的账户，请确认你的邮箱和密码",
     "thisActionIsIrreversible": "此操作不可逆",
-    "enterYourPassword": "输入你的密码",
+    "enterYourPassword": "输入密码",
     "deleteAccount": "删除账户"
   },
   "chat": {
