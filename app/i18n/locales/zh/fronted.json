@@ -180,6 +180,6 @@
     "settingCloth": "开启或关闭布料模拟功能，在对话开始后生效。",
     "settingClothDescription": "若设备性能较低，可关闭此功能以获得更流畅的体验。",
     "settingDebug": "开启或关闭调试模式，在对话开始后生效。",
-    "settingDebugDescription": "启用后将显示刚体与动态骨骼的物理线框视图，并输出更详细的日志信息"
+    "settingDebugDescription": "启用后将显示刚体与动态骨骼的物理线框视图，并输出更详细的日志信息。"
   }
 }
