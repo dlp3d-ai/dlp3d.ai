@@ -14,18 +14,23 @@
 
 <p align="center">
   <a href="https://dlp3d.ai/"><img src="https://img.shields.io/badge/Try%20it-dlp3d.ai-232C4B?style=flat"></a>
+  <a href="https://www.youtube.com/watch?v=cNEMW6IHKl8"><img src="https://img.shields.io/badge/%20Demo-YouTube-FF0000?style=flat&logo=youtube&logoColor=white"></a>
   <a href="https://x.com/dlp3d_ai"><img src="https://img.shields.io/badge/Digital%20Life%20Project-%232d2e30?style=flat&logo=x&labelColor=%23101419&color=%232d2e30"></a>
   <a href="https://www.xiaohongshu.com/user/profile/678df66a000000000d008dd1"><img src="https://img.shields.io/badge/Digital%20Life%20Project-%232d2e30?style=flat&logo=xiaohongshu&labelColor=%23101419&color=%23FF2442"></a>
-  <a href="https://discord.gg/XB7jsKZQ"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2FXB7jsKZQ%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&suffix=%20members&logo=discord&logoColor=white&label=%20&color=7389D8&labelColor=6A7EC2"></a>
+  <a href="https://discord.gg/XYXuBn9R8c"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2FXYXuBn9R8c%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&suffix=%20members&logo=discord&logoColor=white&label=%20&color=7389D8&labelColor=6A7EC2"></a>
   <a href="https://dlp3d.readthedocs.io/en/latest/index.html"><img src="https://img.shields.io/badge/Docs-EN-2C5282?style=flat&logo=readthedocs"></a>
-  <a href="https://dlp3d.readthedocs.io/zh-cn/latest/"><img src="https://img.shields.io/badge/Docs-%E4%B8%AD%E6%96%87-2C5282?style=flat&logo=readthedocs"></a>
+  <a href="https://dlp3d.readthedocs.io/zh-cn/latest/"><img src="https://img.shields.io/badge/文档-%E4%B8%AD%E6%96%87-2C5282?style=flat&logo=readthedocs"></a>
   <a href="https://github.com/dlp3d-ai/dlp3d.ai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/dlp3d-ai/dlp3d.ai?style=flat"></a>
 </p>
 
 ## Overview
 Digital Life Project 2 (DLP3D) is an open-source real-time framework that brings Large Language Models (LLMs) to life through expressive 3D avatars. Users converse naturally by voice, while characters respond on demand with unified audio, whole-body animation, and physics simulation directly in the browser. Characters are fully customizable in both appearance (3D models) and personality (character prompts) and readily adaptable to any LLM or text-to-speech (TTS) service. 
+
 <div align="center">
-    <img src="docs/_static/poster_small.jpg"/>
+    <a href="https://www.youtube.com/watch?v=cNEMW6IHKl8">
+    <img src="docs/_static/poster_small.jpg" alt="Watch the video">
+    [Click to Watch the Demo Video]
+    </a>
 </div>
 
 
