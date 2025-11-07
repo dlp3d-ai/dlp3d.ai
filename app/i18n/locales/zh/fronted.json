@@ -172,7 +172,7 @@
     "promptActiveGreetingTitle": "[主动问候 Active Greeting]",
     "promptActiveGreetingDesc": "定义角色首次向你问候的方式。问候语应简洁，并符合当前关系阶段的氛围，无论是拘谨、友好、俏皮或亲密。它为接下来的互动定下情感基调。",
     "promptRelationshipSystemTitle": "[关系系统]",
-    "promptRelationshipSystemDesc": "这里定义角色与用户关系的成长路径。描述五个阶段——陌生人 → 相识 → 朋友 → 暧昧 → 恋人，并说明角色在每个阶段的态度、语气与情感变化。这将使角色的情感旅程完整且真实。",
+    "promptRelationshipSystemDesc": "这里定义角色与用户关系的成长路径。描述五个阶段：陌生人 → 相识 → 朋友 → 暧昧 → 恋人，并说明角色在每个阶段的态度、语气与情感变化。这将使角色的情感旅程完整且真实。",
     "asr": "ASR（自动语音识别）是角色的“耳朵”，让他们能听见并理解你。",
     "tts": "TTS（文本转语音）是角色的“嘴巴”，让他们能够表达自己的想法。",
     "clickKeyIcon": "点击钥匙图标输入 API Key，以启用所选服务提供商。",
