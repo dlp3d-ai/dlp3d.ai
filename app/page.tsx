@@ -408,32 +408,59 @@ export default function Home() {
         {missingSecret.llm_requirements.length > 0 && (
           <div>
             {t('missingSecret.message_llm')}
-            <ul>
+            <div
+              style={{
+                padding: '20px 10px 20px 30px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '5px',
+              }}
+            >
               {missingSecret.llm_requirements.map(requirement => (
-                <li key={requirement}>{requirement}</li>
+                <div key={requirement}>
+                  <span style={{ fontWeight: 'bold' }}>•</span> {requirement}
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
         {missingSecret.tts_requirements.length > 0 && (
           <div>
             {t('missingSecret.message_tts')}
-            <ul>
+            <div
+              style={{
+                padding: '20px 10px 20px 30px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '5px',
+              }}
+            >
               {missingSecret.tts_requirements.map(requirement => (
-                <li key={requirement}>{requirement}</li>
+                <div key={requirement}>
+                  <span style={{ fontWeight: 'bold' }}>•</span> {requirement}
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
 
         {missingSecret.asr_requirements.length > 0 && (
           <div>
             {t('missingSecret.message_asr')}
-            <ul>
+            <div
+              style={{
+                padding: '20px 10px 20px 30px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '5px',
+              }}
+            >
               {missingSecret.asr_requirements.map(requirement => (
-                <li key={requirement}>{requirement}</li>
+                <div key={requirement}>
+                  <span style={{ fontWeight: 'bold' }}>•</span> {requirement}
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
       </>
