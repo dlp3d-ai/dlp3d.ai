@@ -71,7 +71,7 @@ export class ConfigSync {
     this._config.maxRearExtensionDuration = parseFloat(
       env('NEXT_PUBLIC_MAX_REAR_EXTENSION_DURATION') || '0.0',
     )
-    this._config.language = env('NEXT_PUBLIC_LANGUAGE')
+    this._config.language = localStorage.getItem('i18nextLng')
   }
 
   /**
