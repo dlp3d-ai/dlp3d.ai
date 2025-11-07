@@ -311,10 +311,10 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
           characterMeshRef.current = null
 
           const character_index_file_name_mapping: { [key: number]: string } = {
-            0: 'Ani-default_225.glb',
-            1: 'KQ-default_181.glb',
-            2: 'HT-default_215.glb',
-            3: 'FNN-default_297.glb',
+            0: 'Ani-default_481.glb',
+            1: 'KQ-default_420.glb',
+            2: 'HT-default_214.glb',
+            3: 'FNN-default_296.glb',
           }
 
           const characterFile = character_index_file_name_mapping[characterIndex]

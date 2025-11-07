@@ -1,6 +1,9 @@
+'use client'
+
 import { useDevice } from '../../contexts/DeviceContext'
 import { usePromptingSettings } from '../../hooks/usePromptingSettings'
 import { useState, useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline'
@@ -21,6 +24,7 @@ import {
 } from '@/features/chat/chat'
 import { getUserInfo } from '@/features/auth/authStore'
 import { useSelector, useDispatch } from 'react-redux'
+import GlobalTooltip from '@/components/common/GlobalTooltip'
 
 /**
  * ChatListDrawer
@@ -34,6 +38,7 @@ import { useSelector, useDispatch } from 'react-redux'
 export default function ChatListDrawer() {
   const { isMobile } = useDevice()
   const dispatch = useDispatch()
+  const { t } = useTranslation()
   const {
     characters,
     deleteCharacter,
@@ -363,8 +368,8 @@ export default function ChatListDrawer() {
         isOpen={isConfirmDialogOpen}
         onClose={() => setIsConfirmDialogOpen(false)}
         onConfirm={() => handleConfirmDelete()}
-        title="tip"
-        message={`Are you sure you want to delete?`}
+        title={t('confirmDialog.title')}
+        message={t('confirmDialog.deleteMessage')}
       />
       {isOpen && (
         <>
@@ -397,7 +402,19 @@ export default function ChatListDrawer() {
                   style={{ fontSize: isMobile ? '1.5rem' : '3rem' }}
                 />
               </div>
-              <div className="chat-list-drawer-header-title">Chat List</div>
+              <div
+                className="chat-list-drawer-header-title"
+                style={{ display: 'flex', alignItems: 'center' }}
+              >
+                <span style={{ marginRight: '10px' }}>{t('chat.chatList')}</span>
+                <GlobalTooltip
+                  content={[
+                    t('tip.chatListFirst'),
+                    t('tip.chatListSecond'),
+                    t('tip.chatListThird'),
+                  ].join('\n')}
+                />
+              </div>
             </div>
             <div className="chat-list-drawer-content">
               {isLoading ? (
@@ -423,12 +440,12 @@ export default function ChatListDrawer() {
                       marginBottom: '16px',
                     }}
                   />
-                  <span>Loading...</span>
+                  <span>{t('common.loading')}</span>
                 </div>
               ) : (
                 <>
                   <div className="chat-list-drawer-content-title">
-                    My conversations
+                    {t('chat.myConversations')}
                     <div className="chat-list-drawer-content-title-line"></div>
                   </div>
                   <div
@@ -455,7 +472,7 @@ export default function ChatListDrawer() {
               className="chat-list-drawer-toggle-content-title"
               style={{ fontSize: isMobile ? '1rem' : '1.2rem' }}
             >
-              Chat List
+              {t('chat.chatList')}
             </span>
             <ExpandMoreIcon className="chat-list-drawer-toggle-content-icon" />
           </div>

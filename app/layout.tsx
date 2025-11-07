@@ -8,6 +8,7 @@ import { DeviceProvider } from './contexts/DeviceContext'
 import NotificationProvider from './components/common/GlobalNotification'
 import ErrorToast from './components/ui/ErrorToast'
 import CenterLeftMessages from './components/ui/CenterLeftMessages'
+import I18nProvider from './components/providers/I18nProvider'
 import { PublicEnvScript } from 'next-runtime-env'
 
 const inter = Inter({
@@ -20,16 +21,33 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
 })
 
+/**
+ * Application metadata configuration.
+ */
 export const metadata: Metadata = {
   title: 'Digital Life Project',
   description: 'Embodying Autonomous Characters in Living Worlds',
 }
 
+/**
+ * Viewport configuration for responsive design.
+ */
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1.0,
 }
 
+/**
+ * Root layout component for the Next.js application.
+ *
+ * Provides the root HTML structure with necessary providers, fonts, and external scripts.
+ * Includes Redux store, internationalization, notifications, and device context providers.
+ * Loads Babylon.js and related libraries for 3D rendering capabilities.
+ *
+ * @param children The child components to render within the layout.
+ *
+ * @returns The root HTML structure with all providers and scripts configured.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -88,13 +106,15 @@ export default function RootLayout({
         }}
       >
         <ReduxProvider>
-          <NotificationProvider>
-            <DeviceProvider>
-              {children}
-              <ErrorToast />
-              <CenterLeftMessages />
-            </DeviceProvider>
-          </NotificationProvider>
+          <I18nProvider>
+            <NotificationProvider>
+              <DeviceProvider>
+                {children}
+                <ErrorToast />
+                <CenterLeftMessages />
+              </DeviceProvider>
+            </NotificationProvider>
+          </I18nProvider>
         </ReduxProvider>
       </body>
     </html>

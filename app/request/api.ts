@@ -104,11 +104,13 @@ export interface Character {
 export interface VerifyUserRequest {
   username: string
   password: string
+  language?: string
 }
 // GET Endpoints
 export interface AuthenticateUserRequest {
   username: string
   password: string
+  language?: string
 }
 /*
   Retrieve the list of characters for a given user.
@@ -280,18 +282,6 @@ export async function fetchUpdateUserConfig(data: UpdateUserConfigRequest) {
 }
 
 /*
-  Delete a user.
-
-  @param data DeleteUserRequest - The request body with user id.
-
-  @returns Promise<{ success: boolean }> Operation status.
-*/
-export async function deleteUser(data: DeleteUserRequest) {
-  const response = await kyDlpApi.post('delete_user', { json: data })
-  return response.json<{ success: boolean }>()
-}
-
-/*
   Delete a character for a user.
 
   @param data DeleteCharacterRequest - The request body with user id and character id.
@@ -450,11 +440,17 @@ export async function fetchUpdatePassword(
   email: string,
   oldPassword: string,
   newPassword: string,
+  language?: string,
 ) {
   const response = await kyDlpApi.post(`update_user_password`, {
-    json: { username: email, password: oldPassword, new_password: newPassword },
+    json: {
+      username: email,
+      password: oldPassword,
+      new_password: newPassword,
+      language: language,
+    },
   })
-  return response.json<{ success: boolean }>()
+  return response.json<{ auth_code: number; auth_msg: string }>()
 }
 /*
   Delete a user by verifying password and email.
@@ -470,9 +466,15 @@ export async function fetchDeleteUser(
   userId: string,
   password: string,
   email: string,
+  language?: string,
 ) {
   const response = await kyDlpApi.post(`delete_user`, {
-    json: { user_id: userId, password: password, username: email },
+    json: {
+      user_id: userId,
+      password: password,
+      username: email,
+      language: language,
+    },
   })
   return response.json<{ auth_code: number; auth_msg: string }>()
 }

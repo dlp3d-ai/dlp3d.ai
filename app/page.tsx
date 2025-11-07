@@ -39,10 +39,25 @@ import {
 import { usePromptingSettings } from '@/hooks/usePromptingSettings'
 import { checkLocation, isSensetimeOrchestrator } from '@/utils/location'
 import { ConfirmDialog } from './components/common/Dialog'
+import { useTranslation } from 'react-i18next'
 
+const link = {
+  href: 'https://github.com/dlp3d-ai/dlp3d.ai',
+  className: 'peper',
+  title: 'GitHub',
+  label: 'GitHub',
+}
+/**
+ * Home component.
+ *
+ * The main page component that manages the 3D scene viewer, chat initialization,
+ * character loading, and scene management. Handles user authentication, loading states,
+ * and navigation to the chat interface.
+ */
 export default function Home() {
   const dispatch = useDispatch()
   const selectedChat = useSelector(getSelectedChat)
+  const { t } = useTranslation()
   const babylonViewerRef = useRef<BabylonViewerRef>(null)
 
   const isChatStarting = useSelector(getIsChatStarting)
@@ -60,8 +75,8 @@ export default function Home() {
   const [chatAvailable, setChatAvailable] = useState(false) // Whether Chat should be enabled for current character
   const [characterChangeKey, setCharacterChangeKey] = useState(0) // Track character selection changes
 
-  const [uiFadeOut, setUiFadeOut] = useState(false) // 控制淡出动画
-  const [isLoading, setIsLoading] = useState(true) // Loading状态
+  const [uiFadeOut, setUiFadeOut] = useState(false) // Controls fade-out animation
+  const [isLoading, setIsLoading] = useState(true) // Loading state
   const [isGlobalLoading, setIsGlobalLoading] = useState(
     isLoading || isSceneLoading || isCharacterLoading,
   )
@@ -69,7 +84,7 @@ export default function Home() {
   const [showUnsupportedTtsNotice, setShowUnsupportedTtsNotice] = useState(false)
   const { isMobile } = useDevice()
   const { loadUserCharacters } = usePromptingSettings()
-  const [selectedScene, setSelectedScene] = useState(3) // 用于跳转scene参数
+  const [selectedScene, setSelectedScene] = useState(3) // Parameter for scene navigation
   const [locationDialogOpen, setLocationDialogOpen] = useState(false)
 
   useEffect(() => {
@@ -123,10 +138,16 @@ export default function Home() {
     }
   }, [selectedChat])
 
+  /**
+   * Handle character loaded event.
+   *
+   * Dispatches actions to update loading state and triggers a custom event
+   * after a delay to ensure all components are initialized.
+   */
   const handleCharacterLoaded = useCallback(() => {
     dispatch(setIsCharacterLoading(false))
     dispatch(setLoadingText(''))
-    // 延迟触发事件，确保所有组件都已初始化
+    // Delay event trigger to ensure all components are initialized
     setTimeout(() => {
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('character-loaded'))
@@ -134,6 +155,11 @@ export default function Home() {
     }, 1000)
   }, [])
 
+  /**
+   * Handle scene change.
+   *
+   * @param scene The name of the scene to switch to.
+   */
   const handleSceneChange = (scene: string) => {
     dispatch(setIsSceneLoading(true))
     dispatch(setLoadingText('Loading Scene...'))
@@ -143,13 +169,24 @@ export default function Home() {
     setSelectedScene(index)
   }
 
+  /**
+   * Handle scene loaded event.
+   *
+   * Dispatches actions to update loading state when the scene has finished loading.
+   */
   const handleSceneLoaded = useCallback(() => {
     dispatch(setIsSceneLoading(false))
     dispatch(setLoadingText(''))
   }, [])
 
-  // 修改handleStartConversation逻辑
-  const handleStartConversation = async () => {
+  /**
+   * Handle starting a conversation.
+   *
+   * Validates prerequisites, saves camera and scene state, captures a screenshot,
+   * and opens a new window with the chat interface. Handles TTS compatibility checks
+   * and location-based warnings for specific server hosts.
+   */
+  const handleStartConversation = useCallback(async () => {
     if (isCharacterLoading || isSceneLoading) {
       return
     }
@@ -192,6 +229,7 @@ export default function Home() {
           isSensetimeTAServer
         ) {
           setLocationDialogOpen(true)
+          return
         }
         try {
           dispatch(setIsChatStarting(true))
@@ -243,9 +281,20 @@ export default function Home() {
         window.open(fallbackUrl, '_blank', 'noopener,noreferrer')
       }
     }
-  }
+  }, [
+    isCharacterLoading,
+    isSceneLoading,
+    currentTtsType,
+    chatAvailable,
+    selectedChat,
+    isSensetimeTAServer,
+    dispatch,
+    selectedCharacterId,
+    selectedScene,
+    loadUserCharacters,
+  ])
   useEffect(() => {
-    // 监听路由变化，当回到首页时重置聊天状态
+    // Listen for route changes and reset chat state when returning to homepage
     const handleRouteChange = () => {
       if (window.location.pathname === '/') {
         dispatch(setIsChatStarting(false))
@@ -253,23 +302,58 @@ export default function Home() {
       }
     }
 
-    // 页面加载时检查当前路径
+    // Check current path on page load
     handleRouteChange()
 
-    // 监听浏览器前进后退事件
+    // Listen for browser back/forward events
     window.addEventListener('popstate', handleRouteChange)
 
     return () => {
       window.removeEventListener('popstate', handleRouteChange)
     }
   }, [dispatch])
+  const ChatButton = useCallback(() => {
+    if (isChatStarting || (isMobile && isLogin)) return null
+    return (
+      <div className="button-group-container">
+        <button
+          className="start-conversation-btn"
+          onClick={handleStartConversation}
+          disabled={
+            !chatAvailable || isCharacterLoading || isSceneLoading || !isLogin
+          }
+          style={{
+            opacity:
+              chatAvailable && !isCharacterLoading && !isSceneLoading ? 1 : 0.6,
+            cursor:
+              chatAvailable && !isCharacterLoading && !isSceneLoading
+                ? 'pointer'
+                : 'not-allowed',
+            borderRadius: '30px 0 0 30px', // Only round the left side
+          }}
+        >
+          {chatAvailable && !isCharacterLoading && !isSceneLoading && isLogin
+            ? t('chat.chat')
+            : t('chat.loginToChat')}
+        </button>
+      </div>
+    )
+  }, [
+    isChatStarting,
+    isMobile,
+    isLogin,
+    handleStartConversation,
+    chatAvailable,
+    isCharacterLoading,
+    isSceneLoading,
+  ])
 
   return (
     <>
       {/* Loading Screen */}
       <LoadingScreen
         isLoading={isGlobalLoading}
-        message={loadingText || 'Loading...'}
+        message={t('loading.message')}
         onComplete={() => setIsLoading(false)}
         progress={loadingProgress}
       />
@@ -290,7 +374,7 @@ export default function Home() {
 
       {/* Main Content Container */}
       <div className={`main-content-container${uiFadeOut ? ' fade-out' : ''}`}>
-        {/* 只要不是isChatStarting，才显示UI */}
+        {/* Only show UI when not isChatStarting */}
         {!isChatStarting && (
           <>
             {/* Hero Section */}
@@ -300,7 +384,7 @@ export default function Home() {
           </>
         )}
 
-        {/* 隐藏的贴片截图用 DOM */}
+        {/* Hidden DOM for billboard screenshot */}
         <div
           id="dlp-billboard-capture"
           style={{
@@ -338,15 +422,41 @@ export default function Home() {
       {/* Location Dialog */}
       <ConfirmDialog
         isOpen={locationDialogOpen}
-        onClose={() => setLocationDialogOpen(false)}
-        showCancelButton={false}
+        onCancel={() => {
+          window.open(link.href, '_blank')
+        }}
+        onClose={() => {
+          setLocationDialogOpen(false)
+        }}
+        cancelText={
+          <a
+            key={link.className}
+            href={link.href}
+            target="_blank"
+            title={link.title}
+            rel="noopener noreferrer"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+
+              color: '#ffffff',
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            <span>{link.label}</span>
+          </a>
+        }
         onConfirm={() => {
           setLocationDialogOpen(false)
           localStorage.setItem('dlp_enter_wrong_location', 'true')
+          handleStartConversation()
         }}
-        title="Network Latency Warning"
-        message="We've detected that you're connecting from a location far from our servers, which may result in higher network latency and a suboptimal user experience. For the best performance and experience, we recommend accessing our open-source project and deploying it locally."
-        confirmText="Enter Wrong Location"
+        title={t('networkLatencyWarning.title')}
+        message={t('networkLatencyWarning.message')}
+        confirmText={t('networkLatencyWarning.confirmText')}
       />
       {/* Footer */}
       {!isChatStarting && !isLogin && (
@@ -354,30 +464,8 @@ export default function Home() {
           <Footer />
         </footer>
       )}
-      {/* Button Group Container */}
-      {!isChatStarting && !isMobile && (
-        <div className="button-group-container">
-          <button
-            className="start-conversation-btn"
-            onClick={handleStartConversation}
-            disabled={!chatAvailable || isCharacterLoading || isSceneLoading}
-            style={{
-              opacity:
-                chatAvailable && !isCharacterLoading && !isSceneLoading ? 1 : 0.6,
-              cursor:
-                chatAvailable && !isCharacterLoading && !isSceneLoading
-                  ? 'pointer'
-                  : 'not-allowed',
-              borderRadius: '30px 0 0 30px', // Only round the left side
-            }}
-          >
-            {chatAvailable && !isCharacterLoading && !isSceneLoading && isLogin
-              ? 'Chat'
-              : 'Coming Soon'}
-          </button>
-        </div>
-      )}
-      {/* Loading overlay removed in favor of full-screen LoadingScreen */}
+
+      <ChatButton />
     </>
   )
 }

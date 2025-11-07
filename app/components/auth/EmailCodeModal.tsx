@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Dialog } from '@/components/common/Dialog'
+import { useTranslation } from 'react-i18next'
 
 interface EmailCodeModalProps {
   isOpen: boolean
@@ -28,7 +29,7 @@ export default function EmailCodeModal({
     @returns Promise<void> Resolves when the submit completes.
   */
   const [code, setCode] = useState('')
-
+  const { t } = useTranslation()
   useEffect(() => {
     if (isOpen) {
       setCode('')
@@ -45,7 +46,7 @@ export default function EmailCodeModal({
     <Dialog
       isOpen={isOpen}
       onClose={onClose}
-      title="Email verification code"
+      title={t('auth.emailVerificationCode')}
       maxWidth="420px"
       className="email-code-dialog"
     >
@@ -54,15 +55,15 @@ export default function EmailCodeModal({
         style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
       >
         <div style={{ color: '#cfcfe1', lineHeight: 1.6 }}>
-          We have sent a verification code to{' '}
+          {t('auth.weHaveSentAVerificationCodeTo')}{' '}
           <span style={{ color: '#fff', fontWeight: 600 }}>
             {email || 'your email'}
           </span>{' '}
-          . Please enter the 6-digit code in the email to complete the verification.
+          {t('auth.pleaseEnterThe6DigitCodeInTheEmailToCompleteTheVerification')}
         </div>
 
         <label style={{ color: '#8b8ea8', fontSize: '14px' }}>
-          Verification Code
+          {t('auth.verificationCode')}
         </label>
         <input
           type="text"
@@ -71,7 +72,7 @@ export default function EmailCodeModal({
           autoComplete="one-time-code"
           value={code}
           onChange={e => setCode(e.target.value)}
-          placeholder="Enter the verification code"
+          placeholder={t('auth.enterTheVerificationCode')}
           style={{
             width: '100%',
             height: '48px',
@@ -123,7 +124,7 @@ export default function EmailCodeModal({
               e.currentTarget.style.color = '#aaa'
             }}
           >
-            Cancel
+            {t('common.cancel')}
           </button>
 
           <button
@@ -139,7 +140,7 @@ export default function EmailCodeModal({
               minWidth: '96px',
             }}
           >
-            Confirm
+            {t('common.confirm')}
           </button>
         </div>
       </form>

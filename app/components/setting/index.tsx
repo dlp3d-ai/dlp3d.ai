@@ -1,3 +1,4 @@
+'use client'
 import { useDevice } from '../../contexts/DeviceContext'
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
@@ -7,12 +8,30 @@ import './styles/index.scss'
 
 // Redux imports
 import { setIsLeftSliderOpen } from '@/features/chat/chat'
+import { useTranslation } from 'react-i18next'
 
+/**
+ * LeftSidebar
+ *
+ * Entry component for the left settings sidebar. Manages open/close state
+ * and toggles the settings drawer.
+ *
+ * @returns JSX.Element The left settings sidebar launcher.
+ */
 export default function LeftSidebar() {
   const { isMobile } = useDevice()
   const dispatch = useDispatch()
   const [active, setActive] = useState('')
-
+  const { t } = useTranslation()
+  /**
+   * Handle click on the settings launcher.
+   *
+   * Toggles the left drawer and updates Redux state accordingly.
+   *
+   * @param event React.MouseEvent The click event.
+   *
+   * @returns void
+   */
   const onSettingClick = (event: React.MouseEvent) => {
     event.stopPropagation()
     if (active === 'setting') {
@@ -51,7 +70,7 @@ export default function LeftSidebar() {
                 fontWeight: 600,
               }}
             >
-              SIMULATION
+              {t('simulationPanel.title')}
             </span>
           </div>
         </div>

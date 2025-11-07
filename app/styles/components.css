@@ -747,7 +747,10 @@ body,
   background: rgba(215, 50, 51, 0.2);
   border-color: rgba(215, 50, 51, 0.5);
 }
-
+.social-btn.discord:hover {
+  background: rgba(114, 137, 218, 0.2);
+  border-color: rgba(114, 137, 218, 0.5);
+}
 /* Logo Container Positioning */
 .logo-container {
   display: flex;

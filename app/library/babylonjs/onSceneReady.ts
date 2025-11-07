@@ -17,6 +17,7 @@ import { Logger, LogLevel } from '@/library/babylonjs/utils'
 import { LoadingProgressManager } from '../../utils/progressManager'
 import { HDRI_SCENES } from '@/library/babylonjs/config/scene'
 import { ConfigSync } from '@/library/babylonjs/config'
+import i18n from '@/i18n/config'
 
 /**
  * TypeScript type definitions for user ID handling.
@@ -68,7 +69,7 @@ export default async function onSceneReady(globalState: GlobalState) {
   if (typeof window !== 'undefined') {
     LoadingProgressManager.getInstance().updateProgress(
       0,
-      'Initializing Scene...',
+      i18n.t('loading.initializeScene', { ns: 'client' }),
       'onSceneReady-init',
     )
   }

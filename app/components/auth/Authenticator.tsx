@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setAuthState } from '@/features/auth/authStore'
@@ -18,7 +20,7 @@ import {
   useSuccessNotification,
   useErrorNotification,
 } from '@/hooks/useGlobalNotification'
-
+import { useTranslation } from 'react-i18next'
 /**
  * Props interface for the Authenticator component.
  */
@@ -44,7 +46,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showError, setShowError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('Invalid email or password')
+  const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
   const { loadUserCharacters } = usePromptingSettings()
@@ -53,6 +55,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   const { showSuccessNotification } = useSuccessNotification()
   const { showErrorNotification } = useErrorNotification()
   const [codeErrorMessage, setCodeErrorMessage] = useState('')
+  const { t, i18n } = useTranslation()
 
   const getCurrentPositionAsync = (options: PositionOptions) => {
     return new Promise((resolve, reject) => {
@@ -98,7 +101,11 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
     const AUTH_STORAGE_KEY = 'dlp3d_auth_state'
     if (activeTab === 'register') {
       try {
-        const response = await verifyUser({ username: email, password })
+        const response = await verifyUser({
+          username: email,
+          password,
+          language: i18n.language,
+        })
         setIsLoading(false)
         if (response.auth_code === 200) {
           setNeedCode(response.confirmation_required)
@@ -106,9 +113,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
             showSuccessNotification('Registration Successful!')
             setActiveTab('login')
           } else {
-            showSuccessNotification(
-              'We have sent a verification code to your email. Please enter the code to verify.',
-            )
+            showSuccessNotification(t('notification.verificationCodeSent'))
           }
         } else {
           showErrorNotification(response.auth_msg)
@@ -120,7 +125,11 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
       }
     } else {
       try {
-        const response = await authenticateUser({ username: email, password })
+        const response = await authenticateUser({
+          username: email,
+          password,
+          language: i18n.language,
+        })
         if (response.auth_code === 200) {
           try {
             const position = await getCurrentPositionAsync({
@@ -246,13 +255,15 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
     setIsLoading(true)
     try {
       if (!inputCode.trim()) {
-        setCodeErrorMessage('Please enter the verification code.')
+        setCodeErrorMessage(t('auth.pleaseEnterTheVerificationCode'))
         return
       }
       // After user confirms email, try authenticating
       const response = await fetchResendVerificationCode(email, inputCode)
       if (response.auth_code === 200) {
-        showSuccessNotification('Verification code sent successfully.')
+        showSuccessNotification(
+          t('notification.verificationCodeVerifiedSuccessfully'),
+        )
         setActiveTab('login')
         setNeedCode(false)
       } else {
@@ -260,7 +271,9 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
         if (response.auth_msg.includes('please request a code again')) {
           const res = await fetchResendConfirmationCode(email)
           if (res.auth_code === 200) {
-            showSuccessNotification('Verification code resent successfully.')
+            showSuccessNotification(
+              t('notification.verificationCodeResentSuccessfully'),
+            )
           } else {
             showErrorNotification(res.auth_msg)
           }
@@ -269,9 +282,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
       // await loginVerify(email, password)
     } catch (error) {
       console.error(error)
-      setCodeErrorMessage(
-        'Invalid or expired verification code, please try again later.',
-      )
+      setCodeErrorMessage(t('auth.invalidOrExpiredVerificationCode'))
     } finally {
       setIsLoading(false)
     }
@@ -279,9 +290,9 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
 
   const buttonText = (() => {
     if (activeTab === 'login') {
-      return isLoading ? 'Signing in...' : 'Sign in'
+      return isLoading ? t('auth.signingIn') : t('auth.signIn')
     }
-    return isLoading ? 'Registering...' : 'Register'
+    return isLoading ? t('auth.registering') : t('auth.register')
   })()
   return (
     <div
@@ -331,8 +342,12 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
           },
         }}
       >
-        <Tab label={<span>Login</span>} key="login" value="login" />
-        <Tab label={<span>Register</span>} key="register" value="register" />
+        <Tab label={<span>{t('auth.login')}</span>} key="login" value="login" />
+        <Tab
+          label={<span>{t('auth.register')}</span>}
+          key="register"
+          value="register"
+        />
       </Tabs>
       <div style={{ width: '100%' }}>
         {showError && (
@@ -369,14 +384,14 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
             textAlign: 'left',
           }}
         >
-          Email
+          {t('auth.email')}
         </label>
         {/* Email Input */}
         <input
           type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          placeholder="Enter your email"
+          placeholder={t('auth.emailPlaceholder')}
           style={{
             width: '100%',
             height: '48px',
@@ -408,7 +423,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
             textAlign: 'left',
           }}
         >
-          Password
+          {t('auth.password')}
         </label>
         {/* Password Input Container */}
         <div
@@ -421,7 +436,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={e => setPassword(e.target.value)}
-            placeholder="Enter your password"
+            placeholder={t('auth.passwordPlaceholder')}
             style={{
               width: '100%',
               height: '48px',

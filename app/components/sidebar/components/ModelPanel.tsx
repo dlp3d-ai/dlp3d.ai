@@ -9,18 +9,34 @@ import { setSelectedModelIndex } from '@/features/chat/chatStore'
 import CheckIcon from '@mui/icons-material/Check'
 import { fetchUpdateAvatar } from '@/request/api'
 import { useErrorNotification } from '@/hooks/useGlobalNotification'
+import { useTranslation } from 'react-i18next'
+import GlobalTooltip from '@/components/common/GlobalTooltip'
 
+/**
+ * ModelPanel component.
+ *
+ * A panel component for selecting and managing character models/avatars.
+ * Displays a list of available character models and allows users to select
+ * and update the active character avatar.
+ */
 export default function ModelPanel() {
   const { showErrorNotification } = useErrorNotification()
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const settings = useSelector(getSelectedChat)
   const [selectAvatar, setSelectAvatar] = useState(settings?.avatar)
 
+  /**
+   * Handle character selection.
+   *
+   * Updates the selected avatar, saves it to the backend, and updates
+   * the Redux store. Shows an error notification if the character is read-only.
+   *
+   * @param {number} index The index of the selected character model.
+   */
   const handleCharacterSelect = async (index: number) => {
     if (settings?.read_only) {
-      showErrorNotification(
-        'Editing the default character is not allowed. You must create a copy to make any changes.',
-      )
+      showErrorNotification(t('notification.editDefaultCharacterNotAllowed'))
       return
     }
     setSelectAvatar(CHARACTER_MODELS[index].name)
@@ -35,9 +51,9 @@ export default function ModelPanel() {
   return (
     <div
       className="config-sidebar-drawer-list"
-      style={{ overflowY: 'auto', height: '100%' }}
+      style={{ overflowY: 'auto', height: '100%', position: 'relative' }}
     >
-      {/* 角色列表 - 使用 userCharacters 数据 */}
+      {/* Character list */}
       {CHARACTER_MODELS.map((character, index) => {
         return (
           <div
@@ -54,7 +70,7 @@ export default function ModelPanel() {
               style={{ width: '100%', height: '100%', objectFit: 'contain' }}
             />
             <div className="config-sidebar-drawer-list-item-name">
-              {character.name}
+              {t(`characters.${character.name}`)}
             </div>
             {selectAvatar === character.name && (
               <div
@@ -78,6 +94,15 @@ export default function ModelPanel() {
           </div>
         )
       })}
+      <div style={{ position: 'absolute', top: 0, right: '20px', color: '#fff' }}>
+        <GlobalTooltip
+          content={[
+            t('tip.modelFirst'),
+            t('tip.modelSecond'),
+            t('tip.modelThird'),
+          ].join('\n')}
+        />
+      </div>
     </div>
   )
 }

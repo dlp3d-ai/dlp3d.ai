@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useDevice } from '../../contexts/DeviceContext'
+import { useTranslation } from 'react-i18next'
 interface LogoProps {
   className?: string
 
@@ -9,6 +10,18 @@ interface LogoProps {
   clickable?: boolean
 }
 
+/**
+ * Logo component.
+ *
+ * Displays the app logo and title text. Optionally renders as a clickable
+ * button with keyboard accessibility.
+ *
+ * @param className Optional additional class names.
+ * @param onClick Optional click handler when clickable is true.
+ * @param clickable Whether the logo acts as a button. Default: false
+ *
+ * @returns JSX.Element The logo element.
+ */
 export default function Logo({
   className = '',
 
@@ -16,6 +29,14 @@ export default function Logo({
   clickable = false,
 }: LogoProps) {
   const { isMobile } = useDevice()
+  const { t } = useTranslation()
+  /**
+   * Handle keyboard activation when logo is clickable.
+   *
+   * @param event Keyboard event (Enter/Space triggers onClick).
+   *
+   * @returns void
+   */
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if ((event.key === 'Enter' || event.key === ' ') && onClick) {
       event.preventDefault()
@@ -45,7 +66,7 @@ export default function Logo({
           className="logo-text"
           style={{ fontSize: isMobile ? '1rem' : '1.5rem' }}
         >
-          DLP3D
+          {t('nav.title')}
         </span>
       </div>
     </>

@@ -1,6 +1,9 @@
+'use client'
+
 import { useDevice } from '../../contexts/DeviceContext'
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import ConfigSidebarDrawer from './components/Drawer'
 
 import './styles/index.scss'
@@ -11,15 +14,30 @@ import { getIsChatStarting, getSelectedCharacterId } from '@/features/chat/chat'
 import { setIsSliderOpen } from '@/features/chat/chat'
 import { usePromptingSettings } from '@/hooks/usePromptingSettings'
 
+/**
+ * Props for ConfigSidebar component.
+ */
 interface ConfigSidebarProps {
+  /** Whether chat functionality is available. */
   chatAvailable: boolean
+  /** Whether character is currently loading. */
   isCharacterLoading: boolean
+  /** Whether scene is currently loading. */
   isSceneLoading: boolean
 
+  /** Callback function to handle starting a conversation. */
   handleStartConversation: () => void
+  /** Callback function to handle scene changes. */
   onSceneChange: (scene: string) => void
 }
 
+/**
+ * ConfigSidebar component.
+ *
+ * A sidebar component that provides configuration options for model, prompt,
+ * LLM, TTS, and scene settings. Displays operation buttons and manages the
+ * drawer panel for detailed configuration.
+ */
 export default function ConfigSidebar({
   handleStartConversation,
   chatAvailable,
@@ -31,6 +49,7 @@ export default function ConfigSidebar({
   const { isMobile } = useDevice()
   const dispatch = useDispatch()
   const isChatStarting = useSelector(getIsChatStarting)
+  const { t } = useTranslation()
 
   const selectedCharacterId = useSelector(getSelectedCharacterId)
 
@@ -39,32 +58,41 @@ export default function ConfigSidebar({
 
   const operationList = [
     {
-      name: '3D model',
+      name: t('sidebar.model'),
       icon: '/img/icons/model.png',
       key: 'model',
     },
     {
-      name: 'Prompt',
+      name: t('sidebar.prompt'),
       icon: '/img/icons/prompt.png',
       key: 'prompt',
     },
     {
-      name: 'LLM',
+      name: t('sidebar.llm'),
       icon: '/img/icons/llm.png',
       key: 'llm',
     },
     {
-      name: 'ASR/TTS',
+      name: t('sidebar.tts'),
       icon: '/img/icons/tts.png',
       key: 'tts',
     },
     {
-      name: 'Scene',
+      name: t('sidebar.scene'),
       icon: '/img/icons/scene.png',
       key: 'scene',
     },
   ]
 
+  /**
+   * Handle sidebar item click event.
+   *
+   * Loads user characters if needed, toggles the active item, and opens
+   * the configuration drawer.
+   *
+   * @param {string} key The key of the clicked item.
+   * @param {React.MouseEvent} event The mouse event object.
+   */
   const onItemClick = async (key: string, event: React.MouseEvent) => {
     event.stopPropagation()
     if (!selectedCharacterId) {
@@ -76,12 +104,12 @@ export default function ConfigSidebar({
     }
     setActive(key)
 
-    dispatch(setIsSliderOpen(true)) // 更新 Redux 状态
+    dispatch(setIsSliderOpen(true)) // Update Redux state
   }
 
   return (
     <>
-      {/* 移动端 */}
+      {/* Mobile */}
       {!isChatStarting && isMobile && (
         <div className="config-sidebar-mobile-button">
           <div className="button-group-container button-group-container-mobile">
@@ -101,8 +129,8 @@ export default function ConfigSidebar({
               }}
             >
               {chatAvailable && !isCharacterLoading && !isSceneLoading
-                ? 'Chat'
-                : 'Coming Soon'}
+                ? t('chat.chat')
+                : t('chat.loginToChat')}
             </button>
           </div>
         </div>
@@ -121,6 +149,7 @@ export default function ConfigSidebar({
             className={`config-sidebar-item ${active === item.key ? 'active' : ''}`}
             key={index}
             onClick={event => onItemClick(item.key, event)}
+            style={{ position: 'relative' }}
           >
             <div className="config-sidebar-item-icon">
               <img src={item.icon} />
@@ -133,7 +162,7 @@ export default function ConfigSidebar({
         active={active}
         onClose={() => {
           setActive('')
-          dispatch(setIsSliderOpen(false)) // 更新 Redux 状态
+          dispatch(setIsSliderOpen(false)) // Update Redux state
         }}
         onSceneChange={onSceneChange}
       />

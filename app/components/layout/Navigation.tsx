@@ -16,6 +16,7 @@ import {
   clearAuthStateFromStorage,
   setAuthState,
   getDefaultAuthState,
+  logout,
 } from '@/features/auth/authStore'
 import UpdatePassword from '../auth/UpdatePassword'
 import DeleteUser from '../auth/DeleteUser'
@@ -24,8 +25,8 @@ import {
   useSuccessNotification,
   useErrorNotification,
 } from '@/hooks/useGlobalNotification'
-import './Navigation.scss'
-
+import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from './LanguageSwitch'
 /*
   Top navigation component for the application.
 
@@ -37,6 +38,7 @@ export default function Navigation() {
   const [showUserMenu, setShowUserMenu] = useState(false)
   const isAuthenticated = useSelector(getIsLogin)
   const userInfo = useSelector(getUserInfo)
+  const { t, i18n } = useTranslation()
 
   const userMenuRef = useRef<HTMLDivElement>(null)
   const { isMobile } = useDevice()
@@ -85,8 +87,9 @@ export default function Navigation() {
       clearAuthStateFromStorage()
       dispatch(setAuthState(getDefaultAuthState()))
       setShowUserMenu(false)
+      dispatch(logout())
       // Force page reload to update auth state
-      // window.location.reload();
+      window.location.reload()
     } catch (error) {
       console.error('Error signing out:', error)
     }
@@ -131,12 +134,20 @@ export default function Navigation() {
     oldPassword: string
     newPassword: string
   }) => {
-    setShowChangePasswordDialog(false)
     try {
-      await fetchUpdatePassword(param.email, param.oldPassword, param.newPassword)
-      setShowChangePasswordDialog(false)
-      showSuccessNotification('Password updated successfully')
-      handleSignOut()
+      const response = await fetchUpdatePassword(
+        param.email,
+        param.oldPassword,
+        param.newPassword,
+        i18n.language,
+      )
+      if (response.auth_code === 200) {
+        setShowChangePasswordDialog(false)
+        showSuccessNotification(t('nav.passwordUpdated'))
+        handleSignOut()
+      } else {
+        showErrorNotification(response.auth_msg)
+      }
     } catch (error) {
       console.error('Error changing password:', error)
     }
@@ -157,10 +168,11 @@ export default function Navigation() {
         userInfo.id,
         param.password,
         param.email,
+        i18n.language,
       )
       if (response.auth_code === 200) {
         setShowDeleteAccountDialog(false)
-        showSuccessNotification('Account deleted successfully')
+        showSuccessNotification(t('nav.accountDeleted'))
         handleSignOut()
       } else {
         showErrorNotification(response.auth_msg)
@@ -198,6 +210,7 @@ export default function Navigation() {
         <div className="nav-right">
           <div className="nav-right-content">
             {/* <button className="about-btn">About</button> */}
+            {!isChatStarting && <LanguageSwitcher />}
 
             <div className="account-container" ref={userMenuRef}>
               <button
@@ -229,27 +242,27 @@ export default function Navigation() {
               {isAuthenticated && showUserMenu && (
                 <div className="user-menu">
                   <div className="user-menu-item">
-                    <span>Signed in as</span>
+                    <span>{t('nav.signedInAs')}</span>
                     <strong>{userInfo.username}</strong>
                   </div>
                   <button
                     className="user-menu-item user-menu-action"
                     onClick={handleChangePassword}
                   >
-                    Change Password
+                    {t('nav.changePassword')}
                   </button>
 
                   <button
                     className="user-menu-item user-menu-action"
                     onClick={handleSignOut}
                   >
-                    Sign Out
+                    {t('nav.signOut')}
                   </button>
                   <button
                     className="user-menu-item user-menu-action user-menu-action-error"
                     onClick={handleDeleteAccount}
                   >
-                    Delete Account
+                    {t('nav.deleteAccount')}
                   </button>
                 </div>
               )}

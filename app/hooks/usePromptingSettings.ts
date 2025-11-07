@@ -31,10 +31,11 @@ import {
   getAvailableLlm,
   fetchUpdateName,
 } from '@/request/api'
+import { useTranslation } from 'react-i18next'
 
 export function usePromptingSettings() {
   const dispatch = useDispatch()
-
+  const { t } = useTranslation()
   const selectedCharacterId = useSelector(getSelectedCharacterId)
   const selectedModelIndex = useSelector(getSelectedModelIndex)
   const { showErrorNotification } = useErrorNotification()
@@ -51,7 +52,12 @@ export function usePromptingSettings() {
     const userCharacters = await getCharactersList(user.id)
     dispatch(setChatList(userCharacters))
     if (!selectedCharacter) {
-      await selectCharacter(userCharacters[0].character_id)
+      const id = localStorage.getItem('dlp_selected_character_id')
+      if (id && userCharacters.some(item => item.character_id === id)) {
+        await selectCharacter(id)
+      } else {
+        await selectCharacter(userCharacters[0].character_id)
+      }
     }
     return userCharacters
   }
@@ -63,7 +69,7 @@ export function usePromptingSettings() {
     try {
       const character = await getCharacterConfig(user.id, id)
       if (!character) {
-        showErrorNotification('Character not found')
+        showErrorNotification(t('notification.characterNotFound'))
         return
       }
       dispatch(setSelectedChat(character))
@@ -74,7 +80,7 @@ export function usePromptingSettings() {
         dispatch(setSelectedModelIndex(index))
       }
     } catch (error) {
-      showErrorNotification(error, 'Failed to load character')
+      showErrorNotification(error, t('notification.loadCharacterFailed'))
     }
   }
   const copyCharacter = async (id: string) => {
@@ -86,20 +92,13 @@ export function usePromptingSettings() {
   // Delete character
   const deleteCharacter = async (id: string): Promise<void> => {
     if (!user?.id) {
-      showErrorNotification('Please log in to delete characters')
+      showErrorNotification(t('notification.logInToDeleteCharacters'))
       return
     }
 
-    // if (selectedCharacter?.read_only) {
-    //   showErrorNotification('Cannot delete the default character')
-    // }
-    // if (characters.find(item => item.character_id === id)!.read_only) {
-    //   showErrorNotification('Cannot delete the default character')
-    //   return
-    // }
     const character = await getCharacterConfig(user.id, id)
     if (character.read_only) {
-      showErrorNotification('Cannot delete the default character')
+      showErrorNotification(t('notification.deleteDefaultCharacterNotAllowed'))
       return
     }
 
@@ -112,12 +111,12 @@ export function usePromptingSettings() {
         selectCharacter(characters[0].character_id)
       }
     } catch (error) {
-      showErrorNotification('Failed to delete character')
+      showErrorNotification(t('notification.deleteCharacterFailed'))
     }
   }
   const updateUserConfig = async (key: string, value: any) => {
     if (!user?.id) {
-      showErrorNotification('Please log in to update user config')
+      showErrorNotification(t('notification.logInToUpdateUserConfig'))
       return
     }
 
@@ -128,7 +127,7 @@ export function usePromptingSettings() {
   }
   const getLLMList = async () => {
     if (!user?.id) {
-      showErrorNotification('Please log in to get LLM list')
+      showErrorNotification(t('notification.logInToGetLLMList'))
       return
     }
     return await getAvailableLlm(user.id)
@@ -147,14 +146,12 @@ export function usePromptingSettings() {
     value: any,
   ) => {
     if (!user?.id) {
-      showErrorNotification('Please log in to update characters')
+      showErrorNotification(t('notification.logInToUpdateCharacters'))
       return false
     }
     const character = await getCharacterConfig(user.id, id)
     if (character?.read_only) {
-      showErrorNotification(
-        'Editing the default character is not allowed. You must create a copy to make any changes.',
-      )
+      showErrorNotification(t('notification.editDefaultCharacterNotAllowed'))
       return false
     }
 
@@ -230,12 +227,12 @@ export function usePromptingSettings() {
   }
   const updateCharacterName = async (id: string, name: string) => {
     if (!user?.id) {
-      showErrorNotification('Please log in to update character name')
+      showErrorNotification(t('notification.logInToUpdateCharacterName'))
       return
     }
     const character = await getCharacterConfig(user.id, id)
     if (character?.read_only) {
-      showErrorNotification('Cannot update character name for the default character')
+      showErrorNotification(t('notification.updateDefaultCharacterNameNotAllowed'))
       return
     }
 
