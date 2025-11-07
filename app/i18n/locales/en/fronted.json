@@ -98,6 +98,7 @@
     "apiKey": "API Key",
     "token": "Token",
     "voiceSpeed": "Voice Speed",
+    "zoetrope": "ZOETROPE",
     "huoshan": "HUOSHAN",
     "huoshan_icl": "HUOSHAN ICL",
     "softsugar": "SOFTSUGAR",
@@ -118,7 +119,7 @@
   "networkLatencyWarning": {
     "title": "Network Latency Warning",
     "message": "We've detected that you're connecting from a location far from our servers, which may result in higher network latency and a suboptimal user experience. For the best performance and experience, we recommend accessing our open-source project and deploying it locally.",
-    "confirmText": "Enter Wrong Location"
+    "confirmText": "Continue"
   },
   "notification": {
     "editDefaultCharacterNotAllowed": "Editing the default character is not allowed. You must create a copy to make any changes.",

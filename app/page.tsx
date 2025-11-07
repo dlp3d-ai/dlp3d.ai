@@ -333,8 +333,8 @@ export default function Home() {
           }}
         >
           {chatAvailable && !isCharacterLoading && !isSceneLoading && isLogin
-            ? 'Chat'
-            : 'Coming Soon'}
+            ? t('chat.chat')
+            : t('chat.loginToChat')}
         </button>
       </div>
     )
@@ -422,8 +422,11 @@ export default function Home() {
       {/* Location Dialog */}
       <ConfirmDialog
         isOpen={locationDialogOpen}
-        onClose={() => {
+        onCancel={() => {
           window.open(link.href, '_blank')
+        }}
+        onClose={() => {
+          setLocationDialogOpen(false)
         }}
         cancelText={
           <a

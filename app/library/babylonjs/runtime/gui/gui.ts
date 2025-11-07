@@ -214,8 +214,22 @@ export class GUI {
       recordAudioButton.onPointerDownObservable.add(() => {
         // Add CSS class to body to prevent text selection globally during button press
         document.body.style.setProperty('-webkit-user-select', 'none')
+        document.body.style.setProperty('-moz-user-select', 'none')
+        document.body.style.setProperty('-ms-user-select', 'none')
+        document.body.style.setProperty('-khtml-user-select', 'none')
+        document.body.style.setProperty('-o-user-select', 'none')
         document.body.style.setProperty('user-select', 'none')
         document.body.style.setProperty('-webkit-touch-callout', 'none')
+        document.body.style.setProperty('-webkit-touch-action', 'none')
+        document.body.style.setProperty('-moz-touch-action', 'none')
+        document.body.style.setProperty('-ms-touch-action', 'none')
+        document.body.style.setProperty('-o-touch-action', 'none')
+        document.body.style.setProperty('touch-action', 'none')
+        document.body.style.setProperty('-webkit-user-drag', 'none')
+        document.body.style.setProperty('-moz-user-drag', 'none')
+        document.body.style.setProperty('-ms-user-drag', 'none')
+        document.body.style.setProperty('-o-user-drag', 'none')
+        document.body.style.setProperty('user-drag', 'none')
       })
 
       recordAudioButton.onPointerUpObservable.add(() => {

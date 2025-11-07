@@ -9,6 +9,23 @@
 @import '@/styles/responsive.css';
 @import '@/styles/auth.css';
 
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input,
+textarea,
+select,
+[contenteditable='true'] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
 /* 用户菜单整体风格统一为深色、圆角、发光、白色/灰色文字 */
 .user-menu {
   background: rgba(26, 26, 46, 0.98) !important;

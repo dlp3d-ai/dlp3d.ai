@@ -240,6 +240,7 @@ export function ConfirmDialog({
   cancelText = '取消',
   type = 'default', // default, danger, warning
   showCancelButton = true,
+  onCancel,
 }: {
   isOpen: boolean
   onClose: () => void
@@ -250,6 +251,7 @@ export function ConfirmDialog({
   cancelText?: string | React.ReactNode
   type?: 'default' | 'danger' | 'warning'
   showCancelButton?: boolean
+  onCancel?: () => void
 }) {
   const getButtonStyle = (isConfirm: boolean) => {
     const baseStyle = {
@@ -319,7 +321,7 @@ export function ConfirmDialog({
       >
         {showCancelButton && (
           <button
-            onClick={onClose}
+            onClick={onCancel ? onCancel : onClose}
             style={getButtonStyle(false)}
             onMouseEnter={e => {
               e.currentTarget.style.backgroundColor = '#333652'
