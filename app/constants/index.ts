@@ -3,6 +3,12 @@ export const SOCIAL_LINKS = [
   // { href: 'https://youtube.com/', className: 'youtube', title: 'YouTube', label: 'YouTube' },
   // { href: 'https://x.com/dlp3d_ai', className: 'instagram', title: 'Instagram', label: 'Instagram' },
   {
+    href: 'https://github.com/dlp3d-ai/dlp3d.ai',
+    className: 'peper',
+    title: 'GitHub',
+    label: 'GitHub',
+  },
+  {
     href: 'https://x.com/dlp3d_ai',
     className: 'twitter',
     title: 'Twitter',
@@ -15,7 +21,7 @@ export const SOCIAL_LINKS = [
     label: '小红书',
   },
   {
-    href: 'https://discord.gg/XB7jsKZQ',
+    href: 'https://discord.com/invite/XYXuBn9R8c',
     className: 'discord',
     title: 'Discord',
     label: 'Discord',

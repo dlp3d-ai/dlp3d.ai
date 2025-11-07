@@ -10,6 +10,7 @@ import CheckIcon from '@mui/icons-material/Check'
 import { fetchUpdateAvatar } from '@/request/api'
 import { useErrorNotification } from '@/hooks/useGlobalNotification'
 import { useTranslation } from 'react-i18next'
+import GlobalTooltip from '@/components/common/GlobalTooltip'
 
 /**
  * ModelPanel component.
@@ -50,7 +51,7 @@ export default function ModelPanel() {
   return (
     <div
       className="config-sidebar-drawer-list"
-      style={{ overflowY: 'auto', height: '100%' }}
+      style={{ overflowY: 'auto', height: '100%', position: 'relative' }}
     >
       {/* Character list */}
       {CHARACTER_MODELS.map((character, index) => {
@@ -93,6 +94,15 @@ export default function ModelPanel() {
           </div>
         )
       })}
+      <div style={{ position: 'absolute', top: 0, right: '20px', color: '#fff' }}>
+        <GlobalTooltip
+          content={[
+            t('tip.modelFirst'),
+            t('tip.modelSecond'),
+            t('tip.modelThird'),
+          ].join('\n')}
+        />
+      </div>
     </div>
   )
 }

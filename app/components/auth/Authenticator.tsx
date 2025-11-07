@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setAuthState } from '@/features/auth/authStore'
@@ -44,7 +46,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showError, setShowError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('Invalid email or password')
+  const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
   const { loadUserCharacters } = usePromptingSettings()
@@ -53,7 +55,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   const { showSuccessNotification } = useSuccessNotification()
   const { showErrorNotification } = useErrorNotification()
   const [codeErrorMessage, setCodeErrorMessage] = useState('')
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const getCurrentPositionAsync = (options: PositionOptions) => {
     return new Promise((resolve, reject) => {
@@ -99,7 +101,11 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
     const AUTH_STORAGE_KEY = 'dlp3d_auth_state'
     if (activeTab === 'register') {
       try {
-        const response = await verifyUser({ username: email, password })
+        const response = await verifyUser({
+          username: email,
+          password,
+          language: i18n.language,
+        })
         setIsLoading(false)
         if (response.auth_code === 200) {
           setNeedCode(response.confirmation_required)
@@ -119,7 +125,11 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
       }
     } else {
       try {
-        const response = await authenticateUser({ username: email, password })
+        const response = await authenticateUser({
+          username: email,
+          password,
+          language: i18n.language,
+        })
         if (response.auth_code === 200) {
           try {
             const position = await getCurrentPositionAsync({
@@ -245,13 +255,15 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
     setIsLoading(true)
     try {
       if (!inputCode.trim()) {
-        setCodeErrorMessage('Please enter the verification code.')
+        setCodeErrorMessage(t('auth.pleaseEnterTheVerificationCode'))
         return
       }
       // After user confirms email, try authenticating
       const response = await fetchResendVerificationCode(email, inputCode)
       if (response.auth_code === 200) {
-        showSuccessNotification(t('notification.verificationCodeSentSuccessfully'))
+        showSuccessNotification(
+          t('notification.verificationCodeVerifiedSuccessfully'),
+        )
         setActiveTab('login')
         setNeedCode(false)
       } else {
@@ -270,9 +282,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
       // await loginVerify(email, password)
     } catch (error) {
       console.error(error)
-      setCodeErrorMessage(
-        'Invalid or expired verification code, please try again later.',
-      )
+      setCodeErrorMessage(t('auth.invalidOrExpiredVerificationCode'))
     } finally {
       setIsLoading(false)
     }

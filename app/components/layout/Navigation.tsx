@@ -26,9 +26,7 @@ import {
   useErrorNotification,
 } from '@/hooks/useGlobalNotification'
 import { useTranslation } from 'react-i18next'
-import LanguageSwitcher from '../common/LanguageSwitcher'
-import './Navigation.scss'
-
+import LanguageSwitcher from './LanguageSwitch'
 /*
   Top navigation component for the application.
 
@@ -40,7 +38,7 @@ export default function Navigation() {
   const [showUserMenu, setShowUserMenu] = useState(false)
   const isAuthenticated = useSelector(getIsLogin)
   const userInfo = useSelector(getUserInfo)
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const userMenuRef = useRef<HTMLDivElement>(null)
   const { isMobile } = useDevice()
@@ -136,12 +134,20 @@ export default function Navigation() {
     oldPassword: string
     newPassword: string
   }) => {
-    setShowChangePasswordDialog(false)
     try {
-      await fetchUpdatePassword(param.email, param.oldPassword, param.newPassword)
-      setShowChangePasswordDialog(false)
-      showSuccessNotification(t('nav.passwordUpdated'))
-      handleSignOut()
+      const response = await fetchUpdatePassword(
+        param.email,
+        param.oldPassword,
+        param.newPassword,
+        i18n.language,
+      )
+      if (response.auth_code === 200) {
+        setShowChangePasswordDialog(false)
+        showSuccessNotification(t('nav.passwordUpdated'))
+        handleSignOut()
+      } else {
+        showErrorNotification(response.auth_msg)
+      }
     } catch (error) {
       console.error('Error changing password:', error)
     }
@@ -162,6 +168,7 @@ export default function Navigation() {
         userInfo.id,
         param.password,
         param.email,
+        i18n.language,
       )
       if (response.auth_code === 200) {
         setShowDeleteAccountDialog(false)

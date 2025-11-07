@@ -1,3 +1,5 @@
+'use client'
+
 import { useDevice } from '../../contexts/DeviceContext'
 import { usePromptingSettings } from '../../hooks/usePromptingSettings'
 import { useState, useRef, useEffect } from 'react'
@@ -22,6 +24,7 @@ import {
 } from '@/features/chat/chat'
 import { getUserInfo } from '@/features/auth/authStore'
 import { useSelector, useDispatch } from 'react-redux'
+import GlobalTooltip from '@/components/common/GlobalTooltip'
 
 /**
  * ChatListDrawer
@@ -399,8 +402,18 @@ export default function ChatListDrawer() {
                   style={{ fontSize: isMobile ? '1.5rem' : '3rem' }}
                 />
               </div>
-              <div className="chat-list-drawer-header-title">
-                {t('chat.chatList')}
+              <div
+                className="chat-list-drawer-header-title"
+                style={{ display: 'flex', alignItems: 'center' }}
+              >
+                <span style={{ marginRight: '10px' }}>{t('chat.chatList')}</span>
+                <GlobalTooltip
+                  content={[
+                    t('tip.chatListFirst'),
+                    t('tip.chatListSecond'),
+                    t('tip.chatListThird'),
+                  ].join('\n')}
+                />
               </div>
             </div>
             <div className="chat-list-drawer-content">

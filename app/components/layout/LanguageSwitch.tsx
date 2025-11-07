@@ -1,8 +1,8 @@
 'use client'
 
 import { useTranslation } from 'react-i18next'
-import { useState, useEffect } from 'react'
-import './LanguageSwitcher.scss'
+import { useState, useEffect, useCallback } from 'react'
+import { useDevice } from '@/contexts/DeviceContext'
 
 /**
  * Language switcher component.
@@ -13,11 +13,13 @@ import './LanguageSwitcher.scss'
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation()
   const [currentLang, setCurrentLang] = useState('zh')
-  const [mounted, setMounted] = useState(false)
+
+  const { isMobile } = useDevice()
+  const LanguageEn = '/img/language_en.png'
+  const LanguageZh = '/img/language_zh.png'
 
   // Ensure client-side rendering only to avoid hydration mismatch
   useEffect(() => {
-    setMounted(true)
     // Get current language from i18n
     const initialLang = i18n.language || 'zh'
     setCurrentLang(initialLang)
@@ -28,7 +30,7 @@ export default function LanguageSwitcher() {
      *
      * @param {string} lng The new language code.
      */
-    const handleLanguageChanged = lng => {
+    const handleLanguageChanged = (lng: string) => {
       setCurrentLang(lng)
     }
 
@@ -44,41 +46,32 @@ export default function LanguageSwitcher() {
    *
    * @param {string} lng The language code to switch to ('zh' or 'en').
    */
-  const changeLanguage = lng => {
+  const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng)
     setCurrentLang(lng)
   }
-
-  // Don't render before client-side mount to avoid hydration mismatch
-  if (!mounted) {
+  const icon = useCallback(() => {
     return (
-      <div className="language-switcher">
-        <button className="lang-btn" disabled>
-          中文
-        </button>
-        <button className="lang-btn" disabled>
-          EN
-        </button>
-      </div>
+      <img
+        src={currentLang === 'zh' ? LanguageZh : LanguageEn}
+        alt="Language"
+        style={{ width: '25px', height: '25px' }}
+      />
     )
-  }
-
+  }, [currentLang])
   return (
-    <div className="language-switcher">
-      <button
-        className={`lang-btn ${currentLang === 'zh' ? 'active' : ''}`}
-        onClick={() => changeLanguage('zh')}
-        title="中文"
-      >
-        中文
-      </button>
-      <button
-        className={`lang-btn ${currentLang === 'en' ? 'active' : ''}`}
-        onClick={() => changeLanguage('en')}
-        title="English"
-      >
-        EN
-      </button>
-    </div>
+    <button
+      className="account-btn"
+      onClick={() => changeLanguage(currentLang === 'zh' ? 'en' : 'zh')}
+      style={{
+        width: isMobile ? '40px' : '50px',
+        height: isMobile ? '40px' : '50px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {icon()}
+    </button>
   )
 }

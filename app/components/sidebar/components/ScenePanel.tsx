@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react'
 
 import CheckIcon from '@mui/icons-material/Check'
@@ -8,6 +10,7 @@ import { getSelectedChat } from '@/features/chat/chat'
 import { usePromptingSettings } from '@/hooks/usePromptingSettings'
 import { HDRI_SCENES } from '@/library/babylonjs/config/scene'
 import { useTranslation } from 'react-i18next'
+import GlobalTooltip from '@/components/common/GlobalTooltip'
 
 /**
  * Props for ScenePanel component.
@@ -53,7 +56,7 @@ export default function ScenePanel({ onSceneChange }: ScenePanelProps) {
   return (
     <div
       className="config-sidebar-drawer-list"
-      style={{ maxHeight: '100%', overflowY: 'auto' }}
+      style={{ maxHeight: '100%', overflowY: 'auto', position: 'relative' }}
     >
       {HDRI_SCENES.map((scene, index) => {
         return (
@@ -95,6 +98,9 @@ export default function ScenePanel({ onSceneChange }: ScenePanelProps) {
           </div>
         )
       })}
+      <div style={{ position: 'absolute', top: '0', right: '20px', color: '#fff' }}>
+        <GlobalTooltip content={[t('tip.scene')].join('\n')} />
+      </div>
     </div>
   )
 }

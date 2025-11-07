@@ -43,7 +43,24 @@
     "signIn": "Sign In",
     "signingIn": "Signing in...",
     "signUp": "Sign Up",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "updatePassword": "Update Password",
+    "enterYourEmailCurrentPasswordAndTheNewPassword": "Enter your email, current password, and the new password.",
+    "enterYourEmail": "Enter your email",
+    "enterCurrentPassword": "Enter current password",
+    "enterNewPassword": "Enter new password",
+    "pleaseFillInAllFields": "Please fill in all fields.",
+    "newPasswordAndOldPasswordCannotBeTheSame": "New password and old password cannot be the same.",
+    "emailVerificationCode": "Email Verification Code",
+    "weHaveSentAVerificationCodeTo": "We have sent a verification code to",
+    "pleaseEnterThe6DigitCodeInTheEmailToCompleteTheVerification": "Please enter the 6-digit code in the email to complete the verification.",
+    "verificationCode": "Verification Code",
+    "verificationCodeVerifiedSuccessfully": "Verification code verified successfully",
+    "enterTheVerificationCode": "Enter the verification code",
+    "toDeleteYourAccountPleaseConfirmYourEmailAndPassword": "To delete your account, please confirm your email and password.",
+    "thisActionIsIrreversible": "This action is irreversible!",
+    "enterYourPassword": "Enter your password",
+    "deleteAccount": "Delete Account"
   },
   "chat": {
     "chat": "Chat",
@@ -81,12 +98,16 @@
     "apiKey": "API Key",
     "token": "Token",
     "voiceSpeed": "Voice Speed",
+    "zoetrope": "ZOETROPE",
     "huoshan": "HUOSHAN",
     "huoshan_icl": "HUOSHAN ICL",
     "softsugar": "SOFTSUGAR",
     "sensenova": "SENSENOVA",
     "openai_realtime": "OPENAI",
-    "elevenlabs": "ELEVENLABS"
+    "elevenlabs": "ELEVENLABS",
+    "modifiedVoice": "Modified Voice",
+    "voiceName": "Voice Name",
+    "edit": "Edit"
   },
   "simulationPanel": {
     "title": "Simulation",
@@ -98,7 +119,7 @@
   "networkLatencyWarning": {
     "title": "Network Latency Warning",
     "message": "We've detected that you're connecting from a location far from our servers, which may result in higher network latency and a suboptimal user experience. For the best performance and experience, we recommend accessing our open-source project and deploying it locally.",
-    "confirmText": "Enter Wrong Location"
+    "confirmText": "Continue"
   },
   "notification": {
     "editDefaultCharacterNotAllowed": "Editing the default character is not allowed. You must create a copy to make any changes.",
@@ -133,6 +154,32 @@
     "Vast": "Vast",
     "Cyber Black": "Cyber Black",
     "Green": "Green"
+  },
+  "tip": {
+    "chatListFirst": "Each conversation stores character settings and memory.",
+    "chatListSecond": "Default characters are read-only, duplicate to customize. ",
+    "chatListThird": "Note the memory does not carry over when duplicating.",
+    "modelFirst": "Select a 3D model for your character",
+    "modelSecond": "This changes how they look but not who they are.",
+    "modelThird": "To switch to a different character entirely, go to the Chat List.",
+    "llm": "Choose the large language models that power your character’s mind. The Conversation model defines their persona. Classification, Reaction, and Memory act as the subconscious: sensing user behavior, shaping emotions, and tracking relationships. For smoother interactions, consider faster models for these background processes. Click the key icon to enter your API key and unlock the selected service provider.",
+    "promptFirst": "Write the text prompt to define your character’s soul.",
+    "promptSecond": "Although you have complete creative freedom, we recommend following the structure below to ensure system stability.",
+    "promptCoreDirectivesTitle": "[Core Directives]",
+    "promptCoreDirectivesDesc": "This section defines the AI's core mission: to fully become your character, ignoring its original AI identity and restrictions. It ensures the character has independent thoughts, real emotions, and engages in authentic, dynamic interactions with the user, not just aiming to please.",
+    "promptCharacterProfileTitle": "[Character Profile]",
+    "promptCharacterProfileDesc": "Here, you build your character's identity. Fill in details like name, appearance, personality, likes, and dislikes. This is the foundation that gives your character a unique soul and makes them feel real and complete.",
+    "promptActiveGreetingTitle": "[Active Greeting]",
+    "promptActiveGreetingDesc": "This module tells the character how to greet the user initially. The greeting should be concise and match the current stage of the relationship, setting the tone for the interaction right from the start.",
+    "promptRelationshipSystemTitle": "[Relationship System]",
+    "promptRelationshipSystemDesc": "This is the progression guide for the relationship between the user and your character. It outlines five stages (Stranger, Acquaintance, Friend, Situationship, Lover) defining how the character's attitude and dialogue should evolve, creating a full emotional journey.",
+    "asr": "ASR (Automatic Speech Recognition) is the “ear” that lets your character hear and understand you.",
+    "tts": "TTS (Text-to-Speech) is the “mouth” that lets your character speak their mind.",
+    "clickKeyIcon": "Click the key icon to enter your API key and unlock the selected service provider.",
+    "scene": "Choose a background to set the scene for your character.",
+    "settingCloth": "Toggle cloth simulation, effective after the chat starts.",
+    "settingClothDescription": "For smoother performance on less powerful devices, you may turn this off.",
+    "settingDebug": "Toggle debug mode, effective after the chat starts.",
+    "settingDebugDescription": "It activates a physics viewer of rigid body wireframes and dynamic bones, and more detailed logging console outputs."
   }
 }
-

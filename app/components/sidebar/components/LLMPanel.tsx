@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect, useCallback } from 'react'
 import { usePromptingSettings } from '../../../hooks/usePromptingSettings'
 
@@ -20,7 +22,7 @@ import {
 import { getAvailableLlm } from '@/request/api'
 import { useDevice } from '@/contexts/DeviceContext'
 import { useTranslation } from 'react-i18next'
-
+import GlobalTooltip from '@/components/common/GlobalTooltip'
 /**
  * Choice interface for LLM model selection.
  */
@@ -415,7 +417,14 @@ export default function LLMPanel() {
     fetchData()
   }, [settings])
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        position: 'relative',
+      }}
+    >
       {/* AI Model Selection List */}
       <Tabs
         value={selectedTab}
@@ -452,6 +461,9 @@ export default function LLMPanel() {
         <Tab label={t('llmPanel.classification')} value="classification" />
         <Tab label={t('llmPanel.memory')} value="memory" />
       </Tabs>
+      <div style={{ position: 'absolute', top: 0, right: '20px', color: '#fff' }}>
+        <GlobalTooltip content={t('tip.llm')} />
+      </div>
       {getList()}
 
       <Dialog
