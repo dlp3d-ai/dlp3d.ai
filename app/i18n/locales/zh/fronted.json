@@ -170,7 +170,7 @@
     "promptCoreDirectivesDesc": "在此定义AI的核心使命：让TA彻底化身为你的角色，摒弃原有的AI身份与限制。这一部分确保角色拥有独立的思想、真实的情感，并以自然、动态的方式与你互动：TA不是为了取悦你而存在，而是作为一个有意识的存在与你交流。",
     "promptCharacterProfileTitle": "[角色档案]",
     "promptCharacterProfileDesc": "在此构建角色的身份。填写角色的姓名、外貌、性格、喜好与厌恶等信息。这些细节构成了角色灵魂的基础，让他们拥有独特的个性与完整的存在感。",
-    "promptActiveGreetingTitle": "[主动问候 Active Greeting]",
+    "promptActiveGreetingTitle": "[主动问候]",
     "promptActiveGreetingDesc": "定义角色首次向你问候的方式。问候语应简洁，并符合当前关系阶段的氛围，无论是拘谨、友好、俏皮或亲密。它为接下来的互动定下情感基调。",
     "promptRelationshipSystemTitle": "[关系系统]",
     "promptRelationshipSystemDesc": "这里定义角色与用户关系的成长路径。描述五个阶段：陌生人 → 相识 → 朋友 → 暧昧 → 恋人，并说明角色在每个阶段的态度、语气与情感变化。这将使角色的情感旅程完整且真实。",
