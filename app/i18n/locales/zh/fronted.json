@@ -134,7 +134,7 @@
     "registrationSucceed": "注册成功",
     "verificationCodeSent": "我们已向你的邮箱发送了验证码，请输入验证码以完成验证",
     "verificationCodeSentSuccessfully": "验证码发送成功",
-    "verificationCodeVerifiedSuccessfully": "验证码验证成功",
+    "verificationCodeVerifiedSuccessfully": "验证成功",
     "verificationCodeResentSuccessfully": "验证码重新发送成功"
   },
   "confirmDialog": {
