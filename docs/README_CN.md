@@ -13,12 +13,13 @@
 </div>
 
 <p align="center">
-  <a href="https://dlp3d.ai/"><img src="https://img.shields.io/badge/Try%20it-dlp3d.ai-232C4B?style=flat"></a>
-  <a href="https://x.com/dlp3d_ai"><img src="https://img.shields.io/badge/Digital%20Life%20Project-%232d2e30?style=flat&logo=x&labelColor=%23101419&color=%232d2e30"></a>
-  <a href="https://www.xiaohongshu.com/user/profile/678df66a000000000d008dd1"><img src="https://img.shields.io/badge/Digital%20Life%20Project-%232d2e30?style=flat&logo=xiaohongshu&labelColor=%23101419&color=%23FF2442"></a>
-  <a href="https://discord.gg/XB7jsKZQ"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2FXB7jsKZQ%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&suffix=%20members&logo=discord&logoColor=white&label=%20&color=7389D8&labelColor=6A7EC2"></a>
+  <a href="https://dlp3d.ai/"><img src="https://img.shields.io/badge/点击即试-dlp3d.ai-232C4B?style=flat"></a>
+  <a href="https://www.youtube.com/watch?v=cNEMW6IHKl8"><img src="https://img.shields.io/badge/演示视频-YouTube-FF0000?style=flat&logo=youtube&logoColor=white"></a>
+  <a href="https://x.com/dlp3d_ai"><img src="https://img.shields.io/badge/数字生命计划-%232d2e30?style=flat&logo=x&labelColor=%23101419&color=%232d2e30"></a>
+  <a href="https://www.xiaohongshu.com/user/profile/678df66a000000000d008dd1"><img src="https://img.shields.io/badge/数字生命计划-%232d2e30?style=flat&logo=xiaohongshu&labelColor=%23101419&color=%23FF2442"></a>
+  <a href="https://discord.gg/XYXuBn9R8c"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2FXYXuBn9R8c%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&suffix=%20member&logo=discord&logoColor=white&label=%20&color=7389D8&labelColor=6A7EC2"></a>
   <a href="https://dlp3d.readthedocs.io/en/latest/index.html"><img src="https://img.shields.io/badge/Docs-EN-2C5282?style=flat&logo=readthedocs"></a>
-  <a href="https://dlp3d.readthedocs.io/zh-cn/latest/"><img src="https://img.shields.io/badge/Docs-%E4%B8%AD%E6%96%87-2C5282?style=flat&logo=readthedocs"></a>
+  <a href="https://dlp3d.readthedocs.io/zh-cn/latest/"><img src="https://img.shields.io/badge/文档-%E4%B8%AD%E6%96%87-2C5282?style=flat&logo=readthedocs"></a>
   <a href="https://github.com/dlp3d-ai/dlp3d.ai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/dlp3d-ai/dlp3d.ai?style=flat"></a>
 </p>
 
@@ -26,7 +27,10 @@
 数字生命计划 2（简称 DLP3D）是一个开源的实时框架，使大语言模型（LLM）能够通过富有表现力的 3D 虚拟角色栩栩如生地呈现出来。用户可以通过语音与角色自然对话，而角色会即时生成语音、全身动画及物理模拟，并直接在浏览器中进行同步展示。角色的外观（3D 模型）与个性（角色提示词）均可完全自定义，且可无缝适配任意大语言模型或文本转语音（TTS）服务。
 
 <div align="center">
-    <img src="_static/poster_small.jpg"/>
+    <a href="https://www.youtube.com/watch?v=cNEMW6IHKl8">
+    <img src="_static/poster_small.jpg" alt="Watch the video">
+    [点击观看演示视频]
+    </a>
 </div>
 
 
