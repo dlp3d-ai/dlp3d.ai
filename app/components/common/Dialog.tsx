@@ -234,23 +234,25 @@ export function ConfirmDialog({
   isOpen,
   onClose,
   onConfirm,
-  title = '确认',
+  title,
   message,
   confirmText = '确认',
   cancelText = '取消',
   type = 'default', // default, danger, warning
   showCancelButton = true,
+  showCloseButton = true,
   onCancel,
 }: {
   isOpen: boolean
   onClose: () => void
   onConfirm: () => void
   title?: string
-  message: string
+  message: string | React.ReactNode
   confirmText?: string | React.ReactNode
   cancelText?: string | React.ReactNode
   type?: 'default' | 'danger' | 'warning'
   showCancelButton?: boolean
+  showCloseButton?: boolean
   onCancel?: () => void
 }) {
   const getButtonStyle = (isConfirm: boolean) => {
@@ -308,6 +310,7 @@ export function ConfirmDialog({
       title={title}
       maxWidth="400px"
       className="confirm-dialog"
+      showCloseButton={showCloseButton}
     >
       <div style={{ marginBottom: '24px' }}>
         <p style={{ margin: 0, color: '#ccc', lineHeight: '1.5' }}>{message}</p>

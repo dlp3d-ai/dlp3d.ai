@@ -121,6 +121,12 @@
     "message": "We've detected that you're connecting from a location far from our servers, which may result in higher network latency and a suboptimal user experience. For the best performance and experience, we recommend accessing our open-source project and deploying it locally.",
     "confirmText": "Continue"
   },
+  "missingSecret": {
+    "message_llm": "Missing required API keys for large language model features. Please configure the following credentials:",
+    "message_tts": "Missing required API keys for text to speech features. Please configure the following credentials:",
+    "message_asr": "Missing required API keys for auto speech recognition features. Please configure the following credentials:",
+    "confirmText": "Go to Settings"
+  },
   "notification": {
     "editDefaultCharacterNotAllowed": "Editing the default character is not allowed. You must create a copy to make any changes.",
     "updateDefaultCharacterNameNotAllowed": "Cannot update character name for the default character",

@@ -121,6 +121,12 @@
     "message": "检测到你的地理位置距离在线服务很远，这可能导致更高的网络延迟并影响用户体验。为获得最佳性能和体验，我们建议访问我们的开源项目并部署在本地。",
     "confirmText": "仍要访问"
   },
+  "missingSecret": {
+    "message_llm": "缺少大语言模型功能所必须的API密钥，请配置以下凭证：",
+    "message_tts": "缺少文本转语音功能所必须的API密钥，请配置以下凭证：",
+    "message_asr": "缺少自动语音识别功能所必须的API密钥，请配置以下凭证：",
+    "confirmText": "前往配置"
+  },
   "notification": {
     "editDefaultCharacterNotAllowed": "不允许编辑默认角色。请在对话列表创建一个角色副本以修改配置。",
     "updateDefaultCharacterNameNotAllowed": "不允许更新默认角色的名称",

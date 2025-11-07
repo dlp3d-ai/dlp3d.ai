@@ -35,11 +35,13 @@ import {
   getIsLogin,
   loadAuthStateFromStorage,
   setAuthState,
+  getUserInfo,
 } from '@/features/auth/authStore'
 import { usePromptingSettings } from '@/hooks/usePromptingSettings'
 import { checkLocation, isSensetimeOrchestrator } from '@/utils/location'
 import { ConfirmDialog } from './components/common/Dialog'
 import { useTranslation } from 'react-i18next'
+import { fetchGetMissingSecret } from '@/request/api'
 
 const link = {
   href: 'https://github.com/dlp3d-ai/dlp3d.ai',
@@ -62,6 +64,7 @@ export default function Home() {
 
   const isChatStarting = useSelector(getIsChatStarting)
   const isLogin = useSelector(getIsLogin)
+  const user = useSelector(getUserInfo)
   const selectedModelIndex = useSelector(getSelectedModelIndex)
   const selectedCharacterId = useSelector(getSelectedCharacterId)
   const isCharacterLoading = useSelector(getIsCharacterLoading)
@@ -86,6 +89,16 @@ export default function Home() {
   const { loadUserCharacters } = usePromptingSettings()
   const [selectedScene, setSelectedScene] = useState(3) // Parameter for scene navigation
   const [locationDialogOpen, setLocationDialogOpen] = useState(false)
+  const [missingSecretDialogOpen, setMissingSecretDialogOpen] = useState(false)
+  const [missingSecret, setMissingSecret] = useState<{
+    llm_requirements: string[]
+    tts_requirements: string[]
+    asr_requirements: string[]
+  }>({
+    llm_requirements: [],
+    tts_requirements: [],
+    asr_requirements: [],
+  })
 
   useEffect(() => {
     setIsGlobalLoading(isLoading || isSceneLoading || isCharacterLoading)
@@ -143,6 +156,8 @@ export default function Home() {
    *
    * Dispatches actions to update loading state and triggers a custom event
    * after a delay to ensure all components are initialized.
+   *
+   * @returns void
    */
   const handleCharacterLoaded = useCallback(() => {
     dispatch(setIsCharacterLoading(false))
@@ -159,6 +174,8 @@ export default function Home() {
    * Handle scene change.
    *
    * @param scene The name of the scene to switch to.
+   *
+   * @returns void
    */
   const handleSceneChange = (scene: string) => {
     dispatch(setIsSceneLoading(true))
@@ -173,6 +190,8 @@ export default function Home() {
    * Handle scene loaded event.
    *
    * Dispatches actions to update loading state when the scene has finished loading.
+   *
+   * @returns void
    */
   const handleSceneLoaded = useCallback(() => {
     dispatch(setIsSceneLoading(false))
@@ -185,6 +204,8 @@ export default function Home() {
    * Validates prerequisites, saves camera and scene state, captures a screenshot,
    * and opens a new window with the chat interface. Handles TTS compatibility checks
    * and location-based warnings for specific server hosts.
+   *
+   * @returns Promise<void> Resolves after the new window is opened or a notice is shown.
    */
   const handleStartConversation = useCallback(async () => {
     if (isCharacterLoading || isSceneLoading) {
@@ -231,6 +252,7 @@ export default function Home() {
           setLocationDialogOpen(true)
           return
         }
+
         try {
           dispatch(setIsChatStarting(true))
           if (typeof window !== 'undefined') {
@@ -242,6 +264,24 @@ export default function Home() {
             await loadUserCharacters()
           }
           await new Promise(r => setTimeout(r, 800))
+          const missingSecret = await fetchGetMissingSecret(
+            user!.id,
+            selectedCharacterId!,
+          )
+          if (
+            missingSecret.llm_requirements.length > 0 ||
+            missingSecret.tts_requirements.length > 0 ||
+            missingSecret.asr_requirements.length > 0
+          ) {
+            const data = {
+              llm_requirements: missingSecret.llm_requirements.sort(),
+              tts_requirements: missingSecret.tts_requirements.sort(),
+              asr_requirements: missingSecret.asr_requirements.sort(),
+            }
+            setMissingSecret(data)
+            setMissingSecretDialogOpen(true)
+            return
+          }
 
           if (babylonViewerRef.current?.takeScreenshot) {
             const screenshotData = await captureScreenshot()
@@ -312,6 +352,14 @@ export default function Home() {
       window.removeEventListener('popstate', handleRouteChange)
     }
   }, [dispatch])
+  /**
+   * Chat action button.
+   *
+   * Renders the primary CTA to start a conversation, disabled when prerequisites
+   * are not met.
+   *
+   * @returns JSX.Element | null The button or null when hidden on mobile during startup.
+   */
   const ChatButton = useCallback(() => {
     if (isChatStarting || (isMobile && isLogin)) return null
     return (
@@ -347,6 +395,77 @@ export default function Home() {
     isCharacterLoading,
     isSceneLoading,
   ])
+  /**
+   * Missing secret requirements renderer.
+   *
+   * Displays lists of required secrets for LLM/TTS/ASR providers if any are missing.
+   *
+   * @returns JSX.Element The message content for the dialog.
+   */
+  const MissingSecretMessage = () => {
+    return (
+      <>
+        {missingSecret.llm_requirements.length > 0 && (
+          <div>
+            {t('missingSecret.message_llm')}
+            <div
+              style={{
+                padding: '20px 10px 20px 30px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '5px',
+              }}
+            >
+              {missingSecret.llm_requirements.map(requirement => (
+                <div key={requirement}>
+                  <span style={{ fontWeight: 'bold' }}>•</span> {requirement}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {missingSecret.tts_requirements.length > 0 && (
+          <div>
+            {t('missingSecret.message_tts')}
+            <div
+              style={{
+                padding: '20px 10px 20px 30px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '5px',
+              }}
+            >
+              {missingSecret.tts_requirements.map(requirement => (
+                <div key={requirement}>
+                  <span style={{ fontWeight: 'bold' }}>•</span> {requirement}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {missingSecret.asr_requirements.length > 0 && (
+          <div>
+            {t('missingSecret.message_asr')}
+            <div
+              style={{
+                padding: '20px 10px 20px 30px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '5px',
+              }}
+            >
+              {missingSecret.asr_requirements.map(requirement => (
+                <div key={requirement}>
+                  <span style={{ fontWeight: 'bold' }}>•</span> {requirement}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </>
+    )
+  }
 
   return (
     <>
@@ -457,6 +576,20 @@ export default function Home() {
         title={t('networkLatencyWarning.title')}
         message={t('networkLatencyWarning.message')}
         confirmText={t('networkLatencyWarning.confirmText')}
+      />
+      {/* Missing Secret Dialog */}
+      <ConfirmDialog
+        isOpen={missingSecretDialogOpen}
+        onClose={() => {
+          setMissingSecretDialogOpen(false)
+        }}
+        showCloseButton={false}
+        showCancelButton={false}
+        message={<MissingSecretMessage />}
+        confirmText={t('missingSecret.confirmText')}
+        onConfirm={() => {
+          setMissingSecretDialogOpen(false)
+        }}
       />
       {/* Footer */}
       {!isChatStarting && !isLogin && (

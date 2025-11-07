@@ -27,6 +27,7 @@ import {
 } from '@/hooks/useGlobalNotification'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from './LanguageSwitch'
+import './Navigation.scss'
 /*
   Top navigation component for the application.
 
@@ -240,10 +241,22 @@ export default function Navigation() {
               </button>
 
               {isAuthenticated && showUserMenu && (
-                <div className="user-menu">
+                <div
+                  className="user-menu"
+                  style={{ position: 'absolute', top: '100%', right: '10px' }}
+                >
                   <div className="user-menu-item">
                     <span>{t('nav.signedInAs')}</span>
-                    <strong>{userInfo.username}</strong>
+                    <strong
+                      style={{
+                        maxWidth: '200px',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {userInfo.username}
+                    </strong>
                   </div>
                   <button
                     className="user-menu-item user-menu-action"

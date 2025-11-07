@@ -115,7 +115,7 @@ export interface AuthenticateUserRequest {
 /*
   Retrieve the list of characters for a given user.
 
-  @param userId string - The user identifier whose characters will be listed.
+  @param userId The user identifier whose characters will be listed.
 
   @returns Promise<Character[]> The list of characters with id and name.
 */
@@ -132,8 +132,8 @@ export async function getCharactersList(userId: string) {
 /*
   Fetch the configuration for a specific character.
 
-  @param userId string - The user identifier.
-  @param characterId string - The character identifier.
+  @param userId The user identifier.
+  @param characterId The character identifier.
 
   @returns Promise<CharacterConfig> The character configuration object.
 */
@@ -147,7 +147,7 @@ export async function getCharacterConfig(userId: string, characterId: string) {
 /*
   Get available LLM options for a user.
 
-  @param userId string - The user identifier.
+  @param userId The user identifier.
 
   @returns Promise<LLMProvider> The available LLM provider options.
 */
@@ -171,7 +171,7 @@ export async function listUsers() {
 /*
   Create a user with the specified user id.
 
-  @param userId string - The identifier for the user to create.
+  @param userId The identifier for the user to create.
 
   @returns Promise<{ user_id: string }> The created user id.
 */
@@ -182,10 +182,10 @@ export async function createUser(userId: string) {
 /*
   Register a new user.
 
-  @param data VerifyUserRequest - The registration payload containing username and password.
+  @param data The registration payload containing username and password.
 
   @returns Promise<{ user_id: string; confirmation_required: boolean; auth_code: number; auth_msg: string }>
-    Registration result including user id and confirmation status.
+  Registration result including user id and confirmation status.
 */
 export async function verifyUser(data: VerifyUserRequest) {
   const response = await kyDlpApi.post('register_user', { json: data })
@@ -200,10 +200,10 @@ export async function verifyUser(data: VerifyUserRequest) {
 /*
   Authenticate an existing user.
 
-  @param data AuthenticateUserRequest - The login credentials payload.
+  @param data The login credentials payload.
 
   @returns Promise<{ user_id: string; auth_code: number; auth_msg: string }>
-    Authentication result including user id and status.
+  Authentication result including user id and status.
 */
 export async function authenticateUser(data: AuthenticateUserRequest) {
   const response = await kyDlpApi.post('authenticate_user', { json: data })
@@ -212,7 +212,7 @@ export async function authenticateUser(data: AuthenticateUserRequest) {
 /*
   Duplicate a character for a user.
 
-  @param data DuplicateCharacterRequest - The payload with user id, original character id, and optional new name.
+  @param data The payload with user id, original character id, and optional new name.
 
   @returns Promise<{ character_id: string }> The new character id.
 */
@@ -224,7 +224,7 @@ export async function duplicateCharacter(data: DuplicateCharacterRequest) {
 /*
   Update the active scene for a character.
 
-  @param data UpdateCharacterSceneRequest - The request body with user id, character id, and scene name.
+  @param data The request body with user id, character id, and scene name.
 
   @returns Promise<{ success: boolean }> Operation status.
 */
@@ -236,7 +236,7 @@ export async function updateCharacterScene(data: UpdateCharacterSceneRequest) {
 /*
   Update the prompt for a character.
 
-  @param data UpdateCharacterPromptRequest - The request body with user id, character id, and prompt.
+  @param data The request body with user id, character id, and prompt.
 
   @returns Promise<{ success: boolean }> Operation status.
 */
@@ -248,7 +248,7 @@ export async function updateCharacterPrompt(data: UpdateCharacterPromptRequest) 
 /*
   Update the ASR adapter for a character.
 
-  @param data UpdateCharacterAsrRequest - The request body with user id, character id, and ASR adapter.
+  @param data The request body with user id, character id, and ASR adapter.
 
   @returns Promise<{ success: boolean }> Operation status.
 */
@@ -260,7 +260,7 @@ export async function updateCharacterAsr(data: UpdateCharacterAsrRequest) {
 /*
   Update the TTS adapter and voice settings for a character.
 
-  @param data UpdateCharacterTtsRequest - Request with user id, character id, tts adapter, and optional voice settings.
+  @param data Request with user id, character id, tts adapter, and optional voice settings.
 
   @returns Promise<{ success: boolean }> Operation status.
 */
@@ -272,7 +272,7 @@ export async function updateCharacterTts(data: UpdateCharacterTtsRequest) {
 /*
   Update an arbitrary user configuration key-value set.
 
-  @param data UpdateUserConfigRequest - The user id and config key-value map.
+  @param data The user id and config key-value map.
 
   @returns Promise<{ success: boolean }> Operation status.
 */
@@ -284,7 +284,7 @@ export async function fetchUpdateUserConfig(data: UpdateUserConfigRequest) {
 /*
   Delete a character for a user.
 
-  @param data DeleteCharacterRequest - The request body with user id and character id.
+  @param data The request body with user id and character id.
 
   @returns Promise<{ success: boolean }> Operation status.
 */
@@ -301,9 +301,9 @@ export async function fetchUpdateName(
   /*
     Update the display name of a character.
 
-    @param userId string - The user identifier.
-    @param characterId string - The character identifier.
-    @param name string - The new character name.
+    @param userId The user identifier.
+    @param characterId The character identifier.
+    @param name The new character name.
 
     @returns Promise<{ success: boolean }> Operation status.
   */
@@ -316,7 +316,7 @@ export async function fetchUpdateName(
 /*
   Update the classification adapter and optional model override for a character.
 
-  @param data UpdateCharacterClassificationRequest - The request body.
+  @param data The request body.
 
   @returns Promise<{ success: boolean }> Operation status.
 */
@@ -332,7 +332,7 @@ export async function updateCharacterClassification(
 /*
   Update the conversation adapter and optional model override for a character.
 
-  @param data UpdateCharacterConversationRequest - The request body.
+  @param data The request body.
 
   @returns Promise<{ success: boolean }> Operation status.
 */
@@ -348,7 +348,7 @@ export async function updateCharacterConversation(
 /*
   Update the reaction adapter and optional model override for a character.
 
-  @param data UpdateCharacterReactionRequest - The request body.
+  @param data The request body.
 
   @returns Promise<{ success: boolean }> Operation status.
 */
@@ -360,7 +360,7 @@ export async function updateCharacterReaction(data: UpdateCharacterReactionReque
 /*
   Update the memory adapter and optional model override for a character.
 
-  @param data UpdateCharacterMemoryRequest - The request body.
+  @param data The request body.
 
   @returns Promise<{ success: boolean }> Operation status.
 */
@@ -373,7 +373,7 @@ export async function fetchGetAvailableTTS(userId: string) {
   /*
     Get available TTS options for a user.
 
-    @param userId string - The user identifier.
+    @param userId The user identifier.
 
     @returns Promise<{ options: string[] }> Available TTS options.
   */
@@ -385,7 +385,7 @@ export async function fetchGetAvailableASR(userId: string) {
   /*
     Get available ASR options for a user.
 
-    @param userId string - The user identifier.
+    @param userId The user identifier.
 
     @returns Promise<{ options: string[] }> Available ASR options.
   */
@@ -400,9 +400,9 @@ export async function fetchUpdateAvatar(
   /*
     Update the avatar for a character.
 
-    @param userId string - The user identifier.
-    @param characterId string - The character identifier.
-    @param avatar string - The avatar image URL or identifier.
+    @param userId The user identifier.
+    @param characterId The character identifier.
+    @param avatar The avatar image URL or identifier.
 
     @returns Promise<{ success: boolean }> Operation status.
   */
@@ -414,11 +414,11 @@ export async function fetchUpdateAvatar(
 /*
   Confirm the registration using a verification code.
 
-  @param email string - The user email.
-  @param code string - The received verification code.
+  @param email The user email.
+  @param code The received verification code.
 
   @returns Promise<{ auth_code: number; auth_msg: string }>
-    Confirmation result code and message.
+  Confirmation result code and message.
 */
 export async function fetchResendVerificationCode(email: string, code: string) {
   const response = await kyDlpApi.post(`confirm_registration`, {
@@ -430,9 +430,10 @@ export async function fetchResendVerificationCode(email: string, code: string) {
 /*
   Update the user's password.
 
-  @param email string - The user email (username).
-  @param oldPassword string - The current password.
-  @param newPassword string - The new password.
+  @param email The user email (username).
+  @param oldPassword The current password.
+  @param newPassword The new password.
+  @param language Optional language code used by the server.
 
   @returns Promise<{ success: boolean }> Operation status.
 */
@@ -455,12 +456,13 @@ export async function fetchUpdatePassword(
 /*
   Delete a user by verifying password and email.
 
-  @param userId string - The user identifier.
-  @param password string - The user's password.
-  @param email string - The user email (username).
+  @param userId The user identifier.
+  @param password The user's password.
+  @param email The user email (username).
+  @param language Optional language code used by the server.
 
   @returns Promise<{ auth_code: number; auth_msg: string }>
-    Deletion result code and message.
+  Deletion result code and message.
 */
 export async function fetchDeleteUser(
   userId: string,
@@ -481,14 +483,28 @@ export async function fetchDeleteUser(
 /*
   Resend the confirmation code to the user's email.
 
-  @param email string - The user email address.
+  @param email The user email address.
 
   @returns Promise<{ auth_code: number; auth_msg: string }>
-    Result of the resend operation.
+  Result of the resend operation.
 */
 export async function fetchResendConfirmationCode(email: string) {
   const response = await kyDlpApi.post(`resend_confirmation_code`, {
     json: { email: email },
   })
   return response.json<{ auth_code: number; auth_msg: string }>()
+}
+/*
+  Get the missing secrets for a character.  
+  @param userId The user identifier.
+  @param characterId The character identifier.
+  @returns Promise<{ llm_requirements: string[]; tts_requirements: string[]; asr_requirements: string[] }> The missing secrets.
+ */
+export async function fetchGetMissingSecret(userId: string, characterId: string) {
+  const response = await kyDlpApi.get(`get_missing_secrets/${userId}/${characterId}`)
+  return response.json<{
+    llm_requirements: string[]
+    tts_requirements: string[]
+    asr_requirements: string[]
+  }>()
 }
