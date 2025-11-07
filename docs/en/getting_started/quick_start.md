@@ -126,17 +126,9 @@ After installation, Docker Compose will be available for use.
 
 In the provided [docker-compose.yml](https://github.com/dlp3d-ai/dlp3d.ai/blob/main/docker-compose.yml), we demonstrate how to seamlessly orchestrate all DLP3d services — including the backend, frontend, and supporting components. The DLP3D services can be started with a single command:
 
-#### English Version
 ```bash
 # cd to the project root
 docker compose up
-```
-
-#### Chinese Version
-If you need to start the Chinese version, use the following command:
-```bash
-# cd to the project root
-docker compose -f docker-compose-zh.yml up
 ```
 
 (md-handling-ssl-certificate-warnings)=

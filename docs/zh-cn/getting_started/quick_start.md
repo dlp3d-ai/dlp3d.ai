@@ -127,18 +127,11 @@ DLP3d系统由3个核心组件组成，即***Web应用***、***Orchestrator***�
 
 在提供的[docker-compose.yml](https://github.com/dlp3d-ai/dlp3d.ai/blob/main/docker-compose.yml)中，我们演示了如何无缝编排所有DLP3d服务——包括后端、前端和支持组件。DLP3D服务可以通过单个命令启动：
 
-#### 英文版本
 ```bash
 # cd到项目根目录
 docker compose up
 ```
 
-#### 中文版本
-如果您需要启动中文版本，请使用以下命令：
-```bash
-# cd到项目根目录
-docker compose -f docker-compose-zh.yml up
-```
 (md-handling-ssl-certificate-warnings)=
 
 ## 处理SSL证书警告
