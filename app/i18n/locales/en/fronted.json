@@ -128,7 +128,7 @@
     "confirmText": "Go to Settings"
   },
   "notification": {
-    "editDefaultCharacterNotAllowed": "Editing the default character is not allowed. You must create a copy to make any changes.",
+    "editDefaultCharacterNotAllowed": "Editing the default character is not allowed. Go to the「Chat List」panel and create a copy to make any changes.",
     "updateDefaultCharacterNameNotAllowed": "Cannot update character name for the default character",
     "deleteDefaultCharacterNotAllowed": "Cannot delete the default character",
     "loadCharacterFailed": "Failed to load character",

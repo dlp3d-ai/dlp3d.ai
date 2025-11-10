@@ -53,7 +53,7 @@ export default function LanguageSwitcher() {
   const icon = useCallback(() => {
     return (
       <img
-        src={currentLang === 'zh' ? LanguageZh : LanguageEn}
+        src={currentLang === 'zh' ? LanguageEn : LanguageZh}
         alt="Language"
         style={{ width: '25px', height: '25px' }}
       />

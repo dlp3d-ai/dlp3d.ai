@@ -1359,7 +1359,7 @@ export default function TTSPanel() {
       {getDialog()}
       {getModifiedDialog()}
       <div style={{ position: 'absolute', top: '0', right: '20px', color: '#fff' }}>
-        <GlobalTooltip content={t('tip.tts')} />
+        <GlobalTooltip content={[t('tip.asr'), t('tip.tts')].join('\n')} />
       </div>
     </div>
   )
