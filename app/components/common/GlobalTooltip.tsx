@@ -5,6 +5,12 @@ import Tooltip, { TooltipProps } from '@mui/material/Tooltip'
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
 import { useDevice } from '@/contexts/DeviceContext'
 
+/*
+  Props for the GlobalTooltip component.
+ 
+  Extends MUI TooltipProps while overriding 'title' and 'children' in favor of
+  a flexible `content` field and an optional custom trigger element.
+*/
 type GlobalTooltipProps = Omit<TooltipProps, 'title' | 'children'> & {
   content: string | string[] | React.ReactNode
   children?: React.ReactNode
@@ -13,20 +19,22 @@ type GlobalTooltipProps = Omit<TooltipProps, 'title' | 'children'> & {
   popperZIndex?: number
 }
 
-/**
- * GlobalTooltip component.
- *
- * Renders a tooltip with content from i18n t() strings or custom nodes.
- * Newlines in string content are rendered as line breaks.
- * If no children are provided, an info icon is used as the trigger.
- *
- * @param content The tooltip content: a t() string (supports \n), or an array rendered line-by-line.
- * @param children Optional custom trigger element; defaults to an info icon.
- * @param iconStyle Optional inline styles applied to the default icon.
- * @param titleProps Optional props applied to the content wrapper element.
- *
- * @returns JSX.Element The tooltip-wrapped trigger element.
- */
+/*
+  GlobalTooltip component.
+ 
+  Renders a tooltip with content from i18n strings, arrays, or custom React nodes.
+  If no children are provided, an info icon is used as the trigger.
+ 
+  @param content string | string[] | React.ReactNode. Tooltip content; strings support newlines.
+  @param children React.ReactNode | undefined. Optional custom trigger element. Default: undefined (uses info icon).
+  @param iconStyle React.CSSProperties | undefined. Optional style for the default icon. No default.
+  @param titleProps React.HTMLAttributes<HTMLSpanElement> | undefined. Optional props for content wrapper. No default.
+  @param arrow boolean. Whether to show the tooltip arrow. Default: true.
+  @param placement TooltipProps['placement']. Tooltip placement relative to the trigger. Default: 'top'.
+  @param popperZIndex number. Z-index for the Popper container. Default: 100001.
+ 
+  @returns JSX.Element Tooltip-wrapped trigger element.
+*/
 export default function GlobalTooltip({
   content,
   children,
@@ -34,14 +42,14 @@ export default function GlobalTooltip({
   titleProps,
   arrow = true,
   placement = 'top',
-  popperZIndex = 20000,
+  popperZIndex = 100001,
   ...rest
 }: GlobalTooltipProps) {
   const { isMobile } = useDevice()
   const [open, setOpen] = React.useState(false)
   const titleNode = Array.isArray(content) ? (
     <span
-      style={{ whiteSpace: 'pre-wrap', display: 'inline-block', zIndex: 20000 }}
+      style={{ whiteSpace: 'pre-wrap', display: 'inline-block', zIndex: 100001 }}
       {...titleProps}
     >
       {content.map((line, idx) => (
@@ -52,7 +60,7 @@ export default function GlobalTooltip({
       ))}
     </span>
   ) : typeof content === 'string' ? (
-    <span style={{ whiteSpace: 'pre-line', zIndex: 20000 }} {...titleProps}>
+    <span style={{ whiteSpace: 'pre-line', zIndex: 100001 }} {...titleProps}>
       {content}
     </span>
   ) : (
@@ -73,7 +81,7 @@ export default function GlobalTooltip({
         maxWidth: 360,
         overflowWrap: 'break-word',
         wordBreak: 'break-word',
-        zIndex: '20000 !important',
+        zIndex: '100001 !important',
         ...(rest.componentsProps?.tooltip as any)?.sx,
       },
     },
@@ -159,7 +167,7 @@ export default function GlobalTooltip({
           },
         ],
       }}
-      sx={{ zIndex: 20000 }}
+      sx={{ zIndex: 100001 }}
     >
       {/* span ensures a valid single child for Tooltip when using plain text */}
       <span
