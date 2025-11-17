@@ -54,7 +54,7 @@ export default function EmailCodeModal({
   const { showSuccessNotification } = useSuccessNotification()
   const { showErrorNotification } = useErrorNotification()
   const [code, setCode] = useState('')
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   useEffect(() => {
     if (isOpen) {
       setCode('')
@@ -93,7 +93,7 @@ export default function EmailCodeModal({
   */
   const handleResend = async () => {
     if (resendCooldown > 0) return
-    const response = await fetchResendConfirmationCode(email)
+    const response = await fetchResendConfirmationCode(email, i18n.language)
     if (response.auth_code === 200) {
       showSuccessNotification(t('notification.verificationCodeResentSuccessfully'))
       setResendCooldown(60)
