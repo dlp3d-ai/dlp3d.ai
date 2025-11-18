@@ -311,9 +311,6 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
     if (!email) {
       return
     }
-    // const res = await fetchResendConfirmationCode(email)
-    // if (res.auth_code === 200) {
-    //   showSuccessNotification(t('notification.verificationCodeResentSuccessfully'))
     setNeedCode(true)
     //   setNeedCoolDown(true)
     // } else {
