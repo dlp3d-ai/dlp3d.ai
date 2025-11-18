@@ -312,10 +312,6 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
       return
     }
     setNeedCode(true)
-    //   setNeedCoolDown(true)
-    // } else {
-    //   showErrorNotification(res.auth_msg)
-    // }
   }
 
   const buttonText = (() => {
