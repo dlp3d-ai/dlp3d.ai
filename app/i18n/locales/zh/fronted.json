@@ -55,7 +55,7 @@
     "weHaveSentAVerificationCodeTo": "我们已向你的邮箱发送了验证码，请输入验证码以完成验证",
     "pleaseEnterThe6DigitCodeInTheEmailToCompleteTheVerification": "请输入6位验证码以完成验证",
     "didNotReceiveTheVerificationCode": "没有收到验证码？",
-    "resendVerificationCodeDescription": "请检查垃圾邮件文件夹，验证码有时会被拦截。请确认您的邮箱地址是否正确，如需要可以重新请求验证码。",
+    "resendVerificationCodeDescription": "确认您的邮箱地址是否正确，如长时间未收到请重新请求验证码。验证码有时会被拦截，请检查垃圾邮件。",
     "needToEnterTheVerificationCode": "需要输入验证码？",
     "enterTheVerificationCodeDescription": "如果您已尝试注册但尚未确认注册邮箱，请点击此处。您需要使用发送到邮箱的确认码。",
     "verificationCode": "验证码",
