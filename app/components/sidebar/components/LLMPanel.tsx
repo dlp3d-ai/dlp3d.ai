@@ -132,8 +132,7 @@ export default function LLMPanel() {
             | 'memory',
           {
             [`${selectedTab}_adapter`]: model.value,
-            [`${selectedTab}_model_override`]:
-              (settings[modelOverrideKey] as string) || '',
+            [`${selectedTab}_model_override`]: '',
           },
         )
         if (!res) {
@@ -155,13 +154,11 @@ export default function LLMPanel() {
    */
   const handleSave = async () => {
     if (dialogType === 'name') {
-      if (textName?.trim()) {
-        await updateCharacter(settings!.character_id, 'conversation', {
-          conversation_adapter: settings!.conversation_adapter,
-          conversation_model_override: textName,
-        })
-        setDialogOpen(false)
-      }
+      await updateCharacter(settings!.character_id, 'conversation', {
+        conversation_adapter: settings!.conversation_adapter,
+        conversation_model_override: textName,
+      })
+      setDialogOpen(false)
     } else {
       if (keyType === 'sensenova') {
         // Only update if not placeholder
@@ -259,6 +256,8 @@ export default function LLMPanel() {
         return '/img/llm/deepseek.png'
       case 'xai':
         return '/img/llm/xai.png'
+      case 'sensechat':
+        return '/img/llm/sensechat.png'
       default:
         return '/img/llm/openai.png'
     }
