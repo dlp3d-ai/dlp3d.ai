@@ -268,6 +268,8 @@ export default function LLMPanel() {
         return '/img/llm/gemini.png'
       case 'sensenova':
         return '/img/llm/sensenova.png'
+      case 'sensenovaomni':
+        return '/img/llm/sensenova.png'
       case 'deepseek':
         return '/img/llm/deepseek.png'
       case 'xai':
