@@ -168,6 +168,22 @@ export default function LLMPanel() {
         if (textContent !== '******') {
           await updateUserConfig('sensenova_ak', textContent)
         }
+      } else if (keyType === 'sensechat') {
+        // Only update if not placeholder
+        if (textContent2 !== '******') {
+          await updateUserConfig('sensechat_sk', textContent2)
+        }
+        if (textContent !== '******') {
+          await updateUserConfig('sensechat_ak', textContent)
+        }
+      } else if (keyType === 'sensenovaomni') {
+        // Only update if not placeholder
+        if (textContent2 !== '******') {
+          await updateUserConfig('sensenovaomni_sk', textContent2)
+        }
+        if (textContent !== '******') {
+          await updateUserConfig('sensenovaomni_ak', textContent)
+        }
       } else {
         const data = choseModel?.value.toLowerCase().split('_')[0]
         // Only update if not placeholder
@@ -468,6 +484,7 @@ export default function LLMPanel() {
       <Dialog
         isOpen={dialogOpen}
         onClose={() => setDialogOpen(false)}
+        closeOnBackdropClick={false}
         title={t('llmPanel.editLLM')}
       >
         <div
@@ -530,7 +547,9 @@ export default function LLMPanel() {
                   textAlign: 'left',
                 }}
               >
-                {keyType === 'sensenova'
+                {keyType === 'sensenova' ||
+                keyType === 'sensechat' ||
+                keyType === 'sensenovaomni'
                   ? t('llmPanel.sensenovaAK')
                   : `${keyType} ${t('llmPanel.apiKey')}`}
               </label>
@@ -559,7 +578,10 @@ export default function LLMPanel() {
                 }}
                 placeholder={t('llmPanel.apiKeyPlaceholder')}
               />
-              {keyType === 'sensenova' && (
+
+              {(keyType === 'sensenova' ||
+                keyType === 'sensechat' ||
+                keyType === 'sensenovaomni') && (
                 <>
                   <label
                     style={{
