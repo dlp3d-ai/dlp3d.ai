@@ -110,6 +110,7 @@
     "sensenova": "SENSENOVA",
     "openai_realtime": "OPENAI",
     "elevenlabs": "ELEVENLABS",
+    "chatterbox": "CHATTERBOX",
     "modifiedVoice": "Modified Voice",
     "voiceName": "Voice Name",
     "edit": "Edit"
