@@ -3,6 +3,7 @@
 - [技术架构](md-technical-architecture)
 - [系统要求](md-system-requirements)
 - [数据准备](md-data-preparation)
+- [部署本地TTS服务（可选）](md-deploy-local-tts)
 - [启动服务](md-start-service)
 - [处理SSL证书警告]((md-handling-ssl-certificate-warnings))
 - [首次聊天](md-first-chat)
@@ -106,6 +107,69 @@ DLP3d系统由3个核心组件组成，即***Web应用***、***Orchestrator***�
   - `rigids_meta/`：刚体元数据文件的目录。
 - `weights/`：存储ONNX模型文件的目录。
   - `unitalker_v0.4.0_base.onnx`：用于面部动画生成的主要ONNX模型文件。
+
+(md-deploy-local-tts)=
+
+## 部署本地TTS服务（可选）
+
+:::{note}
+本节为可选内容。如果您希望使用基于云的TTS服务，可以跳过本节，直接进入[启动服务](md-start-service)。
+:::
+
+如果您希望部署本地TTS服务而不是使用基于云的TTS提供商，您需要确保Docker环境支持[CUDA](https://docs.docker.com/desktop/features/gpu/)。此外，您需要根据 [官方Chatterbox仓库的Fork](https://github.com/LazyBusyYang/chatterbox/blob/master/README_service_zh.md) 提供的文档进行额外的数据和模型准备。
+
+### 前置条件
+
+- 支持CUDA的Docker环境
+- 已安装相应驱动程序的NVIDIA GPU
+- 按照 [chatterbox README](https://github.com/LazyBusyYang/chatterbox/blob/master/README_service_zh.md) 中的数据和模型准备步骤进行操作
+
+### 在Docker Compose中添加TTS服务
+
+完成额外的TTS文件准备后，您可以在`docker-compose.yml`文件中添加新容器。容器配置块如下，供您填写：
+
+```yaml
+  chatterbox:
+    image: dockersenseyang/service_chatterbox:latest
+    container_name: chatterbox
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - ./weights:/workspace/chatterbox/weights
+      - ./data:/workspace/chatterbox/data
+    networks:
+      - dlp3d_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:18085/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+      start_period: 60s
+```
+
+### 配置Orchestrator以使用本地TTS服务
+
+添加chatterbox服务后，您需要修改`docker-compose.yml`文件中的`orchestrator`容器，添加新的环境变量并依赖`chatterbox`服务。在`orchestrator`服务中添加以下内容：
+
+```yaml
+  orchestrator:
+    # ... 现有配置 ...
+    environment:
+      # ... 现有环境变量 ...
+      CHATTERBOX_TTS_HTTP_URL: http://chatterbox:18085
+    depends_on:
+      # ... 现有启动依赖 ...
+      chatterbox:
+        condition: service_healthy
+```
+
+此环境变量允许orchestrator连接docker compose部署的chatterbox TTS服务，而依赖`chatterbox`确保正确的启动顺序。
 
 (md-start-service)=
 
