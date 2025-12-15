@@ -121,12 +121,12 @@ DLP3d系统由3个核心组件组成，即***Web应用***、***Orchestrator***�
 ### 前置条件
 
 - 支持CUDA的Docker环境
-- 已安装相应驱动程序的NVIDIA GPU
+- 已安装相应的英伟达驱动程序
 - 按照 [chatterbox README](https://github.com/LazyBusyYang/chatterbox/blob/master/README_service_zh.md) 中的数据和模型准备步骤进行操作
 
 ### 在Docker Compose中添加TTS服务
 
-完成额外的TTS文件准备后，您可以在`docker-compose.yml`文件中添加新容器。容器配置块如下，供您填写：
+完成额外的TTS文件准备后，您可以在`docker-compose.yml`文件中添加新容器，容器配置如下：
 
 ```yaml
   chatterbox:
@@ -155,7 +155,7 @@ DLP3d系统由3个核心组件组成，即***Web应用***、***Orchestrator***�
 
 ### 配置Orchestrator以使用本地TTS服务
 
-添加chatterbox服务后，您需要修改`docker-compose.yml`文件中的`orchestrator`容器，添加新的环境变量并依赖`chatterbox`服务。在`orchestrator`服务中添加以下内容：
+添加chatterbox服务后，您需要修改`docker-compose.yml`文件中的`orchestrator`容器，添加新的环境变量并修改启动依赖。在`orchestrator`服务中添加以下内容：
 
 ```yaml
   orchestrator:
@@ -169,7 +169,7 @@ DLP3d系统由3个核心组件组成，即***Web应用***、***Orchestrator***�
         condition: service_healthy
 ```
 
-此环境变量允许orchestrator连接docker compose部署的chatterbox TTS服务，而依赖`chatterbox`确保正确的启动顺序。
+此环境变量允许orchestrator连接docker compose部署的chatterbox TTS服务，依赖`chatterbox`确保正确的启动顺序。
 
 (md-start-service)=
 
