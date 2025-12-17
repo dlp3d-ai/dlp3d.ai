@@ -11,7 +11,7 @@
     "close": "关闭"
   },
   "loading": {
-    "title": "数字生命计划 2",
+    "title": "数字生命计划",
     "subTitle": "开源3D自主角色",
     "message": "加载中...",
     "initializingScene": "正在初始化场景..."

@@ -25,7 +25,7 @@ const jetbrainsMono = JetBrains_Mono({
  * Application metadata configuration.
  */
 export const metadata: Metadata = {
-  title: 'Digital Life Project',
+  title: 'Digital Life Project 2',
   description: 'Embodying Autonomous Characters in Living Worlds',
 }
 
