@@ -34,6 +34,16 @@ Digital Life Project 2 (DLP3D) is an open-source real-time framework that brings
     </a>
 </div>
 
+## Content
+
+This organization contains the following key repositories:
+
+- **[dlp3d.ai](https://github.com/dlp3d-ai/dlp3d.ai): the main entry point, start here!**
+- [orchestrator](https://github.com/dlp3d-ai/orchestrator): coordinates and synchronizes all components.
+- [web_backend](https://github.com/dlp3d-ai/web_backend): manages the backend web services.
+- [speech2motion](https://github.com/dlp3d-ai/speech2motion): converts speech into body animation.
+- [audio2face](https://github.com/dlp3d-ai/audio2face): generates facial animation from audio.
+- [MotionDataViewer](https://github.com/dlp3d-ai/MotionDataViewer): visualizes and inspects motion data.
 
 ## Get Started
 

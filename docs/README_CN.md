@@ -34,6 +34,16 @@
     </a>
 </div>
 
+## 内容
+
+本组织包含以下关键仓库：
+
+- **[dlp3d.ai](https://github.com/dlp3d-ai/dlp3d.ai)：主要入口，从这里开始！**
+- [orchestrator](https://github.com/dlp3d-ai/orchestrator)：协调并同步所有组件。
+- [web_backend](https://github.com/dlp3d-ai/web_backend)：管理后端 Web 服务。
+- [speech2motion](https://github.com/dlp3d-ai/speech2motion)：根据语音生成肢体动画。
+- [audio2face](https://github.com/dlp3d-ai/audio2face)：根据语音生成面部动画。
+- [MotionDataViewer](https://github.com/dlp3d-ai/MotionDataViewer)：可视化检查动画数据。
 
 ## 快速开始
 
