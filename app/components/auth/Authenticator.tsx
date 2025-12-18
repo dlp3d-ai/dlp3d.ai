@@ -21,6 +21,7 @@ import {
   useErrorNotification,
 } from '@/hooks/useGlobalNotification'
 import { useTranslation } from 'react-i18next'
+import GloTooltip from '@/components/common/GlobalTooltip'
 /**
  * Props interface for the Authenticator component.
  */
@@ -32,14 +33,13 @@ interface AuthenticatorProps {
 }
 
 /*
-  Authenticator Component
-
-  A React component that provides user authentication with email and password input, including
-  registration, verification code flow, and login.
-
-  @param onAuthSuccess Type: () => void. Callback invoked on successful authentication.
-
-  @returns JSX.Element The authenticator UI.
+  Authenticator component.
+ 
+  Provides user authentication UI and flow including login, registration, and email verification code.
+ 
+  @param onAuthSuccess Function. Callback invoked after a successful authentication flow. No default.
+ 
+  @returns JSX.Element The rendered authenticator UI.
 */
 export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   const [email, setEmail] = useState('')
@@ -56,7 +56,18 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   const { showErrorNotification } = useErrorNotification()
   const [codeErrorMessage, setCodeErrorMessage] = useState('')
   const { t, i18n } = useTranslation()
-
+  const [needCoolDown, setNeedCoolDown] = useState(false)
+  /*
+    Get current geolocation with a timeout guard.
+ 
+    Resolves with latitude and longitude if available, otherwise rejects on timeout or geolocation error.
+ 
+    @param options PositionOptions. Options passed to navigator.geolocation.getCurrentPosition. Default timeout is 5000 ms if not provided.
+ 
+    @returns Promise<{ latitude: number; longitude: number }> The resolved location coordinates.
+ 
+    @throws {Error} When the location request times out or geolocation reports an error.
+  */
   const getCurrentPositionAsync = (options: PositionOptions) => {
     return new Promise((resolve, reject) => {
       let resolved = false
@@ -88,12 +99,12 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
     })
   }
   /*
-    Verify user credentials and handle registration or login.
-
-    @param email Type: string. The user's email address.
-    @param password Type: string. The user's password.
-
-    @returns Promise<void> Resolves when the flow completes.
+    Verify user credentials and handle registration or login based on the active tab.
+ 
+    @param email string. The user's email address.
+    @param password string. The user's password.
+ 
+    @returns Promise<void> Resolves when the verification/login flow is completed.
   */
   const loginVerify = async (email: string, password: string) => {
     setIsLoading(true)
@@ -109,6 +120,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
         setIsLoading(false)
         if (response.auth_code === 200) {
           setNeedCode(response.confirmation_required)
+          setNeedCoolDown(response.confirmation_required)
           if (!response.confirmation_required) {
             showSuccessNotification('Registration Successful!')
             setActiveTab('login')
@@ -202,11 +214,11 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
   }
 
   /*
-    Handle form submission for user authentication.
-
-    @param e Type: React.FormEvent. The form submit event.
-
-    @returns Promise<void> Resolves after submit handling is complete.
+    Handle form submission for user authentication (login or register).
+ 
+    @param e React.FormEvent. The form submit event.
+ 
+    @returns Promise<void> Resolves after submit handling completes.
   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -231,10 +243,10 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
 
   /*
     Switch between login and register tabs.
-
-    @param event Type: React.SyntheticEvent. The tab change event.
-    @param value Type: 'login' | 'register'. The target tab value.
-
+ 
+    @param event React.SyntheticEvent. The tab change event.
+    @param value 'login' | 'register'. The target tab value to activate.
+ 
     @returns void
   */
   const handleTabChange = (
@@ -244,11 +256,11 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
     setActiveTab(value)
   }
   /*
-    Submit the verification code in register flow.
-
-    @param inputCode Type: string. The 6-digit verification code.
-
-    @returns Promise<void> Resolves when the action completes.
+    Submit the verification code during the registration flow.
+ 
+    @param inputCode string. The 6-digit verification code provided by the user.
+ 
+    @returns Promise<void> Resolves when the verification handling completes.
   */
   const handleCodeSubmit = async (inputCode: string) => {
     setCodeErrorMessage('')
@@ -286,6 +298,20 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  /*
+    Request sending or resending a verification code to the provided email.
+ 
+    No action is taken if the email field is empty.
+ 
+    @returns Promise<void> Resolves after the resend request completes.
+  */
+  const handleNeedCode = async () => {
+    if (!email) {
+      return
+    }
+    setNeedCode(true)
   }
 
   const buttonText = (() => {
@@ -504,7 +530,24 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
           </button>
         </div>
         {/** code */}
-
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'end',
+            color: '#fff',
+            fontSize: '14px',
+            fontWeight: '500',
+            marginBottom: '16px',
+            textAlign: 'left',
+            cursor: 'pointer',
+          }}
+          onClick={handleNeedCode}
+        >
+          <GloTooltip content={t('auth.enterTheVerificationCodeDescription')}>
+            <div>{t('auth.needToEnterTheVerificationCode')}</div>
+          </GloTooltip>
+        </div>
         {/* Sign In Button */}
         <button
           type="submit"
@@ -543,6 +586,7 @@ export default function Authenticator({ onAuthSuccess }: AuthenticatorProps) {
         onSubmit={handleCodeSubmit}
         isSubmitting={isLoading}
         errorMessage={codeErrorMessage}
+        needCoolDown={needCoolDown}
       />
     </div>
   )

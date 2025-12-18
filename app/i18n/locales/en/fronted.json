@@ -54,13 +54,18 @@
     "emailVerificationCode": "Email Verification Code",
     "weHaveSentAVerificationCodeTo": "We have sent a verification code to",
     "pleaseEnterThe6DigitCodeInTheEmailToCompleteTheVerification": "Please enter the 6-digit code in the email to complete the verification.",
+    "needToEnterTheVerificationCode": "Haven't confirmed your email?",
+    "enterTheVerificationCodeDescription": "Click here if you've registered but haven't confirmed your email address yet. You'll need the confirmation code sent to your email.",
+    "resendVerificationCodeDescription": "Please verify that your email address is correct. If you don’t receive the code, try requesting a new one and check your spam or junk folder in case it was filtered.",
+    "didNotReceiveTheVerificationCode": "Nothing received?",
     "verificationCode": "Verification Code",
     "verificationCodeVerifiedSuccessfully": "Verification code verified successfully",
     "enterTheVerificationCode": "Enter the verification code",
     "toDeleteYourAccountPleaseConfirmYourEmailAndPassword": "To delete your account, please confirm your email and password.",
     "thisActionIsIrreversible": "This action is irreversible!",
     "enterYourPassword": "Enter your password",
-    "deleteAccount": "Delete Account"
+    "deleteAccount": "Delete Account",
+    "resendVerificationCode": "Resend Verification Code"
   },
   "chat": {
     "chat": "Chat",
@@ -116,6 +121,7 @@
     "sensenova": "SENSENOVA",
     "openai_realtime": "OPENAI",
     "elevenlabs": "ELEVENLABS",
+    "chatterbox": "CHATTERBOX",
     "modifiedVoice": "Modified Voice",
     "voiceName": "Voice Name",
     "edit": "Edit"

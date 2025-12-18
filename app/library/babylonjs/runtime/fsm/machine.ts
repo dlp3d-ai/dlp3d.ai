@@ -1794,6 +1794,13 @@ export class StateMachine {
    */
   async exit() {
     await this._globalState.audioStreamState?.stopRecord()
+
+    if (this._orchestratorStreamingClient) {
+      await this._orchestratorStreamingClient.interrupt()
+      this._globalState.webSocketState?.disconnectWebSocket()
+      this._orchestratorStreamingClient.dispose()
+    }
+
     // Import errorBus dynamically to show Home button
     const { errorBus } = await import('@/utils/errorBus')
 

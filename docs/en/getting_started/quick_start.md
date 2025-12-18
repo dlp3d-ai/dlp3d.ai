@@ -3,6 +3,7 @@
 - [Technical Framework](md-technical-architecture)
 - [System Requirements](md-system-requirements)
 - [Data Preparation](md-data-preparation)
+- [Deploy Local TTS Service (Optional)](md-deploy-local-tts)
 - [Start Service](md-start-service)
 - [Handling SSL Certificate Warnings](md-handling-ssl-certificate-warnings)
 - [First Chat](md-first-chat)
@@ -105,6 +106,69 @@ To start DLP3d web service, you need to download the ONNX model file and motion 
   - `rigids_meta/`: Directory for rigid body metadata files.
 - `weights/`: Directory for storing ONNX model files.
   - `unitalker_v0.4.0_base.onnx`: The main ONNX model file for audio-to-face generation.
+
+(md-deploy-local-tts)=
+
+## Deploy Local TTS Service (Optional)
+
+:::{note}
+This section is optional. If you prefer to use cloud-based TTS services, you can skip this section and proceed directly to [Start Service](md-start-service).
+:::
+
+If you want to deploy a local TTS service instead of using cloud-based TTS providers, you need to ensure that your Docker environment supports [CUDA](https://docs.docker.com/desktop/features/gpu/). Additionally, you need to prepare additional data and models according to the documentation provided at [a fork of the official chatterbox repository](https://github.com/LazyBusyYang/chatterbox/blob/master/README_service.md).
+
+### Prerequisites
+
+- Docker environment with CUDA support
+- NVIDIA GPU with appropriate drivers installed
+- Follow the data and model preparation steps from the [chatterbox README](https://github.com/LazyBusyYang/chatterbox/blob/master/README_service.md)
+
+### Adding TTS Service to Docker Compose
+
+After completing the additional TTS file preparation, you can add a new container to your `docker-compose.yml` file. The container configuration block is provided below for you to fill in:
+
+```yaml
+  chatterbox:
+    image: dockersenseyang/service_chatterbox:latest
+    container_name: chatterbox
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - ./weights:/workspace/chatterbox/weights
+      - ./data:/workspace/chatterbox/data
+    networks:
+      - dlp3d_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:18085/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+      start_period: 60s
+```
+
+### Configure Orchestrator to Use Local TTS Service
+
+After adding the chatterbox service, you need to modify the `orchestrator` container in your `docker-compose.yml` file to add a new environment variable and depend on the `chatterbox` service. Add the following content to the `orchestrator` service:
+
+```yaml
+  orchestrator:
+    # ... existing configuration ...
+    environment:
+      # ... existing environment variables ...
+      CHATTERBOX_TTS_HTTP_URL: http://chatterbox:18085
+    depends_on:
+      # ... existing dependencies ...
+      chatterbox:
+        condition: service_healthy
+```
+
+This environment variable tells the orchestrator where is the local chatterbox TTS service deployed by docker compose. Depend on the `chatterbox` service to ensure proper startup order.
 
 (md-start-service)=
 

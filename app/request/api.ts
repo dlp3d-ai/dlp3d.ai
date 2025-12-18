@@ -488,9 +488,9 @@ export async function fetchDeleteUser(
   @returns Promise<{ auth_code: number; auth_msg: string }>
   Result of the resend operation.
 */
-export async function fetchResendConfirmationCode(email: string) {
+export async function fetchResendConfirmationCode(email: string, language?: string) {
   const response = await kyDlpApi.post(`resend_confirmation_code`, {
-    json: { email: email },
+    json: { email: email, language: language || 'en' },
   })
   return response.json<{ auth_code: number; auth_msg: string }>()
 }

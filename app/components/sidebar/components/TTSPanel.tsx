@@ -721,7 +721,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                appId
+                APP ID
               </label>
               <input
                 type="text"
@@ -758,7 +758,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                key
+                Key / Access Token
               </label>
               <input
                 type="text"
@@ -800,7 +800,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                appId
+                APP ID
               </label>
               <input
                 type="text"
@@ -837,7 +837,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                key
+                Key / Access Token
               </label>
               <input
                 type="text"
@@ -879,7 +879,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                appId
+                APP ID
               </label>
               <input
                 type="text"
@@ -916,7 +916,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                appKey
+                APP Key
               </label>
               <input
                 type="text"
@@ -958,7 +958,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                apiKey
+                API Key
               </label>
               <input
                 type="text"
@@ -1000,7 +1000,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                apiKey
+                API Key
               </label>
               <input
                 type="text"
@@ -1042,7 +1042,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                apiKey
+                API Key
               </label>
               <input
                 type="text"
@@ -1084,7 +1084,7 @@ export default function TTSPanel() {
                   textAlign: 'left',
                 }}
               >
-                apiKey
+                API Key
               </label>
               <input
                 type="text"
