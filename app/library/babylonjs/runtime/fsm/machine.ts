@@ -299,6 +299,9 @@ export class StateMachine {
           case States.WAITING_FOR_STREAMED_ANIMATION_INTERRUPTED:
             await this.waitingForStreamedAnimationInterrupted()
             break
+          case States.WAITING_FOR_USER_TEXT_INTERRUPTED:
+            await this.waitingForUserTextInterrupted()
+            break
           case States.WAITING_FOR_LOCAL_ANIMATION_INTERRUPTED:
             await this.waitingForLocalAnimationInterrupted()
             break
@@ -1232,6 +1235,10 @@ export class StateMachine {
       if (success) {
         await this._switchState(States.WAITING_FOR_USER_STOP_RECORDING)
       }
+    } else if (message.condition === Conditions.USER_TEXT_INPUT) {
+      const text = message.data?.message as string
+      await this._uploadUserTextStreaming(text)
+      await this._switchState(States.WAITING_FOR_ACTOR_RESPOND_GENERATION_FINISHED)
     } else {
       this._logUnexpectedCondition(message)
     }
@@ -1458,7 +1465,7 @@ export class StateMachine {
           )
           await this._handleAlgorithmGenerationFailure()
       }
-    } else if (message.condition === Conditions.USER_INTERRUPT_ANIMATION) {
+    } else if (message.condition === Conditions.USER_AUDIO_INTERRUPT_ANIMATION) {
       this._globalState.runtime?.addConditionedMessage(
         new RuntimeConditionedMessage(RuntimeAnimationEvent.SOFT_INTERRUPT),
       )
@@ -1467,6 +1474,15 @@ export class StateMachine {
       )
       this._globalState.runtime?.audioPlayer?.clearPCMBuffer()
       await this._switchState(States.WAITING_FOR_STREAMED_ANIMATION_INTERRUPTED)
+    } else if (message.condition === Conditions.USER_TEXT_INTERRUPT_ANIMATION) {
+      this._globalState.runtime?.addConditionedMessage(
+        new RuntimeConditionedMessage(RuntimeAnimationEvent.SOFT_INTERRUPT),
+      )
+      this._globalState.runtime?.addConditionedMessage(
+        new RuntimeConditionedMessage(RuntimeAnimationEvent.USE_CUBIC_BLEND),
+      )
+      this._globalState.runtime?.audioPlayer?.clearPCMBuffer()
+      await this._switchState(States.WAITING_FOR_USER_TEXT_INTERRUPTED)
     } else if (
       message !== null &&
       message.condition === Conditions.ANIMATION_FINISHED
@@ -1589,7 +1605,7 @@ export class StateMachine {
           await this._handleAlgorithmGenerationFailure()
         }
       }
-    } else if (message.condition === Conditions.USER_INTERRUPT_ANIMATION) {
+    } else if (message.condition === Conditions.USER_AUDIO_INTERRUPT_ANIMATION) {
       this._globalState.runtime?.addConditionedMessage(
         new RuntimeConditionedMessage(RuntimeAnimationEvent.SOFT_INTERRUPT),
       )
@@ -1598,6 +1614,15 @@ export class StateMachine {
       )
       this._globalState.runtime?.audioPlayer?.clearPCMBuffer()
       await this._switchState(States.WAITING_FOR_STREAMED_ANIMATION_INTERRUPTED)
+    } else if (message.condition === Conditions.USER_TEXT_INTERRUPT_ANIMATION) {
+      this._globalState.runtime?.addConditionedMessage(
+        new RuntimeConditionedMessage(RuntimeAnimationEvent.SOFT_INTERRUPT),
+      )
+      this._globalState.runtime?.addConditionedMessage(
+        new RuntimeConditionedMessage(RuntimeAnimationEvent.USE_CUBIC_BLEND),
+      )
+      this._globalState.runtime?.audioPlayer?.clearPCMBuffer()
+      await this._switchState(States.WAITING_FOR_USER_TEXT_INTERRUPTED)
     } else if (message.condition === Conditions.ANIMATION_FINISHED) {
       Logger.warn(
         'Received animation finished signal during animation streaming state, playback rate is greater than transmission rate, please check network status.',
@@ -1671,6 +1696,28 @@ export class StateMachine {
   }
 
   /**
+   * Wait for user text to be interrupted.
+   *
+   * If animation finished condition is received, switches to IDLE state.
+   */
+  async waitingForUserTextInterrupted() {
+    const message = this._getConditionNoWait()
+    if (message === null) {
+      return
+    }
+    if (message.condition === Conditions.ANIMATION_FINISHED) {
+      await this._switchState(States.IDLE)
+    } else if (message.condition === Conditions.USER_TEXT_INPUT) {
+      const text = message.data?.message as string
+      this._globalState.stateMachine?.putConditionedMessage(
+        new ConditionedMessage(Conditions.USER_TEXT_INPUT, { message: text }),
+      )
+    } else {
+      this._logUnexpectedCondition(message)
+    }
+  }
+
+  /**
    * Wait for 3DAC direct animation generation to finish.
    *
    * If correct generation result is received, switches to WAITING_FOR_ACTOR_ANIMATION_FINISHED,
@@ -1719,7 +1766,7 @@ export class StateMachine {
       }
       await this._switchState(States.IDLE)
     }
-    if (message.condition === Conditions.USER_INTERRUPT_ANIMATION) {
+    if (message.condition === Conditions.USER_AUDIO_INTERRUPT_ANIMATION) {
       this._globalState.runtime?.addConditionedMessage(
         new RuntimeConditionedMessage(RuntimeAnimationEvent.SOFT_INTERRUPT),
       )
@@ -1728,6 +1775,15 @@ export class StateMachine {
       )
       this._globalState.runtime?.audioPlayer?.clearPCMBuffer()
       await this._switchState(States.WAITING_FOR_STREAMED_ANIMATION_INTERRUPTED)
+    } else if (message.condition === Conditions.USER_TEXT_INTERRUPT_ANIMATION) {
+      this._globalState.runtime?.addConditionedMessage(
+        new RuntimeConditionedMessage(RuntimeAnimationEvent.SOFT_INTERRUPT),
+      )
+      this._globalState.runtime?.addConditionedMessage(
+        new RuntimeConditionedMessage(RuntimeAnimationEvent.USE_CUBIC_BLEND),
+      )
+      this._globalState.runtime?.audioPlayer?.clearPCMBuffer()
+      await this._switchState(States.WAITING_FOR_USER_TEXT_INTERRUPTED)
     }
   }
 

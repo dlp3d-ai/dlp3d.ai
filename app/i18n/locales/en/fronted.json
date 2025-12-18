@@ -66,7 +66,18 @@
     "chat": "Chat",
     "chatList": "Chat List",
     "loginToChat": "Login to Chat",
-    "myConversations": "My conversations"
+    "myConversations": "My conversations",
+    "textChat": "Text Chat",
+    "voiceChat": "Voice Chat",
+    "liveStream": "Live Stream",
+    "inputMessagePlaceholder": "Enter message...",
+    "send": "Send",
+    "inputLiveStreamUrlPlaceholder": "Enter live stream URL...",
+    "autoMode": "Auto Mode",
+    "confirm": "Confirm",
+    "disconnect": "Disconnect",
+    "notConnected": "Not Connected",
+    "connected": "Connected"
   },
   "sidebar": {
     "model": "3D model",
