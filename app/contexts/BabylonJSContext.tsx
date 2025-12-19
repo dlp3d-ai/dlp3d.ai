@@ -293,7 +293,7 @@ function BabylonJSProvider({
   return (
     <BabylonJSContext.Provider value={{ canvas, globalState }}>
       {children}
-      <ChatModeMenu chatMode={chatMode} onModeSelect={handleChatModeSelect} enableLiveChat={true} />
+      <ChatModeMenu chatMode={chatMode} onModeSelect={handleChatModeSelect} enableLiveChat={false} />
 
       {chatMode === 'text' && (
         <Chatbox globalState={globalState} />

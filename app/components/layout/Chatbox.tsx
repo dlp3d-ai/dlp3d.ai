@@ -3,7 +3,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GlobalState } from '@/library/babylonjs/core'
-import { States } from '@/library/babylonjs/runtime/fsm/states'
 import {
   Conditions,
   ConditionedMessage,
@@ -25,6 +24,7 @@ interface ChatboxProps {
  * A text input component for sending chat messages.
  * Displays a textarea and send button, positioned at the bottom center of the screen.
  *
+ * @param globalState Global state for accessing BabylonJS scene and runtime.
  * @returns JSX.Element The chatbox UI component.
  */
 export default function Chatbox({ globalState }: ChatboxProps) {
@@ -33,6 +33,11 @@ export default function Chatbox({ globalState }: ChatboxProps) {
 
   /**
    * Handle sending chat message.
+   * 
+   * Sends the current chat message to the state machine. If an animation is currently playing,
+   * it will interrupt the animation before sending the message.
+   * 
+   * @returns void
    */
   const handleSendMessage = () => {
     if (chatMessage.trim()) {
@@ -51,6 +56,12 @@ export default function Chatbox({ globalState }: ChatboxProps) {
 
   /**
    * Handle Enter key press in textarea.
+   * 
+   * Sends the message when Enter is pressed without Shift. Prevents default behavior
+   * to avoid adding a new line.
+   * 
+   * @param e The keyboard event from the textarea.
+   * @returns void
    */
   const handleTextareaKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {

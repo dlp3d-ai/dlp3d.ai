@@ -1,13 +1,15 @@
 /**
- * 弹幕 WebSocket 客户端
+ * Danmaku WebSocket Client
  * 
- * 用于连接弹幕服务器，接收和处理弹幕、礼物、成员、超级聊天等消息
+ * Used to connect to danmaku server, receive and process messages such as danmaku, gifts, members, super chat, etc.
  */
 
 import Queue from 'yocto-queue'
 import i18n from '@/i18n/config'
 
-// 命令类型枚举
+/**
+ * Command type enumeration for danmaku WebSocket protocol.
+ */
 export enum DanmakuCommand {
   HEARTBEAT = 0,
   JOIN_ROOM = 1,
@@ -20,13 +22,23 @@ export enum DanmakuCommand {
   FATAL_ERROR = 8,
 }
 
-// 房间标识类型
+/**
+ * Room identifier type.
+ */
 export interface RoomKey {
-  type: 1 | 2 // 1: 房间ID, 2: 身份码
+  /**
+   * Room key type: 1 for room ID, 2 for identity code.
+   */
+  type: 1 | 2
+  /**
+   * Room key value: number for room ID, string for identity code.
+   */
   value: number | string
 }
 
-// 消息类型定义
+/**
+ * Text message type definition.
+ */
 export interface TextMessage {
   type: 'text'
   avatarUrl: string
@@ -47,6 +59,9 @@ export interface TextMessage {
   medalName?: string
 }
 
+/**
+ * Gift message type definition.
+ */
 export interface GiftMessage {
   type: 'gift'
   id: number
@@ -58,6 +73,9 @@ export interface GiftMessage {
   num: number
 }
 
+/**
+ * Member message type definition.
+ */
 export interface MemberMessage {
   type: 'member'
   id: number
@@ -67,6 +85,9 @@ export interface MemberMessage {
   privilegeType: number
 }
 
+/**
+ * Super chat message type definition.
+ */
 export interface SuperChatMessage {
   type: 'superChat'
   id: number
@@ -78,7 +99,9 @@ export interface SuperChatMessage {
   translation?: string
 }
 
-// 消息处理器接口
+/**
+ * Message handler interface for danmaku WebSocket client.
+ */
 export interface DanmakuMessageHandler {
   onDebugMsg?: (msg: string) => void
   onAddText?: (message: TextMessage) => void
@@ -92,23 +115,71 @@ export interface DanmakuMessageHandler {
 }
 
 /**
- * 弹幕 WebSocket 客户端类
+ * DanmakuWebSocketClient
+ * 
+ * A WebSocket client for connecting to danmaku server and handling various message types.
  */
 export class DanmakuWebSocketClient {
+  /**
+   * Server URL for WebSocket connection.
+   */
   private serverUrl: string
+  /**
+   * Room key for identifying the target room.
+   */
   private roomKey: RoomKey
+  /**
+   * Whether to enable auto translation.
+   */
   private autoTranslate: boolean
+  /**
+   * WebSocket connection instance.
+   */
   private websocket: WebSocket | null = null
+  /**
+   * Current retry count for reconnection.
+   */
   private retryCount: number = 0
+  /**
+   * Total retry count since connection start.
+   */
   private totalRetryCount: number = 0
+  /**
+   * Whether the client is being destroyed.
+   */
   private isDestroying: boolean = false
+  /**
+   * Timer ID for receive timeout.
+   */
   private receiveTimeoutTimerId: NodeJS.Timeout | null = null
+  /**
+   * Message handler for processing received messages.
+   */
   private msgHandler: DanmakuMessageHandler | null = null
+  /**
+   * Timestamp of the last text message received.
+   */
   public lastTextMessageTime: number | null = null
+  /**
+   * Queue for storing text messages.
+   */
   public readonly messageQueue: Queue<TextMessage> = new Queue()
+  /**
+   * Queue for storing gift messages.
+   */
   public readonly giftQueue: Queue<GiftMessage> = new Queue()
+  /**
+   * Queue for storing super chat messages.
+   */
   public readonly superChatQueue: Queue<SuperChatMessage> = new Queue()
 
+  /**
+   * Create a new DanmakuWebSocketClient instance.
+   * 
+   * @param serverUrl The server URL for WebSocket connection.
+   * @param roomKey The room key for identifying the target room.
+   * @param autoTranslate Whether to enable auto translation. Defaults to false.
+   */
   constructor(serverUrl: string, roomKey: RoomKey, autoTranslate: boolean = false) {
     this.serverUrl = serverUrl
     this.roomKey = roomKey
@@ -116,21 +187,28 @@ export class DanmakuWebSocketClient {
   }
 
   /**
-   * 设置消息处理器
+   * Set the message handler.
+   * 
+   * @param handler The message handler to process received messages.
+   * @returns void
    */
   setMsgHandler(handler: DanmakuMessageHandler) {
     this.msgHandler = handler
   }
 
   /**
-   * 启动连接
+   * Start the WebSocket connection.
+   * 
+   * @returns void
    */
   start() {
     this.wsConnect()
   }
 
   /**
-   * 停止连接
+   * Stop the WebSocket connection.
+   * 
+   * @returns void
    */
   stop() {
     this.isDestroying = true
@@ -145,7 +223,9 @@ export class DanmakuWebSocketClient {
   }
 
   /**
-   * 连接 WebSocket
+   * Connect to WebSocket server.
+   * 
+   * @returns void
    */
   private wsConnect() {
     if (this.isDestroying) {
@@ -153,11 +233,11 @@ export class DanmakuWebSocketClient {
     }
 
     if (this.msgHandler?.onDebugMsg) {
-      this.msgHandler.onDebugMsg('正在连接...')
+      this.msgHandler.onDebugMsg('Connecting...')
     }
 
     const url = this.serverUrl.replace(/^http(s?):/, 'ws$1:') + '/api/chat'
-    console.log('[连接websocket]: ', url)
+    console.log('[Connect websocket]: ', url)
     this.lastTextMessageTime = Date.now()
     this.websocket = new WebSocket(url)
 
@@ -167,20 +247,24 @@ export class DanmakuWebSocketClient {
     this.websocket.onerror = (error) => {
       console.error('WebSocket error:', error)
       if (this.msgHandler?.onDebugMsg) {
-        this.msgHandler.onDebugMsg('连接错误')
+        this.msgHandler.onDebugMsg('Connection error')
       }
     }
   }
 
   /**
-   * WebSocket 打开事件处理
+   * Handle WebSocket open event.
+   * 
+   * Sends join room request and refreshes the receive timeout timer.
+   * 
+   * @returns void
    */
   private onWsOpen() {
     if (this.msgHandler?.onDebugMsg) {
       this.msgHandler.onDebugMsg(i18n.t('chat.connected', { ns: 'fronted' }))
     }
 
-    // 发送加入房间请求
+    // Send join room request
     if (this.websocket) {
       this.websocket.send(
         JSON.stringify({
@@ -199,7 +283,11 @@ export class DanmakuWebSocketClient {
   }
 
   /**
-   * 刷新接收超时定时器
+   * Refresh the receive timeout timer.
+   * 
+   * Resets the timer that monitors if messages are received within the timeout period.
+   * 
+   * @returns void
    */
   private refreshReceiveTimeoutTimer() {
     if (this.receiveTimeoutTimerId) {
@@ -210,14 +298,18 @@ export class DanmakuWebSocketClient {
   }
 
   /**
-   * 接收消息超时处理
+   * Handle receive message timeout.
+   * 
+   * Closes the WebSocket connection when no messages are received within the timeout period.
+   * 
+   * @returns void
    */
   private onReceiveTimeout() {
     this.receiveTimeoutTimerId = null
-    console.warn('接收消息超时')
+    console.warn('Receive message timeout')
 
     if (this.msgHandler?.onDebugMsg) {
-      this.msgHandler.onDebugMsg('接收消息超时')
+      this.msgHandler.onDebugMsg('Receive message timeout')
     }
 
     if (this.websocket) {
@@ -226,11 +318,15 @@ export class DanmakuWebSocketClient {
   }
 
   /**
-   * WebSocket 关闭事件处理
+   * Handle WebSocket close event.
+   * 
+   * Attempts to reconnect if not being destroyed. Stops reconnection attempts after 30 retries.
+   * 
+   * @returns void
    */
   private onWsClose() {
     if (this.msgHandler?.onDebugMsg) {
-      this.msgHandler.onDebugMsg('已断开连接')
+      this.msgHandler.onDebugMsg('Disconnected')
     }
 
     this.websocket = null
@@ -247,17 +343,17 @@ export class DanmakuWebSocketClient {
     this.retryCount++
     this.totalRetryCount++
 
-    // 防止无限重连
+    // Prevent infinite reconnection
     if (this.totalRetryCount > 30) {
       this.stop()
       if (this.msgHandler?.onFatalError) {
-        this.msgHandler.onFatalError('连接失败次数过多')
+        this.msgHandler.onFatalError('Too many connection failures')
       }
       return
     }
 
     if (this.msgHandler?.onDebugMsg) {
-      this.msgHandler.onDebugMsg(`正在重连 (${this.totalRetryCount}/30)...`)
+      this.msgHandler.onDebugMsg(`Reconnecting (${this.totalRetryCount}/30)...`)
     }
 
     const interval = Math.min(1000 + (this.totalRetryCount - 1) * 2000, 20000)
@@ -267,16 +363,21 @@ export class DanmakuWebSocketClient {
   }
 
   /**
-   * WebSocket 消息事件处理
+   * Handle WebSocket message event.
+   * 
+   * Parses and processes incoming messages based on command type.
+   * 
+   * @param event The WebSocket message event.
+   * @returns void
    */
   private onWsMessage(event: MessageEvent) {
     try {
       const { cmd, data } = JSON.parse(event.data)
-      console.log('[收到websocket消息]: ', cmd, data)
+      console.log('[Receive websocket message]: ', cmd, data)
       switch (cmd) {
         case DanmakuCommand.HEARTBEAT:
           this.refreshReceiveTimeoutTimer()
-          // 回复心跳
+          // Reply to heartbeat
           if (this.websocket) {
             this.websocket.send(JSON.stringify({ cmd: DanmakuCommand.HEARTBEAT }))
           }
@@ -310,25 +411,28 @@ export class DanmakuWebSocketClient {
         case DanmakuCommand.FATAL_ERROR:
           this.stop()
           if (this.msgHandler?.onFatalError) {
-            this.msgHandler.onFatalError(data.msg || '发生致命错误')
+            this.msgHandler.onFatalError(data.msg || 'Fatal error occurred')
           }
           break
       }
 
-      // 至少成功处理1条消息
+      // At least one message processed successfully
       if (cmd !== DanmakuCommand.FATAL_ERROR) {
         this.retryCount = 0
       }
     } catch (error) {
-      console.error('解析消息错误:', error)
+      console.error('Parse message error:', error)
     }
   }
 
   /**
-   * 处理文本消息
+   * Handle text message.
+   * 
+   * @param data Message data in array format: [avatarUrl, timestamp, authorName, authorType, content, ...]
+   * @returns void
    */
   private handleAddText(data: any[]) {
-    // data 是数组格式: [avatarUrl, timestamp, authorName, authorType, content, ...]
+    // data is in array format: [avatarUrl, timestamp, authorName, authorType, content, ...]
     const emoticon = data[13] === 1 ? data[14][0] : null
     const message: TextMessage = {
       type: 'text',
@@ -356,7 +460,10 @@ export class DanmakuWebSocketClient {
   }
 
   /**
-   * 处理礼物消息
+   * Handle gift message.
+   * 
+   * @param data Gift message data.
+   * @returns void
    */
   private handleAddGift(data: any) {
     const message: GiftMessage = {
@@ -376,7 +483,10 @@ export class DanmakuWebSocketClient {
   }
 
   /**
-   * 处理成员消息
+   * Handle member message.
+   * 
+   * @param data Member message data.
+   * @returns void
    */
   private handleAddMember(data: any) {
     const message: MemberMessage = {
@@ -393,6 +503,13 @@ export class DanmakuWebSocketClient {
     }
   }
 
+  /**
+   * Handle heartbeat message.
+   * 
+   * Notifies the message handler about the heartbeat event.
+   * 
+   * @returns void
+   */
   private handleHeartBeat(){
     if (this.msgHandler?.onHeartBeat) {
         this.msgHandler.onHeartBeat(this.lastTextMessageTime)
@@ -400,7 +517,10 @@ export class DanmakuWebSocketClient {
   }
 
   /**
-   * 处理超级聊天消息
+   * Handle super chat message.
+   * 
+   * @param data Super chat message data.
+   * @returns void
    */
   private handleAddSuperChat(data: any) {
     const message: SuperChatMessage = {
@@ -420,7 +540,10 @@ export class DanmakuWebSocketClient {
   }
 
   /**
-   * 处理删除超级聊天消息
+   * Handle delete super chat message.
+   * 
+   * @param data Delete super chat message data containing IDs to delete.
+   * @returns void
    */
   private handleDelSuperChat(data: any) {
     if (this.msgHandler?.onDelSuperChat) {
@@ -429,7 +552,10 @@ export class DanmakuWebSocketClient {
   }
 
   /**
-   * 处理翻译更新
+   * Handle translation update.
+   * 
+   * @param data Translation update data in array format: [msgId, translation]
+   * @returns void
    */
   private handleUpdateTranslation(data: any[]) {
     if (this.msgHandler?.onUpdateTranslation) {
