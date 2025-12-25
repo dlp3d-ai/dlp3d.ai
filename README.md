@@ -34,6 +34,16 @@ Digital Life Project 2 (DLP3D) is an open-source real-time framework that brings
     </a>
 </div>
 
+## Content
+
+This organization contains the following key repositories:
+
+- **[dlp3d.ai](https://github.com/dlp3d-ai/dlp3d.ai): the main entry point, start here!**
+- [orchestrator](https://github.com/dlp3d-ai/orchestrator): coordinates and synchronizes all components.
+- [web_backend](https://github.com/dlp3d-ai/web_backend): manages the backend web services.
+- [speech2motion](https://github.com/dlp3d-ai/speech2motion): converts speech into body animation.
+- [audio2face](https://github.com/dlp3d-ai/audio2face): generates facial animation from audio.
+- [MotionDataViewer](https://github.com/dlp3d-ai/MotionDataViewer): visualizes and inspects motion data.
 
 ## Get Started
 
@@ -50,13 +60,22 @@ While DLP3D itself is distributed under the [MIT License](LICENSE), we remind us
 ## Citations
 Digital Life Project 2 (SIGGRAPH Asia 2025)
 ```
-@misc{dlp3d,
-    author       = {Cai, Zhongang and Ren, Daxuan and Gao, Yang and Wei, Yukun and Zhou, Tongxi and Jang, Huimuk and Zeng, Haoyang and Lin, Zhengyu and Loy, Chen Change and Liu, Ziwei and Yang, Lei},
-    title        = {Digital Life Project 2: Open-source Autonomous 3D Characters on the Web},
-    howpublished = {SIGGRAPH Asia 2025 Real-Time Live!},
-    year         = {2025},
-    note         = {Live demonstration, Hong Kong, China}
-    year={2025}
+@inproceedings{dlp3d,
+    author    = {Cai, Zhongang and Ren, Daxuan and Gao, Yang and Wei, Yukun and Zhou, Tongxi and Lin, Zhengyu and Jang, Huimuk and Zeng, Haoyang and Loy, Chen Change and Liu, Ziwei and Yang, Lei},
+    title     = {Digital Life Project 2: Open-source Autonomous 3D Characters on the Web},
+    booktitle = {SIGGRAPH Asia 2025 Real-Time Live!},
+    year      = {2025},
+    pages     = {3},
+    isbn      = {9798400721359},
+    publisher = {Association for Computing Machinery},
+    address   = {New York, NY, USA},
+    url       = {https://doi.org/10.1145/3757375.3774342},
+    doi       = {10.1145/3757375.3774342},
+    abstract  = {Digital Life Project 2 (DLP2) presents an open-source real-time framework that brings Large Language Models (LLMs) to life through expressive 3D avatars. Users converse naturally by voice, while characters respond on demand with unified audio, whole-body animation, and physics simulation directly in the browser. At its core are: (1) an agentic orchestration of large and small LLMs that governs character behavior, supported by a memory system tracking emotional states and evolving relationships to enable context-dependent reactions; (2) a hybrid real-time pipeline that segments long LLM responses, performs parallel motion retrieval and audio-motion synchronization, and streams efficiently through a custom Protocol Buffers structure for low-latency playback of voice, motion, and expression; and (3) robust mechanisms for user interruption handling, adaptive buffering, and fault tolerance. Characters are fully customizable in both appearance (3D models) and personality (character prompts) and readily adaptable to any LLM or text-to-speech (TTS) service. DLP2 demonstrates how LLMs can be embodied in responsive 3D characters, offering a practical blueprint for real-time, emotionally adaptive digital interactions on the web.},
+    articleno = {3},
+    numpages  = {2},
+    location  = {Hong Kong Convention and Exhibition Centre, Hong Kong, Hong Kong},
+    series    = {SA '25}
 }
 ```
 Digital Life Project (CVPR 2024) [[Homepage]](https://digital-life-project.com/)

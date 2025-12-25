@@ -34,6 +34,16 @@
     </a>
 </div>
 
+## 内容
+
+本组织包含以下关键仓库：
+
+- **[dlp3d.ai](https://github.com/dlp3d-ai/dlp3d.ai)：主要入口，从这里开始！**
+- [orchestrator](https://github.com/dlp3d-ai/orchestrator)：协调并同步所有组件。
+- [web_backend](https://github.com/dlp3d-ai/web_backend)：管理后端 Web 服务。
+- [speech2motion](https://github.com/dlp3d-ai/speech2motion)：根据语音生成肢体动画。
+- [audio2face](https://github.com/dlp3d-ai/audio2face)：根据语音生成面部动画。
+- [MotionDataViewer](https://github.com/dlp3d-ai/MotionDataViewer)：可视化检查动画数据。
 
 ## 快速开始
 
@@ -51,13 +61,22 @@ DLP3D 本身采用 [MIT 许可证](../LICENSE) 发布，但我们提醒用户须
 ## 引用
 数字生命计划 2 (SIGGRAPH Asia 2025)
 ```
-@misc{dlp3d,
-    author       = {Cai, Zhongang and Ren, Daxuan and Gao, Yang and Wei, Yukun and Zhou, Tongxi and Jang, Huimuk and Zeng, Haoyang and Lin, Zhengyu and Loy, Chen Change and Liu, Ziwei and Yang, Lei},
-    title        = {Digital Life Project 2: Open-source Autonomous 3D Characters on the Web},
-    howpublished = {SIGGRAPH Asia 2025 Real-Time Live!},
-    year         = {2025},
-    note         = {Live demonstration, Hong Kong, China}
-    year={2025}
+@inproceedings{dlp3d,
+    author    = {Cai, Zhongang and Ren, Daxuan and Gao, Yang and Wei, Yukun and Zhou, Tongxi and Lin, Zhengyu and Jang, Huimuk and Zeng, Haoyang and Loy, Chen Change and Liu, Ziwei and Yang, Lei},
+    title     = {Digital Life Project 2: Open-source Autonomous 3D Characters on the Web},
+    booktitle = {SIGGRAPH Asia 2025 Real-Time Live!},
+    year      = {2025},
+    pages     = {3},
+    isbn      = {9798400721359},
+    publisher = {Association for Computing Machinery},
+    address   = {New York, NY, USA},
+    url       = {https://doi.org/10.1145/3757375.3774342},
+    doi       = {10.1145/3757375.3774342},
+    abstract  = {Digital Life Project 2 (DLP2) presents an open-source real-time framework that brings Large Language Models (LLMs) to life through expressive 3D avatars. Users converse naturally by voice, while characters respond on demand with unified audio, whole-body animation, and physics simulation directly in the browser. At its core are: (1) an agentic orchestration of large and small LLMs that governs character behavior, supported by a memory system tracking emotional states and evolving relationships to enable context-dependent reactions; (2) a hybrid real-time pipeline that segments long LLM responses, performs parallel motion retrieval and audio-motion synchronization, and streams efficiently through a custom Protocol Buffers structure for low-latency playback of voice, motion, and expression; and (3) robust mechanisms for user interruption handling, adaptive buffering, and fault tolerance. Characters are fully customizable in both appearance (3D models) and personality (character prompts) and readily adaptable to any LLM or text-to-speech (TTS) service. DLP2 demonstrates how LLMs can be embodied in responsive 3D characters, offering a practical blueprint for real-time, emotionally adaptive digital interactions on the web.},
+    articleno = {3},
+    numpages  = {2},
+    location  = {Hong Kong Convention and Exhibition Centre, Hong Kong, Hong Kong},
+    series    = {SA '25}
 }
 ```
 数字生命计划 (CVPR 2024) [主页](https://digital-life-project.com/)
