@@ -10,34 +10,27 @@ interface ChatModeMenuProps {
   /**
    * Current chat mode.
    */
-  chatMode: 'text' | 'voice' | 'live'
+  chatMode: 'text' | 'voice' 
   /**
    * Callback function called when a chat mode is selected.
    * @param mode The selected chat mode.
    */
-  onModeSelect: (mode: 'text' | 'voice' | 'live') => void
-  /**
-   * Whether live chat mode is enabled.
-   * @default true
-   */
-  enableLiveChat?: boolean
+  onModeSelect: (mode: 'text' | 'voice' ) => void
 }
 
 /**
  * ChatModeMenu
  *
- * A menu component for selecting chat modes (Text Chat, Voice Chat, Live Stream).
+ * A menu component for selecting chat modes (Text Chat, Voice Chat).
  * Displays a button that opens a popup menu with mode options.
  *
  * @param chatMode Current chat mode.
  * @param onModeSelect Callback function called when a mode is selected.
- * @param enableLiveChat Whether live chat mode is enabled. Defaults to true.
  * @returns JSX.Element The chat mode menu UI component.
  */
 export default function ChatModeMenu({
   chatMode,
-  onModeSelect,
-  enableLiveChat = true,
+  onModeSelect
 }: ChatModeMenuProps) {
   const { t } = useTranslation('fronted')
   const [showChatModeMenu, setShowChatModeMenu] = useState(false)
@@ -79,8 +72,6 @@ export default function ChatModeMenu({
         return t('chat.textChat')
       case 'voice':
         return t('chat.voiceChat')
-      case 'live':
-        return t('chat.liveStream')
       default:
         return t('chat.voiceChat')
     }
@@ -94,7 +85,7 @@ export default function ChatModeMenu({
    * @param mode The selected chat mode.
    * @returns void
    */
-  const handleChatModeSelect = (mode: 'text' | 'voice' | 'live') => {
+  const handleChatModeSelect = (mode: 'text' | 'voice' ) => {
     onModeSelect(mode)
     setShowChatModeMenu(false)
   }
@@ -124,22 +115,12 @@ export default function ChatModeMenu({
           >
             {t('chat.textChat')}
           </button>
-
           <button
             className={`chat-mode-menu-item ${chatMode === 'voice' ? 'active' : ''}`}
             onClick={() => handleChatModeSelect('voice')}
           >
             {t('chat.voiceChat')}
           </button>
-
-          {enableLiveChat && (
-            <button
-              className={`chat-mode-menu-item ${chatMode === 'live' ? 'active' : ''}`}
-              onClick={() => handleChatModeSelect('live')}
-            >
-              {t('chat.liveStream')}
-            </button>
-          )}
         </div>
       )}
     </div>
