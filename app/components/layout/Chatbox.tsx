@@ -33,10 +33,10 @@ export default function Chatbox({ globalState }: ChatboxProps) {
 
   /**
    * Handle sending chat message.
-   * 
+   *
    * Sends the current chat message to the state machine. If an animation is currently playing,
    * it will interrupt the animation before sending the message.
-   * 
+   *
    * @returns void
    */
   const handleSendMessage = () => {
@@ -56,10 +56,10 @@ export default function Chatbox({ globalState }: ChatboxProps) {
 
   /**
    * Handle Enter key press in textarea.
-   * 
+   *
    * Sends the message when Enter is pressed without Shift. Prevents default behavior
    * to avoid adding a new line.
-   * 
+   *
    * @param e The keyboard event from the textarea.
    * @returns void
    */
@@ -76,7 +76,7 @@ export default function Chatbox({ globalState }: ChatboxProps) {
         className="chatbox-textarea"
         placeholder={t('chat.inputMessagePlaceholder')}
         value={chatMessage}
-        onChange={(e) => setChatMessage(e.target.value)}
+        onChange={e => setChatMessage(e.target.value)}
         onKeyDown={handleTextareaKeyDown}
       />
       <button
@@ -89,4 +89,3 @@ export default function Chatbox({ globalState }: ChatboxProps) {
     </div>
   )
 }
-

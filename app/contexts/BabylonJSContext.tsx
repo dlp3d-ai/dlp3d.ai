@@ -52,7 +52,7 @@ function BabylonJSProvider({
   const [globalState, setGlobalState] = useState<GlobalState>()
   const webSocketState = useWebSocket()
   const [isSceneInitialized, setIsSceneInitialized] = useState(false)
-  const [chatMode, setChatMode] = useState<'text' | 'voice' >('voice')
+  const [chatMode, setChatMode] = useState<'text' | 'voice'>('voice')
 
   // Add PCM queue to store audio data when websocket is not ready
   const pcmQueue = useRef<ArrayBuffer[]>([])
@@ -281,7 +281,7 @@ function BabylonJSProvider({
    * Handle chat mode selection.
    * Updates the local state and the record audio button visibility.
    */
-  const handleChatModeSelect = (mode: 'text' | 'voice' ) => {
+  const handleChatModeSelect = (mode: 'text' | 'voice') => {
     setChatMode(mode)
     const isVoiceMode = mode === 'voice'
     if (globalState?.gui?.recordAudioButton) {
@@ -294,9 +294,7 @@ function BabylonJSProvider({
       {children}
       <ChatModeMenu chatMode={chatMode} onModeSelect={handleChatModeSelect} />
 
-      {chatMode === 'text' && (
-        <Chatbox globalState={globalState} />
-      )}
+      {chatMode === 'text' && <Chatbox globalState={globalState} />}
     </BabylonJSContext.Provider>
   )
 }

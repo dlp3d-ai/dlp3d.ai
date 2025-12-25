@@ -273,7 +273,10 @@ export class GUI {
             recordingStarted = true
             if (this._globalState.runtime?.streamedAnimationPlaying()) {
               this._globalState.stateMachine?.putConditionedMessage(
-                new ConditionedMessage(Conditions.USER_AUDIO_INTERRUPT_ANIMATION, null),
+                new ConditionedMessage(
+                  Conditions.USER_AUDIO_INTERRUPT_ANIMATION,
+                  null,
+                ),
               )
             } else {
               this._globalState.stateMachine?.putConditionedMessage(

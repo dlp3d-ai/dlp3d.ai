@@ -10,12 +10,12 @@ interface ChatModeMenuProps {
   /**
    * Current chat mode.
    */
-  chatMode: 'text' | 'voice' 
+  chatMode: 'text' | 'voice'
   /**
    * Callback function called when a chat mode is selected.
    * @param mode The selected chat mode.
    */
-  onModeSelect: (mode: 'text' | 'voice' ) => void
+  onModeSelect: (mode: 'text' | 'voice') => void
 }
 
 /**
@@ -28,10 +28,7 @@ interface ChatModeMenuProps {
  * @param onModeSelect Callback function called when a mode is selected.
  * @returns JSX.Element The chat mode menu UI component.
  */
-export default function ChatModeMenu({
-  chatMode,
-  onModeSelect
-}: ChatModeMenuProps) {
+export default function ChatModeMenu({ chatMode, onModeSelect }: ChatModeMenuProps) {
   const { t } = useTranslation('fronted')
   const [showChatModeMenu, setShowChatModeMenu] = useState(false)
   const chatModeMenuRef = useRef<HTMLDivElement>(null)
@@ -42,7 +39,7 @@ export default function ChatModeMenu({
   useEffect(() => {
     /**
      * Handle click outside event to close the menu.
-     * 
+     *
      * @param event The mouse event.
      * @returns void
      */
@@ -63,7 +60,7 @@ export default function ChatModeMenu({
 
   /**
    * Get the display text for the current chat mode.
-   * 
+   *
    * @returns The translated text for the current chat mode.
    */
   const getChatModeText = () => {
@@ -79,13 +76,13 @@ export default function ChatModeMenu({
 
   /**
    * Handle chat mode selection.
-   * 
+   *
    * Calls the onModeSelect callback and closes the menu.
-   * 
+   *
    * @param mode The selected chat mode.
    * @returns void
    */
-  const handleChatModeSelect = (mode: 'text' | 'voice' ) => {
+  const handleChatModeSelect = (mode: 'text' | 'voice') => {
     onModeSelect(mode)
     setShowChatModeMenu(false)
   }
@@ -126,4 +123,3 @@ export default function ChatModeMenu({
     </div>
   )
 }
-
