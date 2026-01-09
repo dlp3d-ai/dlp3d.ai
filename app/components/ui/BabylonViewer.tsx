@@ -315,6 +315,8 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
             1: 'KQ-default_420.glb',
             2: 'HT-default_214.glb',
             3: 'FNN-default_296.glb',
+            4: 'KL-default_214.glb',
+            5: 'NXD-default_321.glb',
           }
 
           const characterFile = character_index_file_name_mapping[characterIndex]

@@ -77,6 +77,16 @@ export const CHARACTER_MODELS = [
     name: 'FNN-default',
     preview: '/img/preview/character/FNN-default.png',
   },
+  {
+    id: 'character5',
+    name: 'KL-default',
+    preview: '/img/preview/character/KL-default.png',
+  },
+  {
+    id: 'character6',
+    name: 'NXD-default',
+    preview: '/img/preview/character/NXD-default.png',
+  },
 ]
 // TTS-specific voice options
 // NOTE: This is now used as fallback only. Voice options are fetched dynamically from API in useTTSVoices hook

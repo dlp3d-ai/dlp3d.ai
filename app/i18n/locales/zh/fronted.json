@@ -8,7 +8,8 @@
     "delete": "删除",
     "edit": "编辑",
     "editKey": "编辑密钥",
-    "close": "关闭"
+    "close": "关闭",
+    "loading": "加载中"
   },
   "loading": {
     "title": "数字生命计划",
@@ -158,7 +159,9 @@
     "Ani-default": "Ani-默认",
     "KQ-default": "刻晴-默认",
     "HT-default": "胡桃-默认",
-    "FNN-default": "芙宁娜-默认"
+    "FNN-default": "芙宁娜-默认",
+    "KL-default": "可莉-默认",
+    "NXD-default": "纳西妲-默认"
   },
   "scenes": {
     "Seabed": "海底世界",

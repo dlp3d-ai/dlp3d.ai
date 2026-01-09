@@ -8,7 +8,8 @@
     "delete": "Delete",
     "edit": "Edit",
     "editKey": "Edit KEY",
-    "close": "Close"
+    "close": "Close",
+    "loading": "Loading"
   },
   "loading": {
     "title": "DIGITAL LIFE PROJECT",
@@ -157,7 +158,9 @@
     "Ani-default": "Ani-default",
     "KQ-default": "KQ-default",
     "HT-default": "HT-default",
-    "FNN-default": "FNN-default"
+    "FNN-default": "FNN-default",
+    "KL-default": "KL-default",
+    "NXD-default": "NXD-default"
   },
   "scenes": {
     "Seabed": "Seabed",
