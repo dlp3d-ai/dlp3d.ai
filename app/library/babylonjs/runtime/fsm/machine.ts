@@ -790,9 +790,11 @@ export class StateMachine {
         } else {
           if (currentTime - requestTime > orchestratorTimeout * 1000) {
             Logger.error(
-              i18n.t('fsm.algorithmTimedOutDuringStreaming', { ns: 'client' }),
+              i18n.t('fsm.algorithmTimedOutDuringHealthCheckStreamReady', {
+                ns: 'client',
+              }),
             )
-            await this._handleAlgorithmGenerationFailure()
+            await this._switchState(States.EXIT)
             return
           }
           await new Promise(resolve =>
@@ -809,9 +811,11 @@ export class StateMachine {
         } else {
           if (currentTime - readyTime > orchestratorTimeout * 1000) {
             Logger.error(
-              i18n.t('fsm.algorithmTimedOutDuringStreaming', { ns: 'client' }),
+              i18n.t('fsm.algorithmTimedOutDuringHealthCheckStreamEnd', {
+                ns: 'client',
+              }),
             )
-            await this._handleAlgorithmGenerationFailure()
+            await this._switchState(States.EXIT)
             return
           }
           await new Promise(resolve =>
