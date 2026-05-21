@@ -28,6 +28,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from './LanguageSwitch'
 import './Navigation.scss'
+import { sitePath } from '@/utils/sitePath'
 /*
   Top navigation component for the application.
 
@@ -188,7 +189,7 @@ export default function Navigation() {
     @returns void
   */
   const handleLogoClick = () => {
-    window.location.href = '/'
+    window.location.href = sitePath('/')
   }
 
   return (
@@ -231,7 +232,7 @@ export default function Navigation() {
                   )
                 ) : (
                   <Image
-                    src="/img/account-icon.png"
+                    src={sitePath('/img/account-icon.png')}
                     alt="Account"
                     width={20}
                     height={20}

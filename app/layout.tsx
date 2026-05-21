@@ -11,6 +11,8 @@ import CenterLeftMessages from './components/ui/CenterLeftMessages'
 import I18nProvider from './components/providers/I18nProvider'
 import { PublicEnvScript } from 'next-runtime-env'
 
+const isGitHubPages = process.env.DEPLOY_TARGET === 'github-pages'
+
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
@@ -96,7 +98,7 @@ export default function RootLayout({
         <script src="https://cdn.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
         <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
         <script src="https://cdn.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
-        <PublicEnvScript />
+        {!isGitHubPages && <PublicEnvScript />}
       </head>
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}

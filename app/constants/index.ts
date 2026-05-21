@@ -1,3 +1,5 @@
+import { sitePath } from '@/utils/sitePath'
+
 // Social media links
 export const SOCIAL_LINKS = [
   // { href: 'https://youtube.com/', className: 'youtube', title: 'YouTube', label: 'YouTube' },
@@ -60,32 +62,32 @@ export const CHARACTER_MODELS = [
   {
     id: 'character2',
     name: 'Ani-default',
-    preview: '/img/preview/character/Ani-default.png',
+    preview: sitePath('/img/preview/character/Ani-default.png'),
   },
   {
     id: 'character1',
     name: 'KQ-default',
-    preview: '/img/preview/character/KQ-default.png',
+    preview: sitePath('/img/preview/character/KQ-default.png'),
   },
   {
     id: 'character3',
     name: 'HT-default',
-    preview: '/img/preview/character/HT-default.png',
+    preview: sitePath('/img/preview/character/HT-default.png'),
   },
   {
     id: 'character4',
     name: 'FNN-default',
-    preview: '/img/preview/character/FNN-default.png',
+    preview: sitePath('/img/preview/character/FNN-default.png'),
   },
   {
     id: 'character5',
     name: 'KL-default',
-    preview: '/img/preview/character/KL-default.png',
+    preview: sitePath('/img/preview/character/KL-default.png'),
   },
   {
     id: 'character6',
     name: 'NXD-default',
-    preview: '/img/preview/character/NXD-default.png',
+    preview: sitePath('/img/preview/character/NXD-default.png'),
   },
 ]
 // TTS-specific voice options

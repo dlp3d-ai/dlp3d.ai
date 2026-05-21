@@ -1,5 +1,5 @@
 import { Logger } from '@/library/babylonjs/utils'
-import { env } from 'next-runtime-env'
+import { runtimeEnv as env } from '@/utils/runtimeEnv'
 /**
  * Exception thrown when an invalid configuration key is used.
  */

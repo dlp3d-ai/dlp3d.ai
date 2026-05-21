@@ -9,6 +9,7 @@ import './styles/index.scss'
 // Redux imports
 import { setIsLeftSliderOpen } from '@/features/chat/chat'
 import { useTranslation } from 'react-i18next'
+import { sitePath } from '@/utils/sitePath'
 
 /**
  * LeftSidebar
@@ -62,7 +63,7 @@ export default function LeftSidebar() {
               gap: '10px',
             }}
           >
-            <img src="/img/setting.png" />
+            <img src={sitePath('/img/setting.png')} />
             <span
               style={{
                 color: '#fff',

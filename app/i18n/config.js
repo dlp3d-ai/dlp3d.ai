@@ -2,7 +2,7 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import { env } from 'next-runtime-env'
+import { runtimeEnv as env } from '@/utils/runtimeEnv'
 // Import language resource files directly
 import zhFronted from './locales/zh/fronted.json'
 import enFronted from './locales/en/fronted.json'

@@ -1,7 +1,7 @@
 import ky from 'ky'
 import type { KyRequest, NormalizedOptions } from 'ky'
 import https from 'https'
-import { env } from 'next-runtime-env'
+import { runtimeEnv as env } from '@/utils/runtimeEnv'
 
 /**
  * Environment variable for the orchestrator host.

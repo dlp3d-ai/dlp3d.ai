@@ -47,6 +47,7 @@ import {
 } from '../../library/babylonjs/utils/loadMesh'
 import { LoadingProgressManager } from '../../utils/progressManager'
 import { HDRI_SCENES } from '@/library/babylonjs/config/scene'
+import { isSiteRoot, sitePath } from '@/utils/sitePath'
 /**
  * Props interface for the BabylonViewer component.
  */
@@ -200,7 +201,8 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
      */
     const addDlpTextPatch = useCallback((scene: Scene) => {
       if (dlpPatchRef.current) return // Only create once
-      if (typeof window !== 'undefined' && window.location.pathname !== '/') return // Only show on homepage
+      if (typeof window !== 'undefined' && !isSiteRoot(window.location.pathname))
+        return // Only show on homepage
       const patchWidth = 10
       const patchHeight = 3.0
       const patchPlane = MeshBuilder.CreatePlane(
@@ -229,7 +231,7 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
       rect.addControl(stack)
 
       // Title logo image with enhanced glow effect
-      const titleLogo = new Image('titleLogo', '/img/logo-title.png')
+      const titleLogo = new Image('titleLogo', sitePath('/img/logo-title.png'))
       titleLogo.width = '65%'
       titleLogo.height = '100px'
       titleLogo.top = '-10px'
@@ -323,7 +325,7 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
 
           const result = await SceneLoader.ImportMeshAsync(
             '',
-            '/characters/',
+            sitePath('/characters/'),
             characterFile,
             sceneRef.current,
           )
@@ -509,7 +511,7 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
         scene,
       )
       bodyGlowSystemCircle.particleTexture = new Texture(
-        '/img/particle_circle.png.png',
+        sitePath('/img/particle_circle.png.png'),
         scene,
       )
       bodyGlowSystemCircle.emitter = new Vector3(0, 0.8, 0) // Character center
@@ -535,7 +537,7 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
       // Add surrounding particle effects
       const ringParticleSystem = new ParticleSystem('ringParticleEffect', 50, scene)
       ringParticleSystem.particleTexture = new Texture(
-        '/img/particle_circle.png.png',
+        sitePath('/img/particle_circle.png.png'),
         scene,
       )
       ringParticleSystem.emitter = new Vector3(0, 0.8, 0) // Character center
@@ -696,7 +698,7 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
 
           // Create a simple white dot texture for particles
           const particleTexture = new Texture(
-            '/img/particle_circle.png.png',
+            sitePath('/img/particle_circle.png.png'),
             sceneRef.current,
           )
           particleSystem.particleTexture = particleTexture
@@ -838,7 +840,7 @@ const BabylonViewer = forwardRef<BabylonViewerRef, BabylonViewerProps>(
           hdrTextureRef.current.dispose()
         }
         const sceneConfig = HDRI_SCENES.find(scene => scene.name === sceneName)!
-        const image = `/img/hdr/${sceneConfig.hdri}`
+        const image = sitePath(`/img/hdr/${sceneConfig.hdri}`)
 
         const newHdrTexture = new EquiRectangularCubeTexture(
           image,

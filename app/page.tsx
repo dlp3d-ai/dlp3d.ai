@@ -12,6 +12,7 @@ import BabylonViewer, { BabylonViewerRef } from './components/ui/BabylonViewer'
 import LoadingScreen from './components/LoadingScreen'
 import '@/styles/components.css'
 import { captureScreenshot, saveScreenshotToStorage } from '@/utils/screenshot'
+import { isSiteRoot, sitePath } from '@/utils/sitePath'
 
 import ConfigSidebar from './components/sidebar'
 import LeftSidebar from './components/setting'
@@ -299,15 +300,19 @@ export default function Home() {
               localStorage.setItem('dlp_current_session_id', sessionId)
             }
           }
-          const url = `/babylon?scene=${selectedScene}${
-            selectedCharacterId ? `&character_id=${selectedCharacterId}` : ''
-          }`
+          const url = sitePath(
+            `/babylon?scene=${selectedScene}${
+              selectedCharacterId ? `&character_id=${selectedCharacterId}` : ''
+            }`,
+          )
           window.open(url, '_blank', 'noopener,noreferrer')
         } catch (error) {
           console.error('Screenshot failed:', error)
-          const url = `/babylon?scene=${selectedScene}${
-            selectedCharacterId ? `&character_id=${selectedCharacterId}` : ''
-          }`
+          const url = sitePath(
+            `/babylon?scene=${selectedScene}${
+              selectedCharacterId ? `&character_id=${selectedCharacterId}` : ''
+            }`,
+          )
           window.open(url, '_blank', 'noopener,noreferrer')
         } finally {
           dispatch(setIsChatStarting(false))
@@ -317,7 +322,7 @@ export default function Home() {
         }
       } catch (error) {
         console.error('Failed to open new tab: ', error)
-        const fallbackUrl = `/babylon?scene=${selectedScene}`
+        const fallbackUrl = sitePath(`/babylon?scene=${selectedScene}`)
         window.open(fallbackUrl, '_blank', 'noopener,noreferrer')
       }
     }
@@ -336,7 +341,7 @@ export default function Home() {
   useEffect(() => {
     // Listen for route changes and reset chat state when returning to homepage
     const handleRouteChange = () => {
-      if (window.location.pathname === '/') {
+      if (isSiteRoot(window.location.pathname)) {
         dispatch(setIsChatStarting(false))
         setUiFadeOut(false)
       }

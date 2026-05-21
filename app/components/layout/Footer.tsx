@@ -1,6 +1,7 @@
 'use client'
 
 import { SOCIAL_LINKS } from '../../constants'
+import { sitePath } from '@/utils/sitePath'
 
 // Social media icons as SVG components
 const SocialIcons = {
@@ -25,7 +26,12 @@ const SocialIcons = {
     </svg>
   ),
   xiaohongshu: (
-    <img src="/img/xiaohongshu.svg" width="18" height="18" alt="小红书" />
+    <img
+      src={sitePath('/img/xiaohongshu.svg')}
+      width="18"
+      height="18"
+      alt="小红书"
+    />
   ),
   discord: (
     <svg

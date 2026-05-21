@@ -118,6 +118,29 @@ pnpm start
 
 网页将在`http://localhost:3000`提供服务。
 
+### GitHub Pages 静态导出
+
+GitHub Pages 部署是一种额外的静态导出模式，不会替代上面的命令行或 Docker 部署方式。
+
+Pages workflow 位于 `.github/workflows/pages.yml`，仅在推送 tag、发布 GitHub Release 或手动执行 `workflow_dispatch` 时运行。普通 `main` 分支 push 不会自动发布站点。
+
+workflow 使用以下环境变量构建：
+
+```shell
+DEPLOY_TARGET=github-pages
+NEXT_PUBLIC_SITE_BASE_PATH=/dlp3d.ai
+NEXT_PUBLIC_ORCHESTRATOR_HOST=u1-api.sensenova.cn
+NEXT_PUBLIC_ORCHESTRATOR_PORT=443
+NEXT_PUBLIC_ORCHESTRATOR_PATH_PREFIX=/dlp3d-ai/orchestrator
+NEXT_PUBLIC_BACKEND_HOST=u1-api.sensenova.cn
+NEXT_PUBLIC_BACKEND_PORT=443
+NEXT_PUBLIC_BACKEND_PATH_PREFIX=/dlp3d-ai/backend
+```
+
+`NEXT_PUBLIC_SITE_BASE_PATH` 用于配置 GitHub Pages 项目路径。访问 `https://dlp3d-ai.github.io/dlp3d.ai/` 时使用 `/dlp3d.ai`；未来绑定到 `https://dlp3d.ai/` 这类根域名时应使用空值。
+
+静态导出不支持 Next.js API routes。Pages workflow 会在构建前临时禁用 `app/api/LLM`。Docker 和命令行 standalone 构建仍会保留该 API route。
+
 ### Docker构建
 
 要通过docker生成生产构建：
@@ -137,4 +160,3 @@ docker run dlp3d_web:dev -p 3000:3000
 ```
 
 网页将在`http://localhost:3000`提供服务。
-

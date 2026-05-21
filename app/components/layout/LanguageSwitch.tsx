@@ -3,6 +3,7 @@
 import { useTranslation } from 'react-i18next'
 import { useState, useEffect, useCallback } from 'react'
 import { useDevice } from '@/contexts/DeviceContext'
+import { sitePath } from '@/utils/sitePath'
 
 /**
  * Language switcher component.
@@ -15,8 +16,8 @@ export default function LanguageSwitcher() {
   const [currentLang, setCurrentLang] = useState('zh')
 
   const { isMobile } = useDevice()
-  const LanguageEn = '/img/language_en.png'
-  const LanguageZh = '/img/language_zh.png'
+  const LanguageEn = sitePath('/img/language_en.png')
+  const LanguageZh = sitePath('/img/language_zh.png')
 
   // Ensure client-side rendering only to avoid hydration mismatch
   useEffect(() => {
@@ -58,7 +59,7 @@ export default function LanguageSwitcher() {
         style={{ width: '25px', height: '25px' }}
       />
     )
-  }, [currentLang])
+  }, [currentLang, LanguageEn, LanguageZh])
   return (
     <button
       className="account-btn"

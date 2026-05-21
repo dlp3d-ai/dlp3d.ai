@@ -1,5 +1,5 @@
 import { getBrowserTimeZone } from '@/utils/timeZone'
-import { env } from 'next-runtime-env'
+import { runtimeEnv as env } from './runtimeEnv'
 
 /*
   Determine whether the user's location is within Mainland China or Hong Kong.
