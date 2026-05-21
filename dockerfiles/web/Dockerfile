@@ -2,7 +2,7 @@ FROM node:22-bullseye-slim AS base
 
 RUN corepack enable
 
-RUN corepack prepare pnpm@latest --activate
+RUN corepack prepare pnpm@9.15.9 --activate
 
 FROM base AS deps
 WORKDIR /app
@@ -10,7 +10,7 @@ RUN pnpm config set registry https://registry.npmmirror.com/
 
 COPY package*.json ./
 COPY pnpm-lock.yaml ./
-RUN pnpm install --only=production
+RUN pnpm install --frozen-lockfile --only=production
 
 FROM base AS builder
 WORKDIR /app
@@ -20,7 +20,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 COPY package*.json ./
 COPY pnpm-lock.yaml ./
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 RUN pnpm run build
