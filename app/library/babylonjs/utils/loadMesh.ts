@@ -1,4 +1,5 @@
 import * as BABYLON from '@babylonjs/core'
+import { sitePath } from '@/utils/sitePath'
 
 /**
  * Load a ground model (GLB) and return its meshes, grouped under a parent mesh.
@@ -18,7 +19,7 @@ import * as BABYLON from '@babylonjs/core'
  */
 export function loadGroundMesh(
   scene: BABYLON.Scene,
-  rootUrl: string = '/models/ground/',
+  rootUrl: string = sitePath('/models/ground/'),
   filename: string = 'ground.glb',
   translation: BABYLON.Vector3 = new BABYLON.Vector3(0, 0, 0),
   rotationDegrees: BABYLON.Vector3 = new BABYLON.Vector3(0, 0, 0),
@@ -105,7 +106,7 @@ export function getGroundModelFilename(hdriFilename: string): string {
  */
 export const GROUND_MESH_PRESETS = {
   DEFAULT: {
-    rootUrl: '/models/ground/',
+    rootUrl: sitePath('/models/ground/'),
     filename: 'hdr-black.glb',
     translation: new BABYLON.Vector3(0, 0, 0),
     rotationDegrees: new BABYLON.Vector3(0, 0, 0),
@@ -113,7 +114,7 @@ export const GROUND_MESH_PRESETS = {
     receiveShadows: true,
   },
   LARGE: {
-    rootUrl: '/models/ground/',
+    rootUrl: sitePath('/models/ground/'),
     filename: 'hdr-black.glb',
     translation: new BABYLON.Vector3(0, 0, 0),
     rotationDegrees: new BABYLON.Vector3(0, 0, 0),
@@ -121,7 +122,7 @@ export const GROUND_MESH_PRESETS = {
     receiveShadows: true,
   },
   ELEVATED: {
-    rootUrl: '/models/ground/',
+    rootUrl: sitePath('/models/ground/'),
     filename: 'hdr-black.glb',
     translation: new BABYLON.Vector3(0, 0.5, 0),
     rotationDegrees: new BABYLON.Vector3(0, 0, 0),
@@ -129,7 +130,7 @@ export const GROUND_MESH_PRESETS = {
     receiveShadows: true,
   },
   HUGE: {
-    rootUrl: '/models/ground/',
+    rootUrl: sitePath('/models/ground/'),
     filename: 'hdr-black.glb',
     translation: new BABYLON.Vector3(0, 0, 0),
     rotationDegrees: new BABYLON.Vector3(0, 0, 0),
@@ -137,7 +138,7 @@ export const GROUND_MESH_PRESETS = {
     receiveShadows: true,
   },
   MEDIUM: {
-    rootUrl: '/models/ground/',
+    rootUrl: sitePath('/models/ground/'),
     filename: 'hdr-black.glb',
     translation: new BABYLON.Vector3(0, 0, 0),
     rotationDegrees: new BABYLON.Vector3(0, 0, 0),
@@ -197,7 +198,7 @@ export function loadGroundMeshForHDR(
   const groundFilename = getGroundModelFilename(hdriFilename)
   return loadGroundMesh(
     scene,
-    '/models/ground/',
+    sitePath('/models/ground/'),
     groundFilename,
     translation,
     rotationDegrees,

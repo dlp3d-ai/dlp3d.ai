@@ -33,6 +33,7 @@ import {
   RuntimeConditionedMessage,
 } from '@/library/babylonjs/runtime'
 import { SceneConfig, HDRI_SCENES } from '@/library/babylonjs/config/scene'
+import { sitePath } from '@/utils/sitePath'
 import { LoadingProgressManager } from '@/utils/progressManager'
 import {
   Character,
@@ -414,7 +415,7 @@ export class StateMachine {
           // Load specific ground model for this scene
           await loadGroundMesh(
             this._globalState.scene,
-            '/models/ground/',
+            sitePath('/models/ground/'),
             groundConfig.filename,
             groundConfig.translation,
             groundConfig.rotation,
@@ -435,7 +436,7 @@ export class StateMachine {
     const loadHDREnvironment = (hdriFileName: string) => {
       try {
         const hdrTexture = new BABYLON.EquiRectangularCubeTexture(
-          `/img/hdr/${hdriFileName}`,
+          sitePath(`/img/hdr/${hdriFileName}`),
           this._globalState.scene,
           1024,
         )
@@ -1757,7 +1758,7 @@ export class StateMachine {
       severity: 'neutral' as const,
       actionText: 'Home',
       onAction: () => {
-        window.location.href = '/'
+        window.location.href = sitePath('/')
       },
       durationMs: 0,
       closable: false,

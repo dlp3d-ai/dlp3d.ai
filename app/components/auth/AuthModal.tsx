@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Authenticator from './Authenticator'
 import './index.scss'
 import { useTranslation } from 'react-i18next'
+import { sitePath } from '@/utils/sitePath'
 
 /**
  * Props interface for the AuthModal component.
@@ -74,7 +75,7 @@ export default function AuthModal({
    */
   const handleClose = () => {
     if (onClose) onClose()
-    router.push('/')
+    router.push(sitePath('/'))
   }
 
   if (!isClient || !isOpen) {

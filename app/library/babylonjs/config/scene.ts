@@ -1,4 +1,5 @@
 import * as BABYLON from '@babylonjs/core'
+import { sitePath } from '@/utils/sitePath'
 
 /**
  * Configuration interface for 3D scenes.
@@ -38,7 +39,7 @@ export const HDRI_SCENES: SceneConfig[] = [
   {
     id: 'scene1',
     name: 'Seabed',
-    image: '/img/preview/hdr/hdr-seabed.jpg',
+    image: sitePath('/img/preview/hdr/hdr-seabed.jpg'),
     hdri: 'hdr-seabed.jpg',
     groundModel: {
       filename: 'hdr-seabed.glb',
@@ -50,7 +51,7 @@ export const HDRI_SCENES: SceneConfig[] = [
   {
     id: 'scene2',
     name: 'Ground View',
-    image: '/img/preview/hdr/hdr-black.jpg',
+    image: sitePath('/img/preview/hdr/hdr-black.jpg'),
     hdri: 'hdr-black.jpg',
     groundModel: {
       filename: 'hdr-black.glb',
@@ -62,7 +63,7 @@ export const HDRI_SCENES: SceneConfig[] = [
   {
     id: 'scene3',
     name: 'Cobbled Street',
-    image: '/img/preview/hdr/hdr-street.jpg',
+    image: sitePath('/img/preview/hdr/hdr-street.jpg'),
     hdri: 'hdr-street.jpg',
     groundModel: {
       filename: 'hdr-street.glb',
@@ -74,7 +75,7 @@ export const HDRI_SCENES: SceneConfig[] = [
   {
     id: 'scene4',
     name: 'Vast',
-    image: '/img/preview/hdr/hdr-vast.jpg',
+    image: sitePath('/img/preview/hdr/hdr-vast.jpg'),
     hdri: 'hdr-vast.jpg',
     groundModel: {
       filename: 'hdr-vast.glb',
@@ -86,7 +87,7 @@ export const HDRI_SCENES: SceneConfig[] = [
   {
     id: 'scene5',
     name: 'Cyber Black',
-    image: '/img/preview/hdr/hdr-cyber_black.png',
+    image: sitePath('/img/preview/hdr/hdr-cyber_black.png'),
     hdri: 'hdr-cyber_black.png',
     groundModel: {
       filename: 'hdr-cyber_black.glb',
@@ -98,7 +99,7 @@ export const HDRI_SCENES: SceneConfig[] = [
   {
     id: 'scene6',
     name: 'Green',
-    image: '/img/preview/hdr/hdr-green.jpg',
+    image: sitePath('/img/preview/hdr/hdr-green.jpg'),
     hdri: 'hdr-vast.jpg',
     groundModel: {
       filename: 'hdr-green.glb',

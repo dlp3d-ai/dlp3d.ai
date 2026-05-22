@@ -13,6 +13,7 @@ import { getIsChatStarting, getSelectedCharacterId } from '@/features/chat/chat'
 
 import { setIsSliderOpen } from '@/features/chat/chat'
 import { usePromptingSettings } from '@/hooks/usePromptingSettings'
+import { sitePath } from '@/utils/sitePath'
 
 /**
  * Props for ConfigSidebar component.
@@ -59,27 +60,27 @@ export default function ConfigSidebar({
   const operationList = [
     {
       name: t('sidebar.model'),
-      icon: '/img/icons/model.png',
+      icon: sitePath('/img/icons/model.png'),
       key: 'model',
     },
     {
       name: t('sidebar.prompt'),
-      icon: '/img/icons/prompt.png',
+      icon: sitePath('/img/icons/prompt.png'),
       key: 'prompt',
     },
     {
       name: t('sidebar.llm'),
-      icon: '/img/icons/llm.png',
+      icon: sitePath('/img/icons/llm.png'),
       key: 'llm',
     },
     {
       name: t('sidebar.tts'),
-      icon: '/img/icons/tts.png',
+      icon: sitePath('/img/icons/tts.png'),
       key: 'tts',
     },
     {
       name: t('sidebar.scene'),
-      icon: '/img/icons/scene.png',
+      icon: sitePath('/img/icons/scene.png'),
       key: 'scene',
     },
   ]

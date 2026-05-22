@@ -1,7 +1,7 @@
 import ky from 'ky'
 import type { KyRequest, NormalizedOptions } from 'ky'
 import https from 'https'
-import { env } from 'next-runtime-env'
+import { runtimeEnv as env } from '@/utils/runtimeEnv'
 
 const NEXT_PUBLIC_BACKEND_HOST = env('NEXT_PUBLIC_BACKEND_HOST')
 const NEXT_PUBLIC_BACKEND_PORT = env('NEXT_PUBLIC_BACKEND_PORT')

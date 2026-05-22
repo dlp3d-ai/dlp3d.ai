@@ -6,6 +6,7 @@ import AuthModal from './AuthModal'
 import { getIsLogin } from '@/features/auth/authStore'
 import { useSelector } from 'react-redux'
 import { usePromptingSettings } from '@/hooks/usePromptingSettings'
+import { sitePath } from '@/utils/sitePath'
 
 /**
  * Props interface for the AuthGuard component.
@@ -49,7 +50,7 @@ export default function AuthGuard({ children, redirectTo = '/' }: AuthGuardProps
    */
   const handleAuthClose = () => {
     setShowAuthModal(false)
-    router.push(redirectTo)
+    router.push(sitePath(redirectTo))
   }
 
   // Show loading state while checking auth

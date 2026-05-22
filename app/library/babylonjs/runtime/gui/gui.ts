@@ -5,6 +5,7 @@ import {
   ConditionedMessage,
 } from '@/library/babylonjs/runtime/fsm/conditions'
 import { Logger } from '@/library/babylonjs/utils'
+import { sitePath } from '@/utils/sitePath'
 
 /**
  * Convert viewport width percentage to pixels.
@@ -106,7 +107,7 @@ export class GUI {
     `
 
     // Load and insert the SVG content
-    fetch('/img/bars-rotate-fade.svg')
+    fetch(sitePath('/img/bars-rotate-fade.svg'))
       .then(response => {
         return response.text()
       })

@@ -18,6 +18,7 @@ import { LoadingProgressManager } from '../../utils/progressManager'
 import { HDRI_SCENES } from '@/library/babylonjs/config/scene'
 import { ConfigSync } from '@/library/babylonjs/config'
 import i18n from '@/i18n/config'
+import { isSiteRoot, sitePath } from '@/utils/sitePath'
 
 /**
  * TypeScript type definitions for user ID handling.
@@ -293,7 +294,7 @@ export default async function onSceneReady(globalState: GlobalState) {
   scene.getEngine().hideLoadingUI()
 
   let patchPlane: BABYLON.Mesh | null = null
-  if (typeof window !== 'undefined' && window.location.pathname === '/') {
+  if (typeof window !== 'undefined' && isSiteRoot(window.location.pathname)) {
     const patchWidth = 6
     const patchHeight = 1.8
     patchPlane = BABYLON.MeshBuilder.CreatePlane(
@@ -321,7 +322,10 @@ export default async function onSceneReady(globalState: GlobalState) {
     stack.isVertical = true
     rect.addControl(stack)
 
-    const titleLogo = new BABYLON_GUI.Image('titleLogo', '/img/logo-title.png')
+    const titleLogo = new BABYLON_GUI.Image(
+      'titleLogo',
+      sitePath('/img/logo-title.png'),
+    )
     titleLogo.width = '50%'
     titleLogo.height = '75px'
     titleLogo.top = '-10px'
@@ -354,7 +358,7 @@ export default async function onSceneReady(globalState: GlobalState) {
     // Create particle system
     const particleSystem = new BABYLON.ParticleSystem('particles', 300, scene)
     const particleTexture = new BABYLON.Texture(
-      '/img/particle_circle.png.png',
+      sitePath('/img/particle_circle.png.png'),
       scene,
     )
     particleSystem.particleTexture = particleTexture

@@ -23,6 +23,7 @@ import { getAvailableLlm } from '@/request/api'
 import { useDevice } from '@/contexts/DeviceContext'
 import { useTranslation } from 'react-i18next'
 import GlobalTooltip from '@/components/common/GlobalTooltip'
+import { sitePath } from '@/utils/sitePath'
 /**
  * Choice interface for LLM model selection.
  */
@@ -261,23 +262,23 @@ export default function LLMPanel() {
   const getLLMImage = (key: string) => {
     switch (key) {
       case 'openai':
-        return '/img/llm/openai.png'
+        return sitePath('/img/llm/openai.png')
       case 'anthropic':
-        return '/img/llm/anthropic.png'
+        return sitePath('/img/llm/anthropic.png')
       case 'gemini':
-        return '/img/llm/gemini.png'
+        return sitePath('/img/llm/gemini.png')
       case 'sensenova':
-        return '/img/llm/sensenova.png'
+        return sitePath('/img/llm/sensenova.png')
       case 'sensenovaomni':
-        return '/img/llm/sensenova.png'
+        return sitePath('/img/llm/sensenova.png')
       case 'deepseek':
-        return '/img/llm/deepseek.png'
+        return sitePath('/img/llm/deepseek.png')
       case 'xai':
-        return '/img/llm/xai.png'
+        return sitePath('/img/llm/xai.png')
       case 'sensechat':
-        return '/img/llm/sensechat.png'
+        return sitePath('/img/llm/sensechat.png')
       default:
-        return '/img/llm/openai.png'
+        return sitePath('/img/llm/openai.png')
     }
   }
   /**

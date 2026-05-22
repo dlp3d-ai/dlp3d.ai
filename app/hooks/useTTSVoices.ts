@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { TTS_VOICE_OPTIONS } from '@/constants/index'
 import React from 'react' // Added for React.isValidElement
-import { env } from 'next-runtime-env'
+import { runtimeEnv as env } from '@/utils/runtimeEnv'
 // Interface definitions for API response types
 interface TTSVoicesApiResponse {
   voice_names: Record<string, string> // Actually returns strings, not objects
