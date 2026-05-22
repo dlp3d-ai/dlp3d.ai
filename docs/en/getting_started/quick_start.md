@@ -218,6 +218,10 @@ Finally, visit `https://127.0.0.1:18002` and trust this certificate as well.
 ### Step 4: Start Using the Application
 Once all three certificates are trusted, you can return to `https://127.0.0.1:18000` to start using the application. You should see the web interface:
 
+:::{note}
+For LLM provider keys, SenseNova uses a single `sensenova_api_key`, MiniMax uses a single `minimax_api_key`, and SenseChat still uses `sensechat_ak` plus `sensechat_sk`. SenseNova Omni LLM adapters are deprecated and should not be selected for new characters.
+:::
+
 <div style="text-align: center;">
   <img src="../_static/en/getting_started/fronted_window_example.jpg" style="width: 100%; max-width: 100%;">
   <p><em>Fronted Window Example</em></p>
@@ -374,4 +378,3 @@ If the screen is lagging during chat, please consider turning off the cloth simu
   <img src="../_static/en/getting_started/recording.jpg" style="width: 100%; max-width: 100%;">
   <p><em>Avatar in Listening State</em></p>
 </div>
-

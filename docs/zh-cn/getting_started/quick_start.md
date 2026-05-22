@@ -219,6 +219,10 @@ docker compose up
 ### 步骤4：开始使用应用程序
 一旦所有三个证书都被信任，您可以返回到`https://127.0.0.1:18000`开始使用应用程序。您应该看到Web界面：
 
+:::{note}
+LLM供应商密钥配置中，SenseNova 使用单个 `sensenova_api_key`，MiniMax 使用单个 `minimax_api_key`，SenseChat 仍使用 `sensechat_ak` 与 `sensechat_sk`。SenseNova Omni LLM adapter 已废弃，新角色不应再选择该配置。
+:::
+
 <div style="text-align: center;">
   <img src="../_static/en/getting_started/fronted_window_example.jpg" style="width: 100%; max-width: 100%;">
   <p><em>前端窗口示例</em></p>

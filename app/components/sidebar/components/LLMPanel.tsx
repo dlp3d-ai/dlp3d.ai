@@ -23,7 +23,6 @@ import { getAvailableLlm } from '@/request/api'
 import { useDevice } from '@/contexts/DeviceContext'
 import { useTranslation } from 'react-i18next'
 import GlobalTooltip from '@/components/common/GlobalTooltip'
-import { sitePath } from '@/utils/sitePath'
 /**
  * Choice interface for LLM model selection.
  */
@@ -32,10 +31,38 @@ interface Choice {
   value: string
   /** The model key identifier. */
   key: string
-  /** The image URL for the model icon. */
-  img: string
   /** The display label for the model. */
   label: string
+}
+
+const PROVIDER_LABELS: Record<string, string> = {
+  anthropic: 'Anthropic',
+  deepseek: 'DeepSeek',
+  gemini: 'Gemini',
+  minimax: 'MiniMax',
+  openai: 'OpenAI',
+  sensechat: 'SenseChat',
+  sensenova: 'SenseNova',
+  xai: 'XAI',
+}
+
+const getProviderKey = (adapter: string) => adapter.toLowerCase().split('_')[0]
+
+const toTitleCaseProvider = (provider: string) =>
+  provider
+    .split(/[-_]/)
+    .filter(Boolean)
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ')
+
+const getProviderLabel = (adapter: string) => {
+  const lowerAdapter = adapter.toLowerCase()
+  if (lowerAdapter.startsWith('openai_realtime')) {
+    return 'OpenAI Realtime'
+  }
+
+  const provider = getProviderKey(adapter)
+  return PROVIDER_LABELS[provider] || toTitleCaseProvider(provider)
 }
 
 /**
@@ -161,15 +188,7 @@ export default function LLMPanel() {
       })
       setDialogOpen(false)
     } else {
-      if (keyType === 'sensenova') {
-        // Only update if not placeholder
-        if (textContent2 !== '******') {
-          await updateUserConfig('sensenova_sk', textContent2)
-        }
-        if (textContent !== '******') {
-          await updateUserConfig('sensenova_ak', textContent)
-        }
-      } else if (keyType === 'sensechat') {
+      if (keyType === 'sensechat') {
         // Only update if not placeholder
         if (textContent2 !== '******') {
           await updateUserConfig('sensechat_sk', textContent2)
@@ -177,16 +196,8 @@ export default function LLMPanel() {
         if (textContent !== '******') {
           await updateUserConfig('sensechat_ak', textContent)
         }
-      } else if (keyType === 'sensenovaomni') {
-        // Only update if not placeholder
-        if (textContent2 !== '******') {
-          await updateUserConfig('sensenovaomni_sk', textContent2)
-        }
-        if (textContent !== '******') {
-          await updateUserConfig('sensenovaomni_ak', textContent)
-        }
       } else {
-        const data = choseModel?.value.toLowerCase().split('_')[0]
+        const data = choseModel ? getProviderKey(choseModel.value) : keyType
         // Only update if not placeholder
         if (textContent !== '******') {
           await updateUserConfig(`${data}_api_key`, textContent)
@@ -253,35 +264,6 @@ export default function LLMPanel() {
     [settings, selectedTab],
   )
   /**
-   * Get LLM image URL by key.
-   *
-   * @param key The LLM provider key (string).
-   *
-   * @returns string The image URL for the LLM provider.
-   */
-  const getLLMImage = (key: string) => {
-    switch (key) {
-      case 'openai':
-        return sitePath('/img/llm/openai.png')
-      case 'anthropic':
-        return sitePath('/img/llm/anthropic.png')
-      case 'gemini':
-        return sitePath('/img/llm/gemini.png')
-      case 'sensenova':
-        return sitePath('/img/llm/sensenova.png')
-      case 'sensenovaomni':
-        return sitePath('/img/llm/sensenova.png')
-      case 'deepseek':
-        return sitePath('/img/llm/deepseek.png')
-      case 'xai':
-        return sitePath('/img/llm/xai.png')
-      case 'sensechat':
-        return sitePath('/img/llm/sensechat.png')
-      default:
-        return sitePath('/img/llm/openai.png')
-    }
-  }
-  /**
    * Render the list of available LLM models.
    *
    * @returns JSX.Element The rendered list component with loading state or model items.
@@ -317,20 +299,22 @@ export default function LLMPanel() {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                height: '100%',
+                padding: '0 14px',
+                textAlign: 'center',
               }}
             >
-              <img
-                src={choices.img}
+              <span
                 style={{
-                  width: '50%',
-                  height: '50%',
-                  objectFit: 'contain',
                   color: '#fff',
+                  fontSize: isMobile ? '13px' : '15px',
+                  fontWeight: 600,
+                  lineHeight: 1.2,
+                  wordBreak: 'break-word',
                 }}
-              />
-            </div>
-            <div className="config-sidebar-drawer-list-item-name text-ellipsis">
-              {choices.label}
+              >
+                {choices.label}
+              </span>
             </div>
             {selectedLLMKey === choices.value && (
               <div
@@ -399,9 +383,8 @@ export default function LLMPanel() {
     return choices.map(choice => {
       return {
         value: choice,
-        key: choice.toLowerCase().split('_')[0],
-        img: getLLMImage(choice.toLowerCase().split('_')[0]),
-        label: choice.toLowerCase().split('_').slice(0, -1).join(' '),
+        key: getProviderKey(choice),
+        label: getProviderLabel(choice),
       }
     })
   }, [])
@@ -550,11 +533,9 @@ export default function LLMPanel() {
                   textAlign: 'left',
                 }}
               >
-                {keyType === 'sensenova' ||
-                keyType === 'sensechat' ||
-                keyType === 'sensenovaomni'
-                  ? t('llmPanel.sensenovaAK')
-                  : `${keyType} ${t('llmPanel.apiKey')}`}
+                {keyType === 'sensechat'
+                  ? t('llmPanel.accessKeyId')
+                  : t('llmPanel.apiKey')}
               </label>
               <input
                 type="text"
@@ -582,9 +563,7 @@ export default function LLMPanel() {
                 placeholder={t('llmPanel.apiKeyPlaceholder')}
               />
 
-              {(keyType === 'sensenova' ||
-                keyType === 'sensechat' ||
-                keyType === 'sensenovaomni') && (
+              {keyType === 'sensechat' && (
                 <>
                   <label
                     style={{
@@ -596,7 +575,7 @@ export default function LLMPanel() {
                       textAlign: 'left',
                     }}
                   >
-                    {t('llmPanel.sensenovaSK')}
+                    {t('llmPanel.secretAccessKey')}
                   </label>
                   <input
                     type="text"
