@@ -305,14 +305,14 @@ LLM供应商密钥配置中，SenseNova 使用单个 `sensenova_api_key`，MiniM
 
 - 记忆：用于处理多级对话记忆。
 
-要启用这些功能，您需要为LLM配置API密钥。打开窗口右侧的`LLM`面板，然后点击LLM卡片左下角的`key`图标，在弹出窗口中保存您的API密钥：
+要启用这些功能，您需要为LLM配置API密钥。打开窗口右侧的`LLM`面板，然后点击供应商卡片左侧的`key`图标，在弹出窗口中保存您的API密钥：
 
 <div style="text-align: center;">
   <img src="../_static/en/getting_started/api_key_unsaved.jpg" style="width: 100%; max-width: 100%;">
   <p><em>API密钥</em></p>
 </div>
 
-API密钥成功保存后，LLM徽标将高亮显示。请注意，后端服务不会验证用户上传的密钥。错误的API密钥将导致聊天无法推进。
+API密钥成功保存后，供应商卡片和文本将高亮显示。请注意，后端服务不会验证用户上传的密钥。错误的API密钥将导致聊天无法推进。
 
 <div style="text-align: center;">
   <img src="../_static/en/getting_started/api_key_saved.jpg" style="width: 100%; max-width: 100%;">

@@ -304,14 +304,14 @@ We employ LLMs to handle conversations, user behavior and relationship with avat
 
 - Memory: for multi-level conversation memory.
 
-To enable these features, you need to configure api keys for LLMs. Open the `LLM` panel on the right side of window, then, click the `key` icon on the bottom-left side of the LLM card and save your api key on the popped window: 
+To enable these features, you need to configure api keys for LLMs. Open the `LLM` panel on the right side of window, then click the `key` icon on the left side of the provider card and save your api key on the popped window:
 
 <div style="text-align: center;">
   <img src="../_static/en/getting_started/api_key_unsaved.jpg" style="width: 100%; max-width: 100%;">
   <p><em>API Key</em></p>
 </div>
 
-The LLM logo will be highlighted once the api key is successfully saved. Notice that the backend service will not validate the user uploaded keys. An incorrect api key will break down the chat. 
+The provider card and text will be highlighted once the api key is successfully saved. Notice that the backend service will not validate the user uploaded keys. An incorrect api key will break down the chat.
 
 <div style="text-align: center;">
   <img src="../_static/en/getting_started/api_key_saved.jpg" style="width: 100%; max-width: 100%;">
