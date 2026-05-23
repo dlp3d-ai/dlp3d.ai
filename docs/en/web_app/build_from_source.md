@@ -121,7 +121,7 @@ The web page will be served at `http://localhost:3000`.
 
 GitHub Pages deployment is an additional static-export mode. It does not replace the CLI or Docker deployment above.
 
-The Pages workflow is defined in `.github/workflows/pages.yml` and runs only for tag pushes, published GitHub Releases, or manual `workflow_dispatch`. Normal pushes to `main` do not publish the site.
+The Pages workflow is defined in `.github/workflows/pages.yml` and runs only for pushes to `main`, `v*` tags, `pages-preview-*` tags, or manual `workflow_dispatch`.
 
 The workflow builds with:
 
@@ -136,7 +136,7 @@ NEXT_PUBLIC_BACKEND_PORT=443
 NEXT_PUBLIC_BACKEND_PATH_PREFIX=/dlp3d-ai/backend
 ```
 
-`NEXT_PUBLIC_SITE_BASE_PATH` controls the GitHub Pages project path. Use `/dlp3d.ai` for `https://dlp3d-ai.github.io/dlp3d.ai/`. Use an empty value for a root-domain deployment such as `https://dlp3d.ai/`.
+`NEXT_PUBLIC_SITE_BASE_PATH` controls the GitHub Pages project path. Use `/dlp3d.ai` for the maintained hosted site at `https://dlp3d-ai.github.io/dlp3d.ai/`. Use an empty value only if you intentionally deploy to a root domain.
 
 Static export does not support Next.js API routes. During the Pages workflow, `app/api/LLM` is temporarily disabled before the build. Docker and CLI standalone builds keep that API route available.
 

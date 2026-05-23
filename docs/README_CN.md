@@ -13,7 +13,7 @@
 </div>
 
 <p align="center">
-  <a href="https://dlp3d.ai/"><img src="https://img.shields.io/badge/点击即试-dlp3d.ai-232C4B?style=flat"></a>
+  <a href="https://dlp3d-ai.github.io/dlp3d.ai/"><img src="https://img.shields.io/badge/点击即试-GitHub%20Pages-232C4B?style=flat"></a>
   <a href="https://www.youtube.com/watch?v=cNEMW6IHKl8"><img src="https://img.shields.io/badge/演示视频-YouTube-FF0000?style=flat&logo=youtube&logoColor=white"></a>
   <a href="https://x.com/dlp3d_ai"><img src="https://img.shields.io/badge/数字生命计划-%232d2e30?style=flat&logo=x&labelColor=%23101419&color=%232d2e30"></a>
   <a href="https://www.xiaohongshu.com/user/profile/678df66a000000000d008dd1"><img src="https://img.shields.io/badge/数字生命计划-%232d2e30?style=flat&logo=xiaohongshu&labelColor=%23101419&color=%23FF2442"></a>
@@ -49,7 +49,7 @@
 
 - 选项 1：前往 **[快速上手指南](https://dlp3d.readthedocs.io/en/latest/getting_started/quick_start.html)**，在本地部署属于你的 DLP3D！你需要自行提供 API 密钥，但可以完全自由地修改、扩展，并将系统集成到任何你想要的应用中。
 
-- 选项 2：访问 **[https://dlp3d.ai](https://dlp3d.ai/)**，体验我们为你托管的即开即用在线服务 —— 完全免费，并包含部分服务提供商（推荐中国大陆地区用户使用，以获得更流畅的体验）的 API 免费额度！
+- 选项 2：访问 **[https://dlp3d-ai.github.io/dlp3d.ai/](https://dlp3d-ai.github.io/dlp3d.ai/)**，体验我们为你托管的即开即用在线服务 —— 完全免费，并包含部分服务提供商（推荐中国大陆地区用户使用，以获得更流畅的体验）的 API 免费额度！
 
 
 

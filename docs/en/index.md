@@ -32,7 +32,7 @@ Open-source Autonomous 3D Characters on the Web
 Quick Start
 ```
 
-```{button-link} https://dlp3d.ai
+```{button-link} https://dlp3d-ai.github.io/dlp3d.ai/
 :color: secondary
 :class: sd-rounded-pill
 

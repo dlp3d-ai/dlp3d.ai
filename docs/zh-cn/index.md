@@ -32,7 +32,7 @@ sd_hide_title: true
 快速开始
 ```
 
-```{button-link} https://dlp3d.ai
+```{button-link} https://dlp3d-ai.github.io/dlp3d.ai/
 :color: secondary
 :class: sd-rounded-pill
 
