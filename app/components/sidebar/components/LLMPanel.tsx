@@ -276,90 +276,125 @@ export default function LLMPanel() {
     ) : (
       <div
         className="config-sidebar-drawer-list"
-        style={{ overflowY: 'auto', height: '100%' }}
+        style={{
+          overflowY: 'auto',
+          height: '100%',
+          alignContent: 'start',
+          gridAutoRows: 'auto',
+        }}
       >
-        {choices.map(choices => (
-          <div
-            className={`config-sidebar-drawer-list-item ${
-              selectedLLMKey === choices.value ? 'active' : ''
-            } ${
-              !availableLLM.includes(choices.key)
-                ? 'config-sidebar-drawer-list-item-disabled'
-                : ''
-            }`}
-            key={choices.value}
-            onClick={() => handleModelSelect(choices)}
-            style={{
-              position: 'relative',
-            }}
-          >
+        {choices.map(choice => {
+          const isAvailable = availableLLM.includes(choice.key)
+          const isSelected = selectedLLMKey === choice.value
+
+          return (
             <div
-              className="config-sidebar-drawer-list-item-content"
+              className={`config-sidebar-drawer-list-item ${
+                isSelected ? 'active' : ''
+              } ${!isAvailable ? 'config-sidebar-drawer-list-item-disabled' : ''}`}
+              key={choice.value}
+              onClick={() => handleModelSelect(choice)}
               style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '100%',
-                padding: '0 14px',
-                textAlign: 'center',
+                position: 'relative',
+                width: '100%',
+                height: isMobile ? '58px' : '68px',
+                minHeight: isMobile ? '58px' : '68px',
+                borderRadius: '8px',
+                backgroundColor: isSelected
+                  ? '#282b44'
+                  : isAvailable
+                    ? '#22243a'
+                    : '#202231',
+                border: isSelected
+                  ? '1px solid rgba(255, 255, 255, 0.42)'
+                  : '1px solid rgba(255, 255, 255, 0.04)',
+                boxSizing: 'border-box',
               }}
             >
-              <span
-                style={{
-                  color: '#fff',
-                  fontSize: isMobile ? '13px' : '15px',
-                  fontWeight: 600,
-                  lineHeight: 1.2,
-                  wordBreak: 'break-word',
-                }}
-              >
-                {choices.label}
-              </span>
-            </div>
-            {selectedLLMKey === choices.value && (
               <div
+                className="config-sidebar-drawer-list-item-content"
                 style={{
-                  position: 'absolute',
-                  top: '10px',
-                  right: '10px',
-                  background: '#1e202d',
-                  borderRadius: '50%',
-                  width: '24px',
-                  height: '24px',
                   display: 'flex',
-                  alignItems: 'center',
                   justifyContent: 'center',
-                  zIndex: 10,
+                  alignItems: 'center',
+                  height: '100%',
+                  width: '100%',
+                  padding: isMobile ? '0 34px' : '0 44px',
+                  textAlign: 'center',
+                  boxSizing: 'border-box',
                 }}
               >
-                <CheckIcon style={{ color: 'white', fontSize: '16px' }} />
+                <span
+                  title={choice.label}
+                  style={{
+                    color: '#fff',
+                    opacity: isAvailable ? 1 : 0.22,
+                    fontSize: isMobile ? '12px' : '14px',
+                    fontWeight: isAvailable || isSelected ? 600 : 500,
+                    lineHeight: 1.15,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    WebkitLineClamp: 2,
+                    overflowWrap: 'break-word',
+                    maxWidth: '100%',
+                  }}
+                >
+                  {choice.label}
+                </span>
               </div>
-            )}
-            {selectedLLMKey === choices.value && (
-              <Settings
-                onClick={event => handleSettings(choices, event)}
+              {isSelected && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: isMobile ? '5px' : '6px',
+                    right: isMobile ? '5px' : '8px',
+                    background: '#1e202d',
+                    borderRadius: '50%',
+                    width: '24px',
+                    height: '24px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 10,
+                  }}
+                >
+                  <CheckIcon style={{ color: 'white', fontSize: '16px' }} />
+                </div>
+              )}
+              {isSelected && (
+                <Settings
+                  onClick={event => handleSettings(choice, event)}
+                  style={{
+                    cursor: 'pointer',
+                    position: 'absolute',
+                    color: '#fff',
+                    fontSize: isMobile ? '18px' : '22px',
+                    bottom: isMobile ? '5px' : '8px',
+                    right: isMobile ? '8px' : '10px',
+                    zIndex: 11,
+                  }}
+                />
+              )}
+
+              <KeyIcon
+                onClick={event => handleKeySettings(choice, event)}
                 style={{
                   cursor: 'pointer',
                   position: 'absolute',
                   color: '#fff',
-                  bottom: isMobile ? '3px' : '10px',
-                  right: isMobile ? '3px' : '10px',
+                  fontSize: isMobile ? '18px' : '22px',
+                  top: '50%',
+                  left: isMobile ? '8px' : '12px',
+                  transform: 'translateY(-50%)',
+                  opacity: 0.72,
+                  zIndex: 11,
                 }}
               />
-            )}
-
-            <KeyIcon
-              onClick={event => handleKeySettings(choices, event)}
-              style={{
-                cursor: 'pointer',
-                position: 'absolute',
-                color: '#fff',
-                bottom: isMobile ? '3px' : '10px',
-                left: isMobile ? '3px' : '10px',
-              }}
-            />
-          </div>
-        ))}
+            </div>
+          )
+        })}
       </div>
     )
   }, [
