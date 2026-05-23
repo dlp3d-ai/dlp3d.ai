@@ -48,6 +48,14 @@ const PROVIDER_LABELS: Record<string, string> = {
 
 const getProviderKey = (adapter: string) => adapter.toLowerCase().split('_')[0]
 
+const isOpenAIRealtimeAdapter = (adapter: string) => {
+  const lowerAdapter = adapter.toLowerCase()
+  return (
+    lowerAdapter.startsWith('openai_realtime') ||
+    lowerAdapter.startsWith('openai_audio')
+  )
+}
+
 const toTitleCaseProvider = (provider: string) =>
   provider
     .split(/[-_]/)
@@ -56,8 +64,7 @@ const toTitleCaseProvider = (provider: string) =>
     .join(' ')
 
 const getProviderLabel = (adapter: string) => {
-  const lowerAdapter = adapter.toLowerCase()
-  if (lowerAdapter.startsWith('openai_realtime')) {
+  if (isOpenAIRealtimeAdapter(adapter)) {
     return 'OpenAI Realtime'
   }
 
