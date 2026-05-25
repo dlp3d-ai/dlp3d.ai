@@ -13,7 +13,7 @@
 </div>
 
 <p align="center">
-  <a href="https://dlp3d.ai/"><img src="https://img.shields.io/badge/Try%20it-dlp3d.ai-232C4B?style=flat"></a>
+  <a href="https://dlp3d-ai.github.io/dlp3d.ai/"><img src="https://img.shields.io/badge/Try%20it-GitHub%20Pages-232C4B?style=flat"></a>
   <a href="https://www.youtube.com/watch?v=cNEMW6IHKl8"><img src="https://img.shields.io/badge/%20Demo-YouTube-FF0000?style=flat&logo=youtube&logoColor=white"></a>
   <a href="https://x.com/dlp3d_ai"><img src="https://img.shields.io/badge/Digital%20Life%20Project-%232d2e30?style=flat&logo=x&labelColor=%23101419&color=%232d2e30"></a>
   <a href="https://www.xiaohongshu.com/user/profile/678df66a000000000d008dd1"><img src="https://img.shields.io/badge/Digital%20Life%20Project-%232d2e30?style=flat&logo=xiaohongshu&labelColor=%23101419&color=%23FF2442"></a>
@@ -49,7 +49,7 @@ This organization contains the following key repositories:
 
 - Option 1: Check out **[Quick Start](https://dlp3d.readthedocs.io/en/latest/getting_started/quick_start.html)** to deploy your own DLP3D locally! You’ll need to provide your own API keys, but you’ll have complete freedom to modify, extend, and integrate the system into anything you like.
 
-- Option 2: Visit **[https://dlp3d.ai](https://dlp3d.ai/)** to to enjoy a ready-to-play hosted service — entirely free, including complimentary API access to selected providers (recommended for users in mainland China for the smoothest experience)! 
+- Option 2: Visit **[https://dlp3d-ai.github.io/dlp3d.ai/](https://dlp3d-ai.github.io/dlp3d.ai/)** to enjoy a ready-to-play hosted service — entirely free, including complimentary API access to selected providers (recommended for users in mainland China for the smoothest experience)!
 
 
 ## License and Copyrights

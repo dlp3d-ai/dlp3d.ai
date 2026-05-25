@@ -137,7 +137,7 @@ NEXT_PUBLIC_BACKEND_PORT=443
 NEXT_PUBLIC_BACKEND_PATH_PREFIX=/dlp3d-ai/backend
 ```
 
-`NEXT_PUBLIC_SITE_BASE_PATH` 用于配置 GitHub Pages 项目路径。访问 `https://dlp3d-ai.github.io/dlp3d.ai/` 时使用 `/dlp3d.ai`；未来绑定到 `https://dlp3d.ai/` 这类根域名时应使用空值。
+`NEXT_PUBLIC_SITE_BASE_PATH` 用于配置 GitHub Pages 项目路径。当前维护的托管站点 `https://dlp3d-ai.github.io/dlp3d.ai/` 使用 `/dlp3d.ai`；只有在明确部署到根域名时才应使用空值。
 
 静态导出不支持 Next.js API routes。Pages workflow 会在构建前临时禁用 `app/api/LLM`。Docker 和命令行 standalone 构建仍会保留该 API route。
 

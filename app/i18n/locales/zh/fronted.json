@@ -91,8 +91,8 @@
     "modelNameOverridePlaceholder": "输入模型名称",
     "apiKey": "API密钥",
     "apiKeyPlaceholder": "输入密钥",
-    "sensenovaAK": "访问密钥ID(AK)",
-    "sensenovaSK": "秘密访问密钥(SK)"
+    "accessKeyId": "访问密钥ID(AK)",
+    "secretAccessKey": "秘密访问密钥(SK)"
   },
   "TTSPanel": {
     "asr": "语音识别",
