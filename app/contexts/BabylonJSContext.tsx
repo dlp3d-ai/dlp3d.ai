@@ -19,6 +19,8 @@ import { AudioRecordState } from '@/data_structures/audioStreamState'
 import { WebSocketConnectionState } from '@/data_structures/webSocketState'
 import * as orchestrator_v4 from '@/library/babylonjs/runtime/io/orchestrator_v4_pb'
 import { uint8Array2ArrayBuffer } from '@/library/babylonjs/utils/array'
+import Chatbox from '@/components/layout/Chatbox'
+import ChatModeMenu from '@/components/layout/ChatModeMenu'
 
 /**
  * React context carrying BabylonJS canvas ref and global state.
@@ -50,6 +52,7 @@ function BabylonJSProvider({
   const [globalState, setGlobalState] = useState<GlobalState>()
   const webSocketState = useWebSocket()
   const [isSceneInitialized, setIsSceneInitialized] = useState(false)
+  const [chatMode, setChatMode] = useState<'text' | 'voice'>('voice')
 
   // Add PCM queue to store audio data when websocket is not ready
   const pcmQueue = useRef<ArrayBuffer[]>([])
@@ -274,9 +277,24 @@ function BabylonJSProvider({
     }
   }, [globalState, audioStreamState])
 
+  /**
+   * Handle chat mode selection.
+   * Updates the local state and the record audio button visibility.
+   */
+  const handleChatModeSelect = (mode: 'text' | 'voice') => {
+    setChatMode(mode)
+    const isVoiceMode = mode === 'voice'
+    if (globalState?.gui?.recordAudioButton) {
+      globalState.gui.recordAudioButton.isVisible = isVoiceMode
+    }
+  }
+
   return (
     <BabylonJSContext.Provider value={{ canvas, globalState }}>
       {children}
+      <ChatModeMenu chatMode={chatMode} onModeSelect={handleChatModeSelect} />
+
+      {chatMode === 'text' && <Chatbox globalState={globalState} />}
     </BabylonJSContext.Provider>
   )
 }

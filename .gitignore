@@ -25,6 +25,7 @@ docs/_static/audio2face
 # next.js
 /.next/
 /out/
+package-lock.json
 
 # production
 /build

@@ -72,7 +72,16 @@
     "chat": "开始对话",
     "chatList": "对话列表",
     "loginToChat": "登录以开始对话",
-    "myConversations": "我的对话"
+    "myConversations": "我的对话",
+    "textChat": "文本聊天",
+    "voiceChat": "语音聊天",
+    "inputMessagePlaceholder": "输入消息...",
+    "send": "发送",
+    "autoMode": "自动模式",
+    "connect": "连接",
+    "disconnect": "断开连接",
+    "notConnected": "未连接",
+    "connected": "已连接"
   },
   "sidebar": {
     "model": "3D模型",

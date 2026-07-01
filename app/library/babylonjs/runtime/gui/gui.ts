@@ -54,7 +54,10 @@ export class GUI {
    * HTML element for the loading spinner overlay.
    */
   private loadingSpinnerElement: HTMLElement | null = null
-
+  /**
+   * Record audio button for voice chat.
+   */
+  recordAudioButton: BABYLON_GUI.Button | null = null
   /**
    * Create a new GUI instance.
    *
@@ -165,16 +168,18 @@ export class GUI {
    * Creates a button that handles audio recording with hold-to-record functionality.
    */
   setupAudioControls() {
-    const recordAudioButton = BABYLON_GUI.Button.CreateImageButton(
+    this.recordAudioButton = BABYLON_GUI.Button.CreateImageButton(
       'recordAudioButton',
       '',
       'textures/user_not_speaking.png',
     )
+    const recordAudioButton = this.recordAudioButton
     recordAudioButton.verticalAlignment =
       BABYLON_GUI.Control.VERTICAL_ALIGNMENT_BOTTOM
     recordAudioButton.horizontalAlignment =
       BABYLON_GUI.Control.HORIZONTAL_ALIGNMENT_CENTER
     recordAudioButton.top = vh(-10) + 'px'
+    recordAudioButton.isVisible = true
 
     // Intelligently detect device type and adjust button size
     const updateButtonSize = () => {
@@ -269,7 +274,10 @@ export class GUI {
             recordingStarted = true
             if (this._globalState.runtime?.streamedAnimationPlaying()) {
               this._globalState.stateMachine?.putConditionedMessage(
-                new ConditionedMessage(Conditions.USER_INTERRUPT_ANIMATION, null),
+                new ConditionedMessage(
+                  Conditions.USER_AUDIO_INTERRUPT_ANIMATION,
+                  null,
+                ),
               )
             } else {
               this._globalState.stateMachine?.putConditionedMessage(
